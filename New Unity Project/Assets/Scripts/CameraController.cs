@@ -7,17 +7,17 @@ public class CameraController : MonoBehaviour
     [Header("Camera Position")]
     public UserDefault followTarget;
     public Vector3 followingPoint = new Vector3(0, 1 , 0);
-    public float cameraDistance = 50;
+    public float cameraDistance = 2000;
     public float currentAngle = 45;
 
     [Header("Speed Settings")]
-    public float movementSpeed = 0.1f;
+    public float movementSpeed = 10;
     public float rotateSpeed = 1.0f;
-    public float zoomMultiplier = 1;
+    public float zoomMultiplier = 25;
 
     [Header("Zoom Settings")]
-    public float maxZoom = 10;
-    public float minZoom = 2;
+    public float maxZoom = 750;
+    public float minZoom = 100;
 
     [Header("Movement Restrictions")]
     public BoxCollider movementRestrictor;
