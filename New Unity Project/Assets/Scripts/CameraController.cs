@@ -5,7 +5,8 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     [Header("Camera Position")]
-    public Vector3 followingPoint = new Vector3(0, 0 , 0);
+    public UserDefault followTarget;
+    public Vector3 followingPoint = new Vector3(0, 1 , 0);
     public float cameraDistance = 50;
     public float currentAngle = 45;
 
@@ -34,12 +35,20 @@ public class CameraController : MonoBehaviour
     void Update()
     {
 
+        if (followTarget != null)
+            followUser();
+
         movePoint();
         rotateAngle();
         checkScroll();
 
         repositionCamera();
 
+    }
+
+    private void followUser()
+    {
+        followingPoint = new Vector3(followTarget.transform.position.x, transform.position.y, followTarget.transform.position.z);
     }
 
     private void movePoint()
@@ -50,18 +59,22 @@ public class CameraController : MonoBehaviour
         if (Input.GetKey(KeyCode.A))
         {
             moveDir += new Vector3(-1,0,0);
+            followTarget = null;
         }
         if (Input.GetKey(KeyCode.D))
         {
             moveDir += new Vector3(1, 0, 0);
+            followTarget = null;
         }
         if (Input.GetKey(KeyCode.W))
         {
             moveDir += new Vector3(0, 0, 1);
+            followTarget = null;
         }
         if (Input.GetKey(KeyCode.S))
         {
             moveDir += new Vector3(0, 0, -1);
+            followTarget = null;
         }
 
         moveDir.Normalize();
