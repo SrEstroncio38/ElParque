@@ -1,0 +1,198 @@
+fileFormatVersion: 2
+guid: 4ce0cf5ad4abbe84fa53a81a16f3c8aa
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: brazo_derecho
+    100002: brazo_izquierdo
+    100004: cabeza
+    100006: cabeza 1
+    100008: cadera
+    100010: cadeza_controller
+    100012: //RootNode
+    100014: cuello_controller
+    100016: escoba
+    100018: escoga
+    100020: gorra
+    100022: handle_brazo_derecho
+    100024: handle_brazo_izquierdo
+    100026: handle_pierna_derecha
+    100028: handle_pierna_izquierda
+    100030: handle_spine
+    100032: hombros_controller
+    100034: join_L_elbow
+    100036: join_R_elbow
+    100038: joint_L_arm
+    100040: joint_L_foot
+    100042: joint_L_hand
+    100044: joint_L_leg
+    100046: joint_R_arm
+    100048: joint_R_foot
+    100050: joint_R_hand
+    100052: joint_R_leg
+    100054: mano_derecha
+    100056: mano_derecha_controller
+    100058: mano_izquierda
+    100060: mano_izquierda_controller
+    100062: pecho
+    100064: pelvis
+    100066: pie_derecho_controller
+    100068: pie_izquierdo_controller
+    100070: pierna_derecha
+    100072: pierna_izquierda
+    100074: spine_controller
+    100076: torso
+    400000: brazo_derecho
+    400002: brazo_izquierdo
+    400004: cabeza
+    400006: cabeza 1
+    400008: cadera
+    400010: cadeza_controller
+    400012: //RootNode
+    400014: cuello_controller
+    400016: escoba
+    400018: escoga
+    400020: gorra
+    400022: handle_brazo_derecho
+    400024: handle_brazo_izquierdo
+    400026: handle_pierna_derecha
+    400028: handle_pierna_izquierda
+    400030: handle_spine
+    400032: hombros_controller
+    400034: join_L_elbow
+    400036: join_R_elbow
+    400038: joint_L_arm
+    400040: joint_L_foot
+    400042: joint_L_hand
+    400044: joint_L_leg
+    400046: joint_R_arm
+    400048: joint_R_foot
+    400050: joint_R_hand
+    400052: joint_R_leg
+    400054: mano_derecha
+    400056: mano_derecha_controller
+    400058: mano_izquierda
+    400060: mano_izquierda_controller
+    400062: pecho
+    400064: pelvis
+    400066: pie_derecho_controller
+    400068: pie_izquierdo_controller
+    400070: pierna_derecha
+    400072: pierna_izquierda
+    400074: spine_controller
+    400076: torso
+    2100000: Default_Material
+    2100002: 1__
+    2100004: _
+    2100006: 24__
+    2100008: 3816
+    2100010: 192__
+    4300000: pelvis
+    4300002: pierna_derecha
+    4300004: pierna_izquierda
+    4300006: torso
+    4300008: brazo_derecho
+    4300010: mano_derecha
+    4300012: brazo_izquierdo
+    4300014: cabeza
+    4300016: gorra
+    4300018: escoga
+    4300020: mano_izquierda
+    9500000: //RootNode
+    13700000: brazo_derecho
+    13700002: brazo_izquierdo
+    13700004: cabeza
+    13700006: escoga
+    13700008: gorra
+    13700010: mano_derecha
+    13700012: mano_izquierda
+    13700014: pelvis
+    13700016: pierna_derecha
+    13700018: pierna_izquierda
+    13700020: torso
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 0.01
+    hasPreviousCalculatedGlobalScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
