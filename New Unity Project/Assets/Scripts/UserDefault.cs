@@ -1,9 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class UserDefault : MonoBehaviour
 {
+
+    [Header("Identity")]
+    public bool isMale = true;
+    public string name = "";
 
     [Header("Properties")]
     public float saciedad = 100.0f;
@@ -12,15 +17,18 @@ public class UserDefault : MonoBehaviour
     public float bienestar = 100.0f;
     public bool isAlive = true;
 
-    [Header("Movement Attributes")]
-    public float moveSpeed = 0.1f;
-
+    private NavMeshAgent agent;
     private WorldController world;
 
     // Start is called before the first frame update
     void Start()
     {
+        NameCreator.PersonName p = NameCreator.Generate();
+        isMale = p.isMale;
+        name = p.name;
+        gameObject.name = name;
         world = GetComponentInParent<WorldController>();
+        agent = GetComponent<NavMeshAgent>();
     }
 
     // Update is called once per frame
@@ -52,31 +60,31 @@ public class UserDefault : MonoBehaviour
         }
     }
     
-    private Vector3 wanderDestination;
-    private bool canWander = false;
+    private bool isWandering = false;
     private float wanderCooldown = 2;
 
     private void Pasear()
     {
         wanderCooldown -= Time.deltaTime;
 
-        if (wanderCooldown <= 0 && !canWander)
+        if (wanderCooldown <= 0 && !isWandering)
         {
-            float wanderDistance = Random.Range(10,500);
+            float wanderDistance = Random.Range(10,300);
             float wanderAngle = Random.Range(0, 360);
-            wanderDestination = transform.position + Quaternion.Euler(0, wanderAngle, 0) * new Vector3(wanderDistance, 0, 0);
-            canWander = true;
-        } else if (canWander)
-        {
-            Vector3 moveDir = wanderDestination - transform.position;
-            moveDir.Normalize();
-            transform.LookAt(transform.position + moveDir);
-            transform.position += moveDir * moveSpeed;
-            if ((transform.position - wanderDestination).magnitude < moveSpeed)
+            Vector3 wanderDestination = transform.position + Quaternion.Euler(0, wanderAngle, 0) * new Vector3(wanderDistance, 0, 0);
+
+            Collider[] cols = Physics.OverlapSphere(wanderDestination,0.1f);
+            foreach (Collider col in cols)
             {
-                wanderCooldown = Random.Range(2, 5);
-                canWander = false;
+                wanderDestination = col.ClosestPointOnBounds(wanderDestination);
             }
+
+            agent.SetDestination(wanderDestination);
+            isWandering = true;
+        } else if (agent.remainingDistance < 0.1f && isWandering == true)
+        {
+            wanderCooldown = Random.Range(2, 5);
+            isWandering = false;
         }
     }
 
@@ -94,6 +102,7 @@ public class UserDefault : MonoBehaviour
     void OnMouseDown()
     {
         world.mainCamera.followTarget = GetComponent<UserDefault>();
+        world.SetHUDTarget(GetComponent<UserDefault>());
     }
 }
 

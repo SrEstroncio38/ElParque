@@ -7,6 +7,8 @@ public class WorldController : MonoBehaviour
 
     public CameraController mainCamera;
     public Light sun;
+    public GameObject userHUD;
+    public Camera userCamera;
 
     [Header("Day Color Settings")]
     public Color dayColor = new Color(0.3921569f, 0.5019608f, 0.6745098f);
@@ -24,23 +26,64 @@ public class WorldController : MonoBehaviour
 
     //Private
 
+    private UserDefault currentTarget;
     private Canvas canvas;
+    private UnityEngine.UI.Text charName;
+    private UnityEngine.UI.Image userHUD1;
+    private UnityEngine.UI.Image userHUD2;
+    private UnityEngine.UI.Image userHUD3;
+    private UnityEngine.UI.Image userHUD4;
 
     // Start is called before the first frame update
     void Start()
     {
+
+        InitCanvas();
+        AdjustDisplay2();
+
+    }
+
+    private void InitCanvas()
+    {
         canvas = GetComponentInChildren<Canvas>();
+
+        foreach (UnityEngine.UI.Text t in userHUD.GetComponentsInChildren<UnityEngine.UI.Text>())
+        {
+            if (t.gameObject.name.Equals("User Name"))
+                charName = t;
+        }
+        foreach (UnityEngine.UI.Image g in userHUD.GetComponentsInChildren<UnityEngine.UI.Image>())
+        {
+            if (g.gameObject.name.Equals("User HUD 1"))
+                userHUD1 = g;
+            else if (g.gameObject.name.Equals("User HUD 2"))
+                userHUD2 = g;
+            else if (g.gameObject.name.Equals("User HUD 3"))
+                userHUD3 = g;
+            else if (g.gameObject.name.Equals("User HUD 4"))
+                userHUD4 = g;
+        }
+
+        userHUD.gameObject.SetActive(false);
+
+    }
+
+    private void AdjustDisplay2()
+    {
+        userCamera.pixelRect = new Rect(new Vector2(12,12), new Vector2(72,96));
+        userCamera.enabled = false;
     }
 
     // Update is called once per frame
     void Update()
     {
 
-        updateDayTime();
+        UpdateDayTime();
+        UpdateHUD();
 
     }
 
-    private void updateDayTime()
+    private void UpdateDayTime()
     {
 
         worldCurrentTime += Time.deltaTime * timeStepMultiplier;
@@ -71,12 +114,12 @@ public class WorldController : MonoBehaviour
         }
 
         mainCamera.GetComponent<Camera>().backgroundColor = backgroundColor;
-        moveSun();
-        updateClock();
+        MoveSun();
+        UpdateClock();
 
     }
 
-    private void moveSun()
+    private void MoveSun()
     {
         float sunAngle = 0;
         float sunIntensity = 1;
@@ -117,7 +160,7 @@ public class WorldController : MonoBehaviour
         sun.intensity = sunIntensity;
     }
 
-    private void updateClock()
+    private void UpdateClock()
     {
 
         GameObject clock = canvas.transform.Find("Clock").gameObject;
@@ -138,5 +181,48 @@ public class WorldController : MonoBehaviour
         clock.GetComponent<UnityEngine.UI.Text>().text = timeString;
 
 
+    }
+
+    private void UpdateHUD()
+    {
+
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
+        {
+            currentTarget = null;
+            userHUD.gameObject.SetActive(false);
+            userCamera.enabled = false;
+        }
+        if (currentTarget == null)
+            return;
+
+        //Update
+
+    }
+
+    public void SetHUDTarget(UserDefault target)
+    {
+
+        target.gameObject.layer = 10;
+        userCamera.transform.parent = target.transform;
+        userCamera.transform.localPosition = Quaternion.Euler(0, 40, 0) * new Vector3(0, 0, 7.5f);
+        userCamera.transform.localScale = new Vector3(1, 1, 1);
+        userCamera.transform.localRotation = Quaternion.Euler(0, 210, 0);
+        userCamera.enabled = true;
+
+        currentTarget = target;
+        charName.text = target.name;
+
+        float x = charName.preferredWidth + 16;
+
+        userHUD1.rectTransform.sizeDelta = new Vector2(x, userHUD1.rectTransform.sizeDelta.y);
+        userHUD2.rectTransform.position = new Vector2(x, userHUD2.rectTransform.position.y);
+        userHUD2.rectTransform.sizeDelta = new Vector2(canvas.GetComponent<RectTransform>().rect.width - x, userHUD2.rectTransform.sizeDelta.y);
+
+        x = userHUD3.rectTransform.sizeDelta.x;
+        userHUD4.rectTransform.position = new Vector2(x, userHUD4.rectTransform.position.y);
+        userHUD4.rectTransform.sizeDelta = new Vector2(canvas.GetComponent<RectTransform>().rect.width - x, userHUD4.rectTransform.sizeDelta.y);
+
+        userHUD.gameObject.SetActive(true);
+        userCamera.enabled = true;
     }
 }
