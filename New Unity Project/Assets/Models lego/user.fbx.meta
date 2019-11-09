@@ -1,0 +1,213 @@
+fileFormatVersion: 2
+guid: 8bd947650bd5170488be684888cf813c
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: brazo_derecho
+    100002: brazo_izquierdo
+    100004: cabeza
+    100006: caderas_controller
+    100008: chest
+    100010: cuello_controller
+    100012: espina_controller
+    100014: gorra
+    100016: hips
+    100018: ik_brazo_derecho
+    100020: ik_brazo_izquierdo
+    100022: ik_espina
+    100024: ik_pie_derecho
+    100026: ik_pie_izquierdo
+    100028: L_arm
+    100030: L_elbow
+    100032: L_foot
+    100034: L_hand
+    100036: L_leg
+    100038: mano_derecha
+    100040: mano_derecha_controller
+    100042: mano_izquierda
+    100044: mano_izquierda_controller
+    100046: neck
+    100048: pecho_controller
+    100050: pelvis
+    100052: pie_derechi_controller
+    100054: pie_izquierdo_controller
+    100056: pierna_derecha
+    100058: pierna_izquierda
+    100060: R_arm
+    100062: R_elbow
+    100064: R_foot
+    100066: R_hand
+    100068: R_leg
+    100070: torso
+    100072: //RootNode
+    400000: brazo_derecho
+    400002: brazo_izquierdo
+    400004: cabeza
+    400006: caderas_controller
+    400008: chest
+    400010: cuello_controller
+    400012: espina_controller
+    400014: gorra
+    400016: hips
+    400018: ik_brazo_derecho
+    400020: ik_brazo_izquierdo
+    400022: ik_espina
+    400024: ik_pie_derecho
+    400026: ik_pie_izquierdo
+    400028: L_arm
+    400030: L_elbow
+    400032: L_foot
+    400034: L_hand
+    400036: L_leg
+    400038: mano_derecha
+    400040: mano_derecha_controller
+    400042: mano_izquierda
+    400044: mano_izquierda_controller
+    400046: neck
+    400048: pecho_controller
+    400050: pelvis
+    400052: pie_derechi_controller
+    400054: pie_izquierdo_controller
+    400056: pierna_derecha
+    400058: pierna_izquierda
+    400060: R_arm
+    400062: R_elbow
+    400064: R_foot
+    400066: R_hand
+    400068: R_leg
+    400070: torso
+    400072: //RootNode
+    2100000: _
+    2100002: 3816
+    2100004: 23__
+    2100006: 3817
+    2100008: 37__
+    2100010: 24__
+    2100012: 3818
+    4300000: pelvis
+    4300002: pierna_derecha
+    4300004: pierna_izquierda
+    4300006: torso
+    4300008: brazo_derecho
+    4300010: mano_derecha
+    4300012: brazo_izquierdo
+    4300014: mano_izquierda
+    4300016: cabeza
+    4300018: gorra
+    9500000: //RootNode
+    13700000: brazo_derecho
+    13700002: brazo_izquierdo
+    13700004: cabeza
+    13700006: gorra
+    13700008: mano_derecha
+    13700010: mano_izquierda
+    13700012: pelvis
+    13700014: pierna_derecha
+    13700016: pierna_izquierda
+    13700018: torso
+  externalObjects:
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: 3626d110
+    second: {fileID: 2800000, guid: 87664d6e8acc3c947baa0a5f96f86f25, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: 3814d1505
+    second: {fileID: 2800000, guid: 0b177f0d1af8cf34abf9bb51312d3c2e, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: 3815d51
+    second: {fileID: 2800000, guid: 9fa39cf31895c9647be64f60b3a35b04, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: 3816d51
+    second: {fileID: 2800000, guid: 5669ca25e4fbda44e93718a462ea8842, type: 3}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 0.01
+    hasPreviousCalculatedGlobalScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
