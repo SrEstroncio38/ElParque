@@ -1,91 +1,89 @@
 fileFormatVersion: 2
-guid: 278fe1fd4cc4cb44292da27ae4a2b0bd
+guid: 8bd947650bd5170488be684888cf813c
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
     100000: brazo_derecho
-    100002: brazo_derecho1
-    100004: brazo_izquierdo
-    100006: brazo_izquierdo1
-    100008: cabeza
-    100010: cabeza 1
-    100012: cadera
-    100014: caderas_controller
-    100016: cazco
-    100018: codo_derecho
-    100020: codo_izquierdo_joint
-    100022: cuello_controller
-    100024: espina
-    100026: espina_controller
-    100028: hombro_derecho
-    100030: hombro_izquierdo_joint
-    100032: //RootNode
-    100034: mano_derecha
-    100036: mano_derecha 1
-    100038: mano_derecha_controller
-    100040: mano_izq
-    100042: mano_izquierda_controller
-    100044: mano_izquierda_joint
-    100046: pecho
+    100002: brazo_izquierdo
+    100004: cabeza
+    100006: caderas_controller
+    100008: chest
+    100010: cuello_controller
+    100012: espina_controller
+    100014: gorra
+    100016: hips
+    100018: ik_brazo_derecho
+    100020: ik_brazo_izquierdo
+    100022: ik_espina
+    100024: ik_pie_derecho
+    100026: ik_pie_izquierdo
+    100028: L_arm
+    100030: L_elbow
+    100032: L_foot
+    100034: L_hand
+    100036: L_leg
+    100038: mano_derecha
+    100040: mano_derecha_controller
+    100042: mano_izquierda
+    100044: mano_izquierda_controller
+    100046: neck
     100048: pecho_controller
     100050: pelvis
-    100052: pie_derecho_controller
-    100054: pie_derecho_joint
-    100056: pie_izquierdo_controller
-    100058: pie_izquierdo_joint
-    100060: pierna_derecha
-    100062: pierna_derecha1
-    100064: pierna_derecha_joint1
-    100066: pierna_izquierda
-    100068: pierna_izquierda1
-    100070: pierna_izquierda_joint
-    100072: pistola
-    100074: torso
+    100052: pie_derechi_controller
+    100054: pie_izquierdo_controller
+    100056: pierna_derecha
+    100058: pierna_izquierda
+    100060: R_arm
+    100062: R_elbow
+    100064: R_foot
+    100066: R_hand
+    100068: R_leg
+    100070: torso
+    100072: //RootNode
     400000: brazo_derecho
-    400002: brazo_derecho1
-    400004: brazo_izquierdo
-    400006: brazo_izquierdo1
-    400008: cabeza
-    400010: cabeza 1
-    400012: cadera
-    400014: caderas_controller
-    400016: cazco
-    400018: codo_derecho
-    400020: codo_izquierdo_joint
-    400022: cuello_controller
-    400024: espina
-    400026: espina_controller
-    400028: hombro_derecho
-    400030: hombro_izquierdo_joint
-    400032: //RootNode
-    400034: mano_derecha
-    400036: mano_derecha 1
-    400038: mano_derecha_controller
-    400040: mano_izq
-    400042: mano_izquierda_controller
-    400044: mano_izquierda_joint
-    400046: pecho
+    400002: brazo_izquierdo
+    400004: cabeza
+    400006: caderas_controller
+    400008: chest
+    400010: cuello_controller
+    400012: espina_controller
+    400014: gorra
+    400016: hips
+    400018: ik_brazo_derecho
+    400020: ik_brazo_izquierdo
+    400022: ik_espina
+    400024: ik_pie_derecho
+    400026: ik_pie_izquierdo
+    400028: L_arm
+    400030: L_elbow
+    400032: L_foot
+    400034: L_hand
+    400036: L_leg
+    400038: mano_derecha
+    400040: mano_derecha_controller
+    400042: mano_izquierda
+    400044: mano_izquierda_controller
+    400046: neck
     400048: pecho_controller
     400050: pelvis
-    400052: pie_derecho_controller
-    400054: pie_derecho_joint
-    400056: pie_izquierdo_controller
-    400058: pie_izquierdo_joint
-    400060: pierna_derecha
-    400062: pierna_derecha1
-    400064: pierna_derecha_joint1
-    400066: pierna_izquierda
-    400068: pierna_izquierda1
-    400070: pierna_izquierda_joint
-    400072: pistola
-    400074: torso
+    400052: pie_derechi_controller
+    400054: pie_izquierdo_controller
+    400056: pierna_derecha
+    400058: pierna_izquierda
+    400060: R_arm
+    400062: R_elbow
+    400064: R_foot
+    400066: R_hand
+    400068: R_leg
+    400070: torso
+    400072: //RootNode
     2100000: _
     2100002: 3816
-    2100004: 3817
-    2100006: 3818
-    2100008: 194__
-    2100010: 26__
-    2100012: phong2
+    2100004: 23__
+    2100006: 3817
+    2100008: 37__
+    2100010: 24__
+    2100012: 3818
     4300000: pelvis
     4300002: pierna_derecha
     4300004: pierna_izquierda
@@ -93,48 +91,41 @@ ModelImporter:
     4300008: brazo_derecho
     4300010: mano_derecha
     4300012: brazo_izquierdo
-    4300014: cabeza
-    4300016: cazco
-    4300018: pistola
-    4300020: mano_izq
+    4300014: mano_izquierda
+    4300016: cabeza
+    4300018: gorra
     9500000: //RootNode
     13700000: brazo_derecho
     13700002: brazo_izquierdo
     13700004: cabeza
-    13700006: cazco
+    13700006: gorra
     13700008: mano_derecha
-    13700010: mano_izq
+    13700010: mano_izquierda
     13700012: pelvis
     13700014: pierna_derecha
     13700016: pierna_izquierda
-    13700018: pistola
-    13700020: torso
+    13700018: torso
   externalObjects:
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
-      name: 3626d561
-    second: {fileID: 2800000, guid: eef2a4cd52f1b034c8d5d642642e8648, type: 3}
+      name: 3626d110
+    second: {fileID: 2800000, guid: 87664d6e8acc3c947baa0a5f96f86f25, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
-      name: 3814d593
-    second: {fileID: 2800000, guid: 37a13e7f3c6c0b44bb6161aa2ad5d02f, type: 3}
+      name: 3814d1505
+    second: {fileID: 2800000, guid: 0b177f0d1af8cf34abf9bb51312d3c2e, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
-      name: 3815d108
-    second: {fileID: 2800000, guid: 36a269be49e8f184ba315258f738851e, type: 3}
+      name: 3815d51
+    second: {fileID: 2800000, guid: 9fa39cf31895c9647be64f60b3a35b04, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
-      name: 3816d108
-    second: {fileID: 2800000, guid: 28cedbfd53a4ed04fab1e6d7b90b91fd, type: 3}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: 3817d108
-    second: {fileID: 2800000, guid: beac83961b631f042807f3ebb8fb684a, type: 3}
+      name: 3816d51
+    second: {fileID: 2800000, guid: 5669ca25e4fbda44e93718a462ea8842, type: 3}
   materials:
     importMaterials: 1
     materialName: 0

@@ -32,16 +32,17 @@ ModelImporter:
     100052: joint_R_shoulder
     100054: joint_R_wrist
     100056: joint_shoulder
-    100058: mano_dcha
-    100060: mano_izq
-    100062: master_controller
-    100064: neck_controller
-    100066: pelvis
-    100068: pierna_d
-    100070: pierna_i
-    100072: pistola
-    100074: shoulders_controller
-    100076: torso
+    100058: left
+    100060: mano_dcha
+    100062: mano_izq
+    100064: master_controller
+    100066: neck_controller
+    100068: pelvis
+    100070: pierna_d
+    100072: pierna_i
+    100074: pistola
+    100076: shoulders_controller
+    100078: torso
     400000: brazo_dcha
     400002: brazo_izq
     400004: cabeza
@@ -71,20 +72,22 @@ ModelImporter:
     400052: joint_R_shoulder
     400054: joint_R_wrist
     400056: joint_shoulder
-    400058: mano_dcha
-    400060: mano_izq
-    400062: master_controller
-    400064: neck_controller
-    400066: pelvis
-    400068: pierna_d
-    400070: pierna_i
-    400072: pistola
-    400074: shoulders_controller
-    400076: torso
+    400058: left
+    400060: mano_dcha
+    400062: mano_izq
+    400064: master_controller
+    400066: neck_controller
+    400068: pelvis
+    400070: pierna_d
+    400072: pierna_i
+    400074: pistola
+    400076: shoulders_controller
+    400078: torso
+    2000000: left
     2100000: _
     2100002: 3816
     2100004: 3817
-    2100006: Default_Material
+    2100006: lambert2
     2100008: 26__
     2100010: 24__
     2100012: 3818
@@ -99,7 +102,6 @@ ModelImporter:
     4300016: cabeza
     4300018: casco
     4300020: pistola
-    7400000: Take 001
     9500000: //RootNode
     13700000: brazo_dcha
     13700002: brazo_izq
@@ -112,7 +114,32 @@ ModelImporter:
     13700016: pierna_i
     13700018: pistola
     13700020: torso
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: 3626d111
+    second: {fileID: 2800000, guid: c48ee785773a63d4b953d16b4eeb104e, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: 3814d1295
+    second: {fileID: 2800000, guid: 03399d7958a5f4649bc7c3ff9a56a022, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: 3815d27
+    second: {fileID: 2800000, guid: 9962df5b74fb10941861eff78bb2990c, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: 3816d27
+    second: {fileID: 2800000, guid: 03e75765d16364341947d63dfd7eaa95, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: 3817d27
+    second: {fileID: 2800000, guid: 48ee49a9e5ef6194aa8465f60a142ed8, type: 3}
   materials:
     importMaterials: 1
     materialName: 0

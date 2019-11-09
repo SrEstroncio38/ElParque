@@ -95,7 +95,6 @@ ModelImporter:
     4300014: cabeza
     4300016: gorra
     4300018: mano_izquierda
-    7400000: Take 001
     9500000: //RootNode
     13700000: brazo_derrecjo
     13700002: brazo_izq
@@ -107,7 +106,27 @@ ModelImporter:
     13700014: pierna_derecha
     13700016: pirna_izq
     13700018: torso
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: 3626d73
+    second: {fileID: 2800000, guid: 1911762bc76d481468a3fd90908a860a, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: 3814d1500
+    second: {fileID: 2800000, guid: 5a63ef7a9fd73ec42978583ad25cf7af, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: 3816b
+    second: {fileID: 2800000, guid: 70952121907a87c448f44e56cad16f0b, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: 3817b
+    second: {fileID: 2800000, guid: bc50d3f13084b5540aadeb70d4499b86, type: 3}
   materials:
     importMaterials: 1
     materialName: 0
