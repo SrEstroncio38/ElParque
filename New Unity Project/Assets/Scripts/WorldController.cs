@@ -188,6 +188,8 @@ public class WorldController : MonoBehaviour
 
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
         {
+            if (currentTarget != null)
+                SetLayerRecursively(currentTarget.gameObject, 9);
             currentTarget = null;
             userHUD.gameObject.SetActive(false);
             userCamera.enabled = false;
@@ -202,11 +204,14 @@ public class WorldController : MonoBehaviour
     public void SetHUDTarget(UserDefault target)
     {
 
-        target.gameObject.layer = 10;
+        SetLayerRecursively(target.gameObject, 10);
         userCamera.transform.parent = target.transform;
-        userCamera.transform.localPosition = Quaternion.Euler(0, 40, 0) * new Vector3(0, 0, 7.5f);
+        float distance = 75;
+        float height = target.GetComponent<CapsuleCollider>().center.y;
+        distance = distance / target.transform.localScale.z;
+        userCamera.transform.localPosition = Quaternion.Euler(0, 40, 0) * new Vector3(0, height, distance);
         userCamera.transform.localScale = new Vector3(1, 1, 1);
-        userCamera.transform.localRotation = Quaternion.Euler(0, 210, 0);
+        userCamera.transform.localRotation = Quaternion.Euler(0, 220, 0);
         userCamera.enabled = true;
 
         currentTarget = target;
@@ -224,5 +229,15 @@ public class WorldController : MonoBehaviour
 
         userHUD.gameObject.SetActive(true);
         userCamera.enabled = true;
+    }
+
+    private void SetLayerRecursively(GameObject obj, int newLayer)
+    {
+        obj.layer = newLayer;
+
+        foreach (Transform child in obj.transform)
+        {
+            SetLayerRecursively(child.gameObject, newLayer);
+        }
     }
 }
