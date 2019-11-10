@@ -24,6 +24,11 @@ public class WorldController : MonoBehaviour
     public float duskLength = 50;
     public float timeStepMultiplier = 3;
 
+    [Header("List of objects")] //MARTA: No me termina de convencer, igual a alguien se le ocurre un nombre mejor
+    public List<UserDefault> users;
+    public List<Attraction> attractions;
+    public List<Bath> baths;
+
     //Private
 
     private UserDefault currentTarget;
@@ -34,12 +39,14 @@ public class WorldController : MonoBehaviour
     private UnityEngine.UI.Image userHUD3;
     private UnityEngine.UI.Image userHUD4;
 
+   
+
     // Start is called before the first frame update
     void Start()
     {
 
         InitCanvas();
-        AdjustDisplay2();
+        AdjustDisplay2();  
 
     }
 
@@ -229,6 +236,8 @@ public class WorldController : MonoBehaviour
 
         userHUD.gameObject.SetActive(true);
         userCamera.enabled = true;
+
+        
     }
 
     private void SetLayerRecursively(GameObject obj, int newLayer)
@@ -240,4 +249,11 @@ public class WorldController : MonoBehaviour
             SetLayerRecursively(child.gameObject, newLayer);
         }
     }
+
+    //Getter para la lista de atracciones
+    public List<Attraction> getAttractions() {
+        return this.attractions;
+    }
+
+   
 }
