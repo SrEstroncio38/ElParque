@@ -24,12 +24,7 @@ public class WorldController : MonoBehaviour
     public float duskLength = 50;
     public float timeStepMultiplier = 3;
 
-    [Header("List of objects")] //MARTA: No me termina de convencer, igual a alguien se le ocurre un nombre mejor
-    public List<UserDefault> users;
-    public List<Attraction> attractions;
-    public List<Bath> baths;
-
-    //Private
+    // Canvas
 
     private UserDefault currentTarget;
     private Canvas canvas;
@@ -46,7 +41,7 @@ public class WorldController : MonoBehaviour
     {
 
         InitCanvas();
-        AdjustDisplay2();  
+        AdjustDisplay2();
 
     }
 
@@ -248,11 +243,6 @@ public class WorldController : MonoBehaviour
         {
             SetLayerRecursively(child.gameObject, newLayer);
         }
-    }
-
-    //Getter para la lista de atracciones
-    public List<Attraction> getAttractions() {
-        return this.attractions;
     }
 
    

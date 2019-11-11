@@ -5,8 +5,6 @@ using UnityEngine.AI;
 
 public class UserDefault : MonoBehaviour
 {
-    [Header("Controller")]
-    public WorldController controller;
 
     [Header("Identity")]
     public bool isMale = true;
@@ -22,10 +20,6 @@ public class UserDefault : MonoBehaviour
     private NavMeshAgent agent;
     private WorldController world;
 
-    //State Machines
-    private enum STATE_Pasear { PASEANDO, DIRIGIENDOSE_ATRACCIÓN, MONTARSE_ATRACCIÓN };
-    private STATE_Pasear estado_pasear = STATE_Pasear.PASEANDO;
-
     //Variables para pasear
     private bool isWandering = false;
     private float wanderCooldown = 2;
@@ -36,7 +30,7 @@ public class UserDefault : MonoBehaviour
     private float visionDistance = 400.0f;
 
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
         NameCreator.PersonName p = NameCreator.Generate();
         isMale = p.isMale;
@@ -44,7 +38,6 @@ public class UserDefault : MonoBehaviour
         gameObject.name = name;
         world = GetComponentInParent<WorldController>();
         agent = GetComponent<NavMeshAgent>();
-        world = GetComponent<WorldController>();
     }
 
     // Update is called once per frame
@@ -57,13 +50,28 @@ public class UserDefault : MonoBehaviour
 
     }
 
+    private void CalcularBienestar()
+    {
+
+        float s = saciedad * Mathf.Pow(saciedad, 0.25f);
+        float t = tolerancia * Mathf.Pow(tolerancia, 0.25f);
+        float v = vejiga * Mathf.Pow(vejiga, 0.25f);
+
+        bienestar = 100 * (t + s + v) / (3 * 100 * Mathf.Pow(100, 0.25f));
+
+    }
+
+    //State Machines
+    private enum STATE_Pasear { PASEANDO, DIRIGIENDOSE_ATRACCIÓN, MONTARSE_ATRACCIÓN };
+    private STATE_Pasear estado_pasear = STATE_Pasear.PASEANDO;
+
 
     private void FSM_Pasear ()
     {
         switch(estado_pasear)
         {
             case STATE_Pasear.PASEANDO:
-                if (!attractionInSight())
+                if (!AttractionInSight())
                 {
                     Pasear();
                 }
@@ -73,7 +81,7 @@ public class UserDefault : MonoBehaviour
                 }
                 break;
             case STATE_Pasear.DIRIGIENDOSE_ATRACCIÓN:
-                goToAttraction();
+                GoToAttraction();
                 break;
             case STATE_Pasear.MONTARSE_ATRACCIÓN:
                 //code
@@ -107,7 +115,8 @@ public class UserDefault : MonoBehaviour
         }
     }
 
-    private void goToAttraction()
+    //TODO
+    private void GoToAttraction()
     {
         //Habrá que mejorarlo para el tema de las colisiones, pero es algo provisional para probar
        
@@ -120,40 +129,30 @@ public class UserDefault : MonoBehaviour
         isWandering = true;
     }
 
-    private void CalcularBienestar()
-    {
-
-        float s = saciedad * Mathf.Pow(saciedad, 0.25f);
-        float t = tolerancia * Mathf.Pow(tolerancia, 0.25f);
-        float v = vejiga * Mathf.Pow(vejiga, 0.25f);
-
-        bienestar = 100 * (t + s + v) / (3 * 100 * Mathf.Pow(100, 0.25f));
-
-    }
-
-    void OnMouseDown()
-    {
-        world.mainCamera.followTarget = GetComponent<UserDefault>();
-        world.SetHUDTarget(GetComponent<UserDefault>());
-    }
-
-    bool attractionInSight() {
+    //TODO
+    private bool AttractionInSight() {
         bool attractionInSight = false;
-        foreach (Attraction a in controller.getAttractions())
+        foreach (Attraction a in world.GetComponentsInChildren<Attraction>())
         {
-            Vector3 direccion = (a.getPosition() - transform.position);
+            Vector3 direccion = (a.transform.position - transform.position);
             if (direccion.magnitude <= visionDistance)
             {
                 direccion = direccion.normalized;
                 attractionInSight = Mathf.Abs(1.0f - Vector3.Dot(direccion, transform.forward)) < visionAngle;
                 if (attractionInSight)
                 {
-                    attracionObjective = a.getPosition();
+                    attracionObjective = a.transform.position;
                 }
                 break;
             }
         }
         return attractionInSight;
+    }
+
+    void OnMouseDown()
+    {
+        world.mainCamera.followTarget = GetComponent<UserDefault>();
+        world.SetHUDTarget(GetComponent<UserDefault>());
     }
 
 

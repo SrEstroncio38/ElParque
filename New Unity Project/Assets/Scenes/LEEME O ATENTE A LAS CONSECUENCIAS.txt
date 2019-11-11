@@ -1,0 +1,5 @@
+En Unity, si hay dos mismas personas tocando un mismo script, no pasa nada. Cuando haces commit en GitHub, se juntan los cambios de ambos contribuidores y no hay problema.
+
+Sin embargo, las escenas no son archivos de texto, si yo toco algo y alguien despues de mi sube cambios sin antes haberse descargado los mios, los cambios que habia hecho desaparecen de la faz de la tierra.
+
+Asi que si vas a tocar algo ASEGURATE QUE NO HAYA NADIE MAS TOCANDO LA ESCENA ANTES. O si no create una copia de la escena y toca lo que quieras hay, pero no me piseis los cambios por favor.

@@ -4,13 +4,22 @@ using UnityEngine;
 
 public class Attraction : MonoBehaviour
 {
+
+    [Header("Atrributes")]
+    public float quality = 100.0f;
+
+    [Header("Queue")]
+    public int maxCapacity = 1;
+    public int maxQueue = 1;
+    public Vector3 queuePosition = Vector3.zero;
+
     //Variables
-    private Vector3 position;
+    private Queue<UserDefault> userRiding;
+    private Queue<UserDefault> userQueue;
+
     // Start is called before the first frame update
     void Start()
     {
-        //Se calcula la posicion de la atraccion. 
-        position = this.transform.position;
         
     }
 
@@ -18,10 +27,5 @@ public class Attraction : MonoBehaviour
     void Update()
     {
         
-    }
-
-    //Getter para que el mundo pueda acceder a la posicion de la atraccion
-    public Vector3 getPosition() {
-        return this.position;
     }
 }
