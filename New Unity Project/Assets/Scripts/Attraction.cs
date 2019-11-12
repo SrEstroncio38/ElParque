@@ -28,4 +28,26 @@ public class Attraction : MonoBehaviour
     {
         
     }
+    public void addUser(UserDefault user)
+    {
+        userRiding.Enqueue(user);
+    }
+
+    public void ride()
+    {
+        //Tal vez aqui habría que añadir la cola
+        StartCoroutine(TimeRiding()); //Esto se debería convertir en animacion
+
+    }
+
+    IEnumerator TimeRiding()
+    {
+        yield return new WaitForSeconds(2); //Se supone que la atracción dura dos minutos de tiempo de juego, 2 segundos para nosotros
+        foreach (UserDefault user in userRiding)
+        {
+            user.finishRide();
+        }
+    }
+
+
 }

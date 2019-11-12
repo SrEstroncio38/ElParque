@@ -25,7 +25,8 @@ public class UserDefault : MonoBehaviour
     private float wanderCooldown = 2;
 
     //Variables para encontrar cosas
-    private Vector3 attracionObjective;
+    private Attraction attracionObjective;
+    private Vector3 objective;
     private float visionAngle = 0.5f;
     private float visionDistance = 400.0f;
 
@@ -78,13 +79,19 @@ public class UserDefault : MonoBehaviour
                 else {
                     isWandering = false;
                     estado_pasear = STATE_Pasear.DIRIGIENDOSE_ATRACCIÓN;
+                    GoToAttraction();
                 }
                 break;
             case STATE_Pasear.DIRIGIENDOSE_ATRACCIÓN:
-                GoToAttraction();
+                if (isInAttraction())
+                {
+                    estado_pasear = STATE_Pasear.MONTARSE_ATRACCIÓN;
+                    Debug.Log("Empieza la atracción");
+                    attracionObjective.ride();
+                }
                 break;
             case STATE_Pasear.MONTARSE_ATRACCIÓN:
-                //code
+                
                 break;
         }
     }
@@ -120,12 +127,12 @@ public class UserDefault : MonoBehaviour
     {
         //Habrá que mejorarlo para el tema de las colisiones, pero es algo provisional para probar
        
-        Collider[] cols = Physics.OverlapSphere(attracionObjective, 0.1f);
+        Collider[] cols = Physics.OverlapSphere(objective, 0.1f);
         foreach (Collider col in cols)
         {
-            attracionObjective = col.ClosestPointOnBounds(attracionObjective);
+           objective = col.ClosestPointOnBounds(objective);
         }
-        agent.SetDestination(attracionObjective);
+        agent.SetDestination(objective);
         isWandering = true;
     }
 
@@ -141,12 +148,29 @@ public class UserDefault : MonoBehaviour
                 attractionInSight = Mathf.Abs(1.0f - Vector3.Dot(direccion, transform.forward)) < visionAngle;
                 if (attractionInSight)
                 {
-                    attracionObjective = a.transform.position;
+                    attracionObjective = a;
+                    attracionObjective.addUser(this);
                 }
                 break;
             }
         }
         return attractionInSight;
+    }
+
+    private bool isInAttraction()
+    {
+        bool isInAttraction = false;
+        if (transform.position.x - objective.x <= 0.3f)
+        {
+            if (transform.position.y - objective.y <= 0.3f)
+            {
+                if (transform.position.y - objective.y <= 0.3f)
+                {
+                    isInAttraction = true;
+                }
+            }
+        }
+        return isInAttraction;
     }
 
     void OnMouseDown()
@@ -155,6 +179,11 @@ public class UserDefault : MonoBehaviour
         world.SetHUDTarget(GetComponent<UserDefault>());
     }
 
+    public void finishRide()
+    {
+        Debug.Log("Terminó");
+        estado_pasear = STATE_Pasear.PASEANDO;
+    }
 
 }
 
