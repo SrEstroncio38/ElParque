@@ -79,6 +79,7 @@ public class UserDefault : MonoBehaviour
                 else {
                     isWandering = false;
                     estado_pasear = STATE_Pasear.DIRIGIENDOSE_ATRACCIÓN;
+                   // Debug.Log("Voy a la atraccion");
                     GoToAttraction();
                 }
                 break;
@@ -86,7 +87,7 @@ public class UserDefault : MonoBehaviour
                 if (isInAttraction())
                 {
                     estado_pasear = STATE_Pasear.MONTARSE_ATRACCIÓN;
-                    Debug.Log("Empieza la atracción");
+                   // Debug.Log("Empieza la atracción");
                     attracionObjective.ride();
                 }
                 break;
@@ -164,7 +165,7 @@ public class UserDefault : MonoBehaviour
         {
             if (transform.position.y - objective.y <= 0.3f)
             {
-                if (transform.position.y - objective.y <= 0.3f)
+                if (transform.position.z - objective.z <= 0.3f)
                 {
                     isInAttraction = true;
                 }
@@ -181,7 +182,7 @@ public class UserDefault : MonoBehaviour
 
     public void finishRide()
     {
-        Debug.Log("Terminó");
+       // Debug.Log("Terminó");
         estado_pasear = STATE_Pasear.PASEANDO;
     }
 

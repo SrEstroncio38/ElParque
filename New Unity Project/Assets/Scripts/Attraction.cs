@@ -20,7 +20,7 @@ public class Attraction : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        userRiding = new Queue<UserDefault>();
     }
 
     // Update is called once per frame
@@ -47,6 +47,7 @@ public class Attraction : MonoBehaviour
         {
             user.finishRide();
         }
+        userRiding.Clear();
     }
 
 
