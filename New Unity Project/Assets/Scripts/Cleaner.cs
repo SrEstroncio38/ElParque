@@ -32,7 +32,7 @@ public class Cleaner : Worker
                     wander();
                 }
                 else {
-                    Debug.Log("He encontrado basura");
+                    
                     goToTrash();
                     state_working = STATE_working.GOING_TO_TRASH;
                 }
@@ -41,12 +41,12 @@ public class Cleaner : Worker
                 if (isInTrash())
                 {
                     state_working = STATE_working.CLEANING_TRASH;
-                    Debug.Log("He llegado a basura");
+                   
                     objective.clean();
                 }
                 break;
             case (STATE_working.CLEANING_TRASH):
-                Debug.Log("Limpiando basura");
+                
                 break;
         }
     }
@@ -84,7 +84,7 @@ public class Cleaner : Worker
     private bool smellsLikeGarbage() {
         bool garbage = false;
         foreach (Trash trash in world.GetComponentsInChildren<Trash>()) {
-            if (Vector3.Distance(trash.getPos(), transform.position) <= trash.smellStrength && trash.isVisible()) {
+            if ((Vector3.Distance(trash.getPos(), transform.position) <= trash.smellStrength) && trash.isVisible()) {
                 if (trash.getCleaner() == null) {
                     objective = trash;
                     trash.setCleaner(this);

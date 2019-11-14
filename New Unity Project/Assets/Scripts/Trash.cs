@@ -59,14 +59,14 @@ public class Trash : MonoBehaviour
     IEnumerator cleanTime() {
         yield return new WaitForSeconds(Random.Range(minSeconds, maxSeconds));
         makeInvisible();
-        thereIsObject = false;
-        generating = false;
         cleaner.finishedCleaning();
         cleaner = null;
+        thereIsObject = false;
+        generating = false;
     }
 
     private void makeInvisible() {
-        transform.position.Set(transform.position.x, -smellStrength-1.0f, transform.position.z);
+        transform.position.Set(transform.position.x, -10.0f, transform.position.z);
     }
 
     public void setCleaner(Cleaner c) {

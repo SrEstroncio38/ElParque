@@ -17,6 +17,9 @@ public class UserDefault : MonoBehaviour
     public float bienestar = 100.0f;
     public bool isAlive = true;
 
+    //Umbrales
+    private float umbralVejiga = 30.0f;
+    private float umbralSaciedad = 30.0f;
     private NavMeshAgent agent;
     private WorldController world;
 
@@ -27,8 +30,16 @@ public class UserDefault : MonoBehaviour
     //Variables para encontrar cosas
     private Attraction attracionObjective;
     private Vector3 objective;
+    private Bath bathObjective;
     private float visionAngle = 0.5f;
     private float visionDistance = 400.0f;
+
+    //State Machines
+    private enum STATE_Pasear { PASEANDO, DIRIGIENDOSE_ATRACCIÓN, MONTARSE_ATRACCIÓN };
+    private STATE_Pasear estado_pasear = STATE_Pasear.PASEANDO;
+
+    private enum STATE_VejigaBaja {BUSCANDO, DIRIGIENDOSE_BAÑO, ORINANDO_BAÑO, ORINANDO_ENCIMA};
+    private STATE_VejigaBaja estado_vejiga = STATE_VejigaBaja.BUSCANDO;
 
     // Start is called before the first frame update
     void Start()
@@ -47,13 +58,14 @@ public class UserDefault : MonoBehaviour
 
         CalcularBienestar();
 
-        FSM_Pasear();
+        FSM_Divertirse();
 
     }
 
     private void CalcularBienestar()
     {
-
+        vejiga = vejiga - 0.01f;
+        
         float s = saciedad * Mathf.Pow(saciedad, 0.25f);
         float t = tolerancia * Mathf.Pow(tolerancia, 0.25f);
         float v = vejiga * Mathf.Pow(vejiga, 0.25f);
@@ -62,11 +74,51 @@ public class UserDefault : MonoBehaviour
 
     }
 
-    //State Machines
-    private enum STATE_Pasear { PASEANDO, DIRIGIENDOSE_ATRACCIÓN, MONTARSE_ATRACCIÓN };
-    private STATE_Pasear estado_pasear = STATE_Pasear.PASEANDO;
+  
 
+    private void FSM_Divertirse() {
+        if ((vejiga <= umbralVejiga)&&(estado_pasear != STATE_Pasear.MONTARSE_ATRACCIÓN))
+        {
+            FSM_VejigaBaja();
+        }
+        else
+        {
+            FSM_Pasear();
+        }
+    }
 
+    private void FSM_VejigaBaja() {
+        switch (estado_vejiga) {
+            case STATE_VejigaBaja.BUSCANDO:
+                if (!bathInSight())
+                {
+                  
+                    Pasear();
+                }else {
+                    Debug.Log("Baño encontrado");
+                    estado_vejiga = STATE_VejigaBaja.DIRIGIENDOSE_BAÑO;
+                    GoToObjective();
+                }
+                break;
+            case STATE_VejigaBaja.DIRIGIENDOSE_BAÑO:
+                if (isInObjective())
+                {
+                    Debug.Log("He llegado al baño");
+                    bathObjective.addUser(this);
+                    estado_vejiga = STATE_VejigaBaja.ORINANDO_BAÑO;
+                    bathObjective.use();
+                }
+                break;
+            case STATE_VejigaBaja.ORINANDO_BAÑO:
+
+                break;
+            case STATE_VejigaBaja.ORINANDO_ENCIMA:
+
+                break;
+        }
+       
+
+    }
     private void FSM_Pasear ()
     {
         switch(estado_pasear)
@@ -79,15 +131,16 @@ public class UserDefault : MonoBehaviour
                 else {
                     isWandering = false;
                     estado_pasear = STATE_Pasear.DIRIGIENDOSE_ATRACCIÓN;
-                   // Debug.Log("Voy a la atraccion");
-                    GoToAttraction();
+                   Debug.Log("Voy a la atraccion");
+                    GoToObjective();
                 }
                 break;
             case STATE_Pasear.DIRIGIENDOSE_ATRACCIÓN:
-                if (isInAttraction())
+                if (isInObjective())
                 {
                     estado_pasear = STATE_Pasear.MONTARSE_ATRACCIÓN;
-                   // Debug.Log("Empieza la atracción");
+                    Debug.Log("Empieza la atracción");
+                    attracionObjective.addUser(this);
                     attracionObjective.ride();
                 }
                 break;
@@ -124,7 +177,7 @@ public class UserDefault : MonoBehaviour
     }
 
     //TODO
-    private void GoToAttraction()
+    private void GoToObjective()
     {
         //Habrá que mejorarlo para el tema de las colisiones, pero es algo provisional para probar
        
@@ -150,7 +203,8 @@ public class UserDefault : MonoBehaviour
                 if (attractionInSight)
                 {
                     attracionObjective = a;
-                    attracionObjective.addUser(this);
+                    objective = a.queuePosition;
+                   
                 }
                 break;
             }
@@ -158,7 +212,27 @@ public class UserDefault : MonoBehaviour
         return attractionInSight;
     }
 
-    private bool isInAttraction()
+    private bool bathInSight() {
+        bool bathInSight = false;
+        foreach (Bath b in world.GetComponentsInChildren<Bath>())
+        {
+            Vector3 direccion = (b.transform.position - transform.position);
+            if (direccion.magnitude <= visionDistance)
+            {
+                direccion = direccion.normalized;
+                bathInSight = Mathf.Abs(1.0f - Vector3.Dot(direccion, transform.forward)) < visionAngle;
+                if (bathInSight)
+                {
+                    bathObjective = b;
+                    objective = b.getPos();
+                }
+                break;
+            }
+        }
+        return bathInSight;
+    }
+
+    private bool isInObjective()
     {
         bool isInAttraction = false;
         if (transform.position.x - objective.x <= 0.3f)
@@ -168,6 +242,7 @@ public class UserDefault : MonoBehaviour
                 if (transform.position.z - objective.z <= 0.3f)
                 {
                     isInAttraction = true;
+                    
                 }
             }
         }
@@ -182,8 +257,15 @@ public class UserDefault : MonoBehaviour
 
     public void finishRide()
     {
-       // Debug.Log("Terminó");
+       Debug.Log("Terminó");
         estado_pasear = STATE_Pasear.PASEANDO;
+    }
+
+    public void finishPee()
+    {
+        vejiga = 100.0f;
+        Debug.Log("Terminado");
+        estado_vejiga = STATE_VejigaBaja.BUSCANDO;
     }
 
 }

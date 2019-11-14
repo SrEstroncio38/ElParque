@@ -504,7 +504,7 @@ MonoBehaviour:
   quality: 100
   maxCapacity: 1
   maxQueue: 1
-  queuePosition: {x: 0, y: 0, z: 0}
+  queuePosition: {x: -300, y: 0, z: 150}
 --- !u!1 &397617672
 GameObject:
   m_ObjectHideFlags: 0
@@ -2592,12 +2592,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1544402850}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03c8085f545053440980f5251868ef3f, type: 3}
+  m_Script: {fileID: 11500000, guid: d77749b3b4d480d4a9714b3489f66292, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minSeconds: 1
-  maxSeconds: 5
-  smellStrength: 300
+  quality: 100
+  maxCapacity: 1
+  maxQueue: 1
+  queuePosition: {x: -333, y: 0, z: -250}
 --- !u!1 &1640376642
 GameObject:
   m_ObjectHideFlags: 0
