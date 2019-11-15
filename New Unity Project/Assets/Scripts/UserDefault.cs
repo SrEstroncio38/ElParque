@@ -31,6 +31,7 @@ public class UserDefault : MonoBehaviour
     private Attraction attracionObjective;
     private Vector3 objective;
     private Bath bathObjective;
+    private FoodShop foodObjective;
     private float visionAngle = 0.5f;
     private float visionDistance = 400.0f;
 
@@ -40,6 +41,9 @@ public class UserDefault : MonoBehaviour
 
     private enum STATE_VejigaBaja {BUSCANDO, DIRIGIENDOSE_BAÑO, ORINANDO_BAÑO, ORINANDO_ENCIMA};
     private STATE_VejigaBaja estado_vejiga = STATE_VejigaBaja.BUSCANDO;
+
+    private enum STATE_Hambre {BUSCANDO, DIRIGIENDOSE_TIENDA, COMIENDO, VOMITANDO};
+    private STATE_Hambre estado_hambre = STATE_Hambre.BUSCANDO;
 
     // Start is called before the first frame update
     void Start()
@@ -64,8 +68,9 @@ public class UserDefault : MonoBehaviour
 
     private void CalcularBienestar()
     {
-        vejiga = vejiga - 0.01f;
         
+        vejiga = vejiga - 0.01f;
+        saciedad = saciedad - 0.001f;
         float s = saciedad * Mathf.Pow(saciedad, 0.25f);
         float t = tolerancia * Mathf.Pow(tolerancia, 0.25f);
         float v = vejiga * Mathf.Pow(vejiga, 0.25f);
@@ -77,13 +82,54 @@ public class UserDefault : MonoBehaviour
   
 
     private void FSM_Divertirse() {
-        if ((vejiga <= umbralVejiga)&&(estado_pasear != STATE_Pasear.MONTARSE_ATRACCIÓN))
+        if ((vejiga <= umbralVejiga) && (estado_pasear != STATE_Pasear.MONTARSE_ATRACCIÓN))
         {
             FSM_VejigaBaja();
         }
+        else if ((saciedad <= umbralSaciedad) && (estado_pasear != STATE_Pasear.MONTARSE_ATRACCIÓN))
+        {
+            FSM_Hambre();
+        }
         else
         {
+            Debug.Log("Estoy perfecto");
+            estado_hambre = STATE_Hambre.BUSCANDO;
             FSM_Pasear();
+        }
+    }
+
+    private void FSM_Hambre() {
+        switch (estado_hambre)
+        {
+            case STATE_Hambre.BUSCANDO:
+                if (!foodInSight())
+                {
+                    Debug.Log("Tengo hambre");
+                    Pasear();
+                }
+                else
+                {
+                    Debug.Log("He encontrado tienda");
+                    GoToObjective();
+                    estado_hambre = STATE_Hambre.DIRIGIENDOSE_TIENDA;
+                }
+                break;
+
+            case STATE_Hambre.DIRIGIENDOSE_TIENDA:
+                if (isInObjective())
+                {
+                    Debug.Log("He llegado a la tienda");
+                    foodObjective.addCustomer(this);
+                    estado_hambre = STATE_Hambre.COMIENDO;
+                }
+                break;
+
+            case STATE_Hambre.COMIENDO:
+
+                break;
+            case STATE_Hambre.VOMITANDO:
+                Debug.Log("¡Qué asco!");
+                break;
         }
     }
 
@@ -113,7 +159,7 @@ public class UserDefault : MonoBehaviour
 
                 break;
             case STATE_VejigaBaja.ORINANDO_ENCIMA:
-
+                //Aun sin implementar
                 break;
         }
        
@@ -232,6 +278,27 @@ public class UserDefault : MonoBehaviour
         return bathInSight;
     }
 
+    private bool foodInSight()
+    {
+        bool foodInSight = false;
+        foreach (FoodShop f in world.GetComponentsInChildren<FoodShop>())
+        {
+            Vector3 direccion = (f.transform.position - transform.position);
+            if (direccion.magnitude <= visionDistance)
+            {
+                direccion = direccion.normalized;
+                foodInSight = Mathf.Abs(1.0f - Vector3.Dot(direccion, transform.forward)) < visionAngle;
+                if (foodInSight)
+                {
+                    foodObjective = f;
+                    objective = f.getPos();
+                }
+                break;
+            }
+        }
+        return foodInSight;
+    }
+
     private bool isInObjective()
     {
         bool isInAttraction = false;
@@ -266,6 +333,21 @@ public class UserDefault : MonoBehaviour
         vejiga = 100.0f;
         Debug.Log("Terminado");
         estado_vejiga = STATE_VejigaBaja.BUSCANDO;
+    }
+
+    public void giveFood(Food food)
+    {
+        Debug.Log("He comido");
+        if (!food.isGood())
+        {
+            estado_hambre = STATE_Hambre.VOMITANDO;
+            saciedad = 50.0f;
+            Debug.Log("Vomito");
+        }
+        else
+        {
+            saciedad = 100.0f;
+        }
     }
 
 }
