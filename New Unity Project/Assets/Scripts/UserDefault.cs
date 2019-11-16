@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class UserDefault : MonoBehaviour
+public class UserDefault : Human
 {
 
     [Header("Identity")]
@@ -34,9 +34,10 @@ public class UserDefault : MonoBehaviour
     private FoodShop foodObjective;
     private float visionAngle = 0.5f;
     private float visionDistance = 400.0f;
+    private float initY;
 
     //State Machines
-    private enum STATE_Pasear { PASEANDO, DIRIGIENDOSE_ATRACCIÓN, MONTARSE_ATRACCIÓN };
+    private enum STATE_Pasear { PASEANDO, DIRIGIENDOSE_ATRACCIÓN, ESPERANDO_ATRACCION, MONTARSE_ATRACCIÓN };
     private STATE_Pasear estado_pasear = STATE_Pasear.PASEANDO;
 
     private enum STATE_VejigaBaja {BUSCANDO, DIRIGIENDOSE_BAÑO, ORINANDO_BAÑO, ORINANDO_ENCIMA};
@@ -54,6 +55,7 @@ public class UserDefault : MonoBehaviour
         gameObject.name = name;
         world = GetComponentInParent<WorldController>();
         agent = GetComponent<NavMeshAgent>();
+        initY = transform.position.y;
     }
 
     // Update is called once per frame
@@ -69,8 +71,8 @@ public class UserDefault : MonoBehaviour
     private void CalcularBienestar()
     {
         
-        vejiga = vejiga - 0.01f;
-        saciedad = saciedad - 0.001f;
+       //vejiga = vejiga - 0.01f;
+        //saciedad = saciedad - 0.001f;
         float s = saciedad * Mathf.Pow(saciedad, 0.25f);
         float t = tolerancia * Mathf.Pow(tolerancia, 0.25f);
         float v = vejiga * Mathf.Pow(vejiga, 0.25f);
@@ -92,7 +94,7 @@ public class UserDefault : MonoBehaviour
         }
         else
         {
-            Debug.Log("Estoy perfecto");
+           
             estado_hambre = STATE_Hambre.BUSCANDO;
             FSM_Pasear();
         }
@@ -104,12 +106,12 @@ public class UserDefault : MonoBehaviour
             case STATE_Hambre.BUSCANDO:
                 if (!foodInSight())
                 {
-                    Debug.Log("Tengo hambre");
+                   
                     Pasear();
                 }
                 else
                 {
-                    Debug.Log("He encontrado tienda");
+                  
                     GoToObjective();
                     estado_hambre = STATE_Hambre.DIRIGIENDOSE_TIENDA;
                 }
@@ -118,7 +120,7 @@ public class UserDefault : MonoBehaviour
             case STATE_Hambre.DIRIGIENDOSE_TIENDA:
                 if (isInObjective())
                 {
-                    Debug.Log("He llegado a la tienda");
+                   
                     foodObjective.addCustomer(this);
                     estado_hambre = STATE_Hambre.COMIENDO;
                 }
@@ -128,7 +130,7 @@ public class UserDefault : MonoBehaviour
 
                 break;
             case STATE_Hambre.VOMITANDO:
-                Debug.Log("¡Qué asco!");
+                
                 break;
         }
     }
@@ -177,18 +179,20 @@ public class UserDefault : MonoBehaviour
                 else {
                     isWandering = false;
                     estado_pasear = STATE_Pasear.DIRIGIENDOSE_ATRACCIÓN;
-                   Debug.Log("Voy a la atraccion");
+                   Debug.Log(name + "Voy a la atraccion");
                     GoToObjective();
                 }
                 break;
             case STATE_Pasear.DIRIGIENDOSE_ATRACCIÓN:
                 if (isInObjective())
                 {
-                    estado_pasear = STATE_Pasear.MONTARSE_ATRACCIÓN;
-                    Debug.Log("Empieza la atracción");
+                    estado_pasear = STATE_Pasear.ESPERANDO_ATRACCION;
+                    Debug.Log(name + "Espero la atracción");
                     attracionObjective.addUser(this);
-                    attracionObjective.ride();
                 }
+                break;
+            case STATE_Pasear.ESPERANDO_ATRACCION:
+
                 break;
             case STATE_Pasear.MONTARSE_ATRACCIÓN:
                 
@@ -246,7 +250,7 @@ public class UserDefault : MonoBehaviour
             {
                 direccion = direccion.normalized;
                 attractionInSight = Mathf.Abs(1.0f - Vector3.Dot(direccion, transform.forward)) < visionAngle;
-                if (attractionInSight)
+                if ((attractionInSight)&&(a != attracionObjective)) //Para que no se repitan atracciones
                 {
                     attracionObjective = a;
                     objective = a.queuePosition;
@@ -302,13 +306,14 @@ public class UserDefault : MonoBehaviour
     private bool isInObjective()
     {
         bool isInAttraction = false;
-        if (transform.position.x - objective.x <= 0.3f)
+        if (transform.position.x - objective.x <= 0.2f)
         {
             if (transform.position.y - objective.y <= 0.3f)
             {
-                if (transform.position.z - objective.z <= 0.3f)
+                if (transform.position.z - objective.z <= 0.2f)
                 {
                     isInAttraction = true;
+                    Debug.Log(name + " He llegado. Mi pos: " + transform.position + " Mi objetivo: " + objective);
                     
                 }
             }
@@ -322,9 +327,19 @@ public class UserDefault : MonoBehaviour
         world.SetHUDTarget(GetComponent<UserDefault>());
     }
 
+    public void enterRide()
+    {
+        Debug.Log(name + "Entro en atraccion");
+        estado_pasear = STATE_Pasear.MONTARSE_ATRACCIÓN;
+        gameObject.SetActive(false);
+    }
+
     public void finishRide()
     {
-       Debug.Log("Terminó");
+       Debug.Log(name + "Terminó");
+        transform.position = attracionObjective.exitPosition;
+        transform.position.Set(transform.position.x, initY, transform.position.z);
+        gameObject.SetActive(true);
         estado_pasear = STATE_Pasear.PASEANDO;
     }
 
@@ -348,6 +363,11 @@ public class UserDefault : MonoBehaviour
         {
             saciedad = 100.0f;
         }
+    }
+
+    public NavMeshAgent getAgent()
+    {
+        return agent;
     }
 
 }

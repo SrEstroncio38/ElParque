@@ -15,6 +15,11 @@ public class Cleaner : Worker
     {
         world = GetComponentInParent<WorldController>();
         agent = GetComponent<NavMeshAgent>();
+
+        NameCreator.PersonName p = NameCreator.Generate();
+        isMale = p.isMale;
+        name = p.name;
+        gameObject.name = name;
     }
 
     // Update is called once per frame
@@ -32,7 +37,7 @@ public class Cleaner : Worker
                     wander();
                 }
                 else {
-                    
+                    //Debug.Log(name + " he encontrado basura");
                     goToTrash();
                     state_working = STATE_working.GOING_TO_TRASH;
                 }
@@ -40,9 +45,9 @@ public class Cleaner : Worker
             case (STATE_working.GOING_TO_TRASH):
                 if (isInTrash())
                 {
-                    state_working = STATE_working.CLEANING_TRASH;
-                   
+                   // Debug.Log(name + "he llegado a basura");
                     objective.clean();
+                    state_working = STATE_working.CLEANING_TRASH;
                 }
                 break;
             case (STATE_working.CLEANING_TRASH):
@@ -98,11 +103,11 @@ public class Cleaner : Worker
 
     private bool isInTrash() {
         bool isInTrash = false;
-        if (transform.position.x - objective.getPos().x <= 0.3f)
+        if (transform.position.x - objective.getPos().x == 0)
         {
             if (transform.position.y - objective.getPos().y <= 0.3f)
             {
-                if (transform.position.z - objective.getPos().z <= 0.3f)
+                if (transform.position.z - objective.getPos().z == 0)
                 {
                     isInTrash = true;
                 }
@@ -112,6 +117,7 @@ public class Cleaner : Worker
     }
 
     public void finishedCleaning() {
+        //Debug.Log(name + "he limpiado basura");
         state_working = STATE_working.SEARCHING;
     }
 }

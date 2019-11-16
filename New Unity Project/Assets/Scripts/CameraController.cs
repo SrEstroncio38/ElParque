@@ -5,7 +5,7 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     [Header("Camera Position")]
-    public UserDefault followTarget;
+    public Human followTarget;
     public Vector3 followingPoint = new Vector3(0, 1 , 0);
     public float cameraDistance = 1000;
     public float currentAngle = 45;

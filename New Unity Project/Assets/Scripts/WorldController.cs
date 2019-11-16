@@ -26,7 +26,7 @@ public class WorldController : MonoBehaviour
 
     // Canvas
 
-    private UserDefault currentTarget;
+    private Human currentTarget;
     private Canvas canvas;
     private UnityEngine.UI.Text charName;
     private UnityEngine.UI.Image userHUD1;
@@ -203,7 +203,7 @@ public class WorldController : MonoBehaviour
 
     }
 
-    public void SetHUDTarget(UserDefault target)
+    public void SetHUDTarget(Human target)
     {
 
         SetLayerRecursively(target.gameObject, 10);
