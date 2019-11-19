@@ -8,22 +8,40 @@ public class FoodShop : MonoBehaviour
 
     private Queue<Food> readyFood;
     private Queue<UserDefault> customers;
+    private Queue<UserDefault> currentCustomers;
+    private int maxCapacity;
+
+    public Vector3 queuePos;
+
     // Start is called before the first frame update
     void Start()
     {
         customers = new Queue<UserDefault>();
         readyFood = new Queue<Food>();
+        currentCustomers = new Queue<UserDefault>();
+        queuePos.Set(transform.position.x + 40, transform.position.y, transform.position.z);
 
         foreach (Cooker cooker in employees)
         {
             cooker.setShop(this);
         }
+        maxCapacity = employees.Count;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawSphere(queuePos, 5);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if ((customers.Count > 0) && (currentCustomers.Count < maxCapacity))
+        {
+            order();
+            currentCustomers.Enqueue(customers.Dequeue());
+        }
     }
 
     public Vector3 getPos()
@@ -34,7 +52,6 @@ public class FoodShop : MonoBehaviour
     public void addCustomer(UserDefault user)
     {
         customers.Enqueue(user);
-        order();
     }
 
     public void order() {
@@ -53,7 +70,7 @@ public class FoodShop : MonoBehaviour
 
     public void foodCooked(Food food)
     {
-        UserDefault customer = customers.Dequeue();
+        UserDefault customer = currentCustomers.Dequeue();
         customer.giveFood(food);
     }
  

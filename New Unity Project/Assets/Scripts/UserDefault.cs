@@ -40,10 +40,10 @@ public class UserDefault : Human
     private enum STATE_Pasear { PASEANDO, DIRIGIENDOSE_ATRACCIÓN, ESPERANDO_ATRACCION, MONTARSE_ATRACCIÓN };
     private STATE_Pasear estado_pasear = STATE_Pasear.PASEANDO;
 
-    private enum STATE_VejigaBaja {BUSCANDO, DIRIGIENDOSE_BAÑO, ORINANDO_BAÑO, ORINANDO_ENCIMA};
+    private enum STATE_VejigaBaja {BUSCANDO, DIRIGIENDOSE_BAÑO, ESPERANDO_BAÑO, ORINANDO_BAÑO, ORINANDO_ENCIMA};
     private STATE_VejigaBaja estado_vejiga = STATE_VejigaBaja.BUSCANDO;
 
-    private enum STATE_Hambre {BUSCANDO, DIRIGIENDOSE_TIENDA, COMIENDO, VOMITANDO};
+    private enum STATE_Hambre {BUSCANDO, DIRIGIENDOSE_TIENDA, ESPERANDO_COMIDA, COMIENDO, VOMITANDO};
     private STATE_Hambre estado_hambre = STATE_Hambre.BUSCANDO;
 
     // Start is called before the first frame update
@@ -71,8 +71,8 @@ public class UserDefault : Human
     private void CalcularBienestar()
     {
         
-       //vejiga = vejiga - 0.01f;
-        //saciedad = saciedad - 0.001f;
+        //vejiga = vejiga - 0.05f;
+        saciedad = saciedad - 0.05f;
         float s = saciedad * Mathf.Pow(saciedad, 0.25f);
         float t = tolerancia * Mathf.Pow(tolerancia, 0.25f);
         float v = vejiga * Mathf.Pow(vejiga, 0.25f);
@@ -86,6 +86,7 @@ public class UserDefault : Human
     private void FSM_Divertirse() {
         if ((vejiga <= umbralVejiga) && (estado_pasear != STATE_Pasear.MONTARSE_ATRACCIÓN))
         {
+            
             FSM_VejigaBaja();
         }
         else if ((saciedad <= umbralSaciedad) && (estado_pasear != STATE_Pasear.MONTARSE_ATRACCIÓN))
@@ -120,12 +121,14 @@ public class UserDefault : Human
             case STATE_Hambre.DIRIGIENDOSE_TIENDA:
                 if (isInObjective())
                 {
-                   
+                    Debug.Log(name+" Estoy en la tienda");
                     foodObjective.addCustomer(this);
-                    estado_hambre = STATE_Hambre.COMIENDO;
+                    estado_hambre = STATE_Hambre.ESPERANDO_COMIDA;
                 }
                 break;
+            case STATE_Hambre.ESPERANDO_COMIDA:
 
+                break;
             case STATE_Hambre.COMIENDO:
 
                 break;
@@ -143,7 +146,7 @@ public class UserDefault : Human
                   
                     Pasear();
                 }else {
-                    Debug.Log("Baño encontrado");
+                    Debug.Log(name + "Baño encontrado");
                     estado_vejiga = STATE_VejigaBaja.DIRIGIENDOSE_BAÑO;
                     GoToObjective();
                 }
@@ -151,17 +154,32 @@ public class UserDefault : Human
             case STATE_VejigaBaja.DIRIGIENDOSE_BAÑO:
                 if (isInObjective())
                 {
-                    Debug.Log("He llegado al baño");
+                    Debug.Log(name + "He llegado al baño");
                     bathObjective.addUser(this);
-                    estado_vejiga = STATE_VejigaBaja.ORINANDO_BAÑO;
-                    bathObjective.use();
+                    estado_vejiga = STATE_VejigaBaja.ESPERANDO_BAÑO;
+                    
+                }else if (vejiga <= 0)
+                {
+                    Debug.Log(name + "Me he meado");
+                    estado_pasear = STATE_Pasear.PASEANDO;
+                    estado_vejiga = STATE_VejigaBaja.ORINANDO_ENCIMA;
+                }
+                break;
+            case STATE_VejigaBaja.ESPERANDO_BAÑO:
+                if (vejiga <= 0)
+                {
+                    Debug.Log(name + "Me he meado");
+                    estado_pasear = STATE_Pasear.PASEANDO;
+                    estado_vejiga = STATE_VejigaBaja.ORINANDO_ENCIMA;
                 }
                 break;
             case STATE_VejigaBaja.ORINANDO_BAÑO:
 
                 break;
             case STATE_VejigaBaja.ORINANDO_ENCIMA:
-                //Aun sin implementar
+                bathObjective.leave(this);
+                vejiga = 100;
+                estado_vejiga = STATE_VejigaBaja.BUSCANDO;
                 break;
         }
        
@@ -294,8 +312,9 @@ public class UserDefault : Human
                 foodInSight = Mathf.Abs(1.0f - Vector3.Dot(direccion, transform.forward)) < visionAngle;
                 if (foodInSight)
                 {
+                    Debug.Log(name + "Encuentro comida");
                     foodObjective = f;
-                    objective = f.getPos();
+                    objective = f.queuePos;
                 }
                 break;
             }
@@ -313,7 +332,6 @@ public class UserDefault : Human
                 if (transform.position.z - objective.z <= 0.2f)
                 {
                     isInAttraction = true;
-                    Debug.Log(name + " He llegado. Mi pos: " + transform.position + " Mi objetivo: " + objective);
                     
                 }
             }
@@ -343,21 +361,30 @@ public class UserDefault : Human
         estado_pasear = STATE_Pasear.PASEANDO;
     }
 
+    public void enterToilet() {
+        Debug.Log(name + "Entro al baño");
+        estado_vejiga = STATE_VejigaBaja.ORINANDO_BAÑO;
+        estado_pasear = STATE_Pasear.PASEANDO;
+        gameObject.SetActive(false);
+    }
+
     public void finishPee()
     {
         vejiga = 100.0f;
-        Debug.Log("Terminado");
+        Debug.Log(name+"Salgo del baño");
         estado_vejiga = STATE_VejigaBaja.BUSCANDO;
+        gameObject.SetActive(true);
     }
 
     public void giveFood(Food food)
     {
-        Debug.Log("He comido");
+        estado_hambre = STATE_Hambre.COMIENDO;
+        Debug.Log(name + "Como");
         if (!food.isGood())
         {
             estado_hambre = STATE_Hambre.VOMITANDO;
             saciedad = 50.0f;
-            Debug.Log("Vomito");
+            Debug.Log(name+ "Vomito");
         }
         else
         {

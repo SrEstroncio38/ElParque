@@ -9,23 +9,37 @@ public class Bath : MonoBehaviour
     public int maxQueue = 1;
     public Vector3 queuePosition;
 
-    private Queue<UserDefault> userUsing;
+    private List<UserDefault> userUsing;
     private Queue<UserDefault> userQueue;
 
-    private int minTime = 1;
-    private int maxTime = 5;
+    private int minTime = 5;
+    private int maxTime = 10;
 
     // Start is called before the first frame update
     void Start()
     {
-        userUsing = new Queue<UserDefault>();
-        queuePosition = transform.position;
+        userUsing = new List<UserDefault>();
+        userQueue = new Queue<UserDefault>();
+        queuePosition.Set(transform.position.x + 40, transform.position.y, transform.position.z);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if ((userQueue.Count > 0)&&(userUsing.Count < maxCapacity))
+        {
+            Debug.Log("BAÑO: Hay " + userUsing.Count);
+            UserDefault user = userQueue.Dequeue();
+            userUsing.Add(user);
+            user.enterToilet();
+            use(user);
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawSphere(queuePosition, 5);
     }
 
     public Vector3 getPos() {
@@ -34,20 +48,33 @@ public class Bath : MonoBehaviour
 
     public void addUser(UserDefault user)
     {
-        userUsing.Enqueue(user);
+        userQueue.Enqueue(user);
     }
 
-    public void use() {
-        StartCoroutine(timeUsing());
+    public void use(UserDefault user) {
+        StartCoroutine(timeUsing(user));
     }
 
-    IEnumerator timeUsing()
+    IEnumerator timeUsing(UserDefault user)
     {
-        yield return new WaitForSeconds(Random.Range(minTime, maxTime)); 
-        foreach (UserDefault user in userUsing)
+        yield return new WaitForSeconds(Random.Range(minTime, maxTime));
+
+        user.finishPee();
+        userUsing.Remove(user);
+       
+    }
+
+    public void leave(UserDefault user)
+    {
+        Queue<UserDefault> alternative = new Queue<UserDefault>();
+        while (userQueue.Count > 0)
         {
-            user.finishPee();
+            UserDefault u = userQueue.Dequeue();
+            if (!u.Equals(user))
+            {
+                alternative.Enqueue(u);
+            }
         }
-        userUsing.Clear();
+        userQueue = alternative;
     }
 }
