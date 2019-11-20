@@ -565,6 +565,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ferrisWheel
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 6ae4c0727e0169043ad1f2815332c83f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 6ae4c0727e0169043ad1f2815332c83f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 23
@@ -2243,6 +2247,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: 051205efa7ca80f44ac57210aab26fb5, type: 3}
       propertyPath: m_Name
       value: carousel
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 051205efa7ca80f44ac57210aab26fb5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 051205efa7ca80f44ac57210aab26fb5, type: 3}
       propertyPath: m_LocalPosition.x
