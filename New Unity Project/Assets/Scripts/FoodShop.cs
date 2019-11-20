@@ -94,7 +94,12 @@ public class FoodShop : MonoBehaviour
                     aux.Enqueue(u);
                 }
             }
-            customers = aux;
+            foreach (UserDefault u in aux)
+            {
+                customers.Enqueue(u);
+
+            }
+            aux.Clear();
         }
     }
  

@@ -82,6 +82,11 @@ public class Bath : MonoBehaviour
                 alternative.Enqueue(u);
             }
         }
-        userQueue = alternative;
+        foreach (UserDefault u in alternative)
+        {
+            userQueue.Enqueue(u);
+
+        }
+        alternative.Clear();
     }
 }

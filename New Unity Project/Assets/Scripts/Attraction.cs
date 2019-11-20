@@ -95,7 +95,12 @@ public class Attraction : MonoBehaviour
                     aux.Enqueue(u);
                 }
             }
-            userQueue = aux;
+            foreach (UserDefault u in aux)
+            {
+                userQueue.Enqueue(u);
+
+            }
+            aux.Clear();
         }
     }
 

@@ -37,6 +37,7 @@ public class UserDefault : Human
     private float visionAngle = 0.5f;
     private float visionDistance = 400.0f;
     private float initY;
+    private Exit parkExit;
 
     //State Machines
     private enum STATE_Pasear { PASEANDO, DIRIGIENDOSE_ATRACCIÓN, ESPERANDO_ATRACCION, MONTARSE_ATRACCIÓN };
@@ -48,6 +49,9 @@ public class UserDefault : Human
     private enum STATE_Hambre {BUSCANDO, DIRIGIENDOSE_TIENDA, ESPERANDO_COMIDA, COMIENDO, VOMITANDO};
     private STATE_Hambre estado_hambre = STATE_Hambre.BUSCANDO;
 
+    private enum STATE_Enfado { EMPEZAR, DIRIGIENDOSE_SALIDA, FUERA };
+    private STATE_Enfado estado_enfado = STATE_Enfado.EMPEZAR;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -58,6 +62,7 @@ public class UserDefault : Human
         world = GetComponentInParent<WorldController>();
         agent = GetComponent<NavMeshAgent>();
         initY = transform.position.y;
+        parkExit = world.GetComponentInChildren<Exit>();
     }
 
     // Update is called once per frame
@@ -100,6 +105,8 @@ public class UserDefault : Human
         if ((bienestar <= umbralBienestar) && (estado_pasear != STATE_Pasear.MONTARSE_ATRACCIÓN))
         {
             currentState = "Samfadao";
+           
+            FSM_Enfadarse();
         }
          else if ((vejiga <= umbralVejiga) && (estado_pasear != STATE_Pasear.MONTARSE_ATRACCIÓN))
         {
@@ -122,7 +129,28 @@ public class UserDefault : Human
     }
 
     private void FSM_Enfadarse()
-    { }
+    {
+        switch (estado_enfado)
+        {
+            case STATE_Enfado.EMPEZAR:
+                exitQueues();
+                objective = parkExit.transform.position;
+                GoToObjective();
+                estado_enfado = STATE_Enfado.DIRIGIENDOSE_SALIDA;
+                break;
+            case STATE_Enfado.DIRIGIENDOSE_SALIDA:
+                if (isInObjective())
+                {
+                    gameObject.SetActive(false);
+                    currentState = "Fuera";
+                    estado_enfado = STATE_Enfado.FUERA;
+                }
+                break;
+            case STATE_Enfado.FUERA:
+
+                break;
+        }
+    }
 
     private void FSM_Hambre() {
         switch (estado_hambre)
@@ -411,7 +439,7 @@ public class UserDefault : Human
     {
         if (vejiga <= 0)
         {
-            tolerancia = tolerancia - 50;
+            tolerancia -= 50;
             if (tolerancia < 0)
                 tolerancia = 0;
             Debug.Log(name + "Me he meado");
