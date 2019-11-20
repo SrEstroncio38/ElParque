@@ -37,10 +37,17 @@ public class FoodShop : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if ((customers.Count > 0) && (currentCustomers.Count < maxCapacity))
+        if (customers.Count > 0)
         {
-            order();
-            currentCustomers.Enqueue(customers.Dequeue());
+            foreach (UserDefault user in customers)
+            {
+                user.lowerTolerance();
+            }
+            if (currentCustomers.Count < maxCapacity)
+            {
+                order();
+                currentCustomers.Enqueue(customers.Dequeue());
+            }
         }
     }
 

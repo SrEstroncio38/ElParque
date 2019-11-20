@@ -3894,6 +3894,7 @@ MonoBehaviour:
   vejiga: 100
   bienestar: 100
   isAlive: 1
+  currentState: 
 --- !u!136 &1145879869
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -4197,6 +4198,7 @@ MonoBehaviour:
   vejiga: 100
   bienestar: 100
   isAlive: 1
+  currentState: 
 --- !u!195 &1217309082
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -4814,31 +4816,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400072, guid: 8bd947650bd5170488be684888cf813c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -377
+      value: -382
       objectReference: {fileID: 0}
     - target: {fileID: 400072, guid: 8bd947650bd5170488be684888cf813c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 51
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400072, guid: 8bd947650bd5170488be684888cf813c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -191
+      value: -181
       objectReference: {fileID: 0}
     - target: {fileID: 400072, guid: 8bd947650bd5170488be684888cf813c, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.13850154
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400072, guid: 8bd947650bd5170488be684888cf813c, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.8335589
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400072, guid: 8bd947650bd5170488be684888cf813c, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.007319845
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400072, guid: 8bd947650bd5170488be684888cf813c, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.53473675
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400072, guid: 8bd947650bd5170488be684888cf813c, type: 3}
       propertyPath: m_RootOrder
@@ -4846,15 +4848,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400072, guid: 8bd947650bd5170488be684888cf813c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -9.226001
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400072, guid: 8bd947650bd5170488be684888cf813c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -115.69701
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400072, guid: 8bd947650bd5170488be684888cf813c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 13.061001
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400072, guid: 8bd947650bd5170488be684888cf813c, type: 3}
       propertyPath: m_LocalScale.y
@@ -4923,6 +4925,7 @@ MonoBehaviour:
   vejiga: 100
   bienestar: 100
   isAlive: 1
+  currentState: 
 --- !u!136 &1425198220
 CapsuleCollider:
   m_ObjectHideFlags: 0

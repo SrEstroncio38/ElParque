@@ -16,10 +16,12 @@ public class UserDefault : Human
     public float vejiga = 100.0f;
     public float bienestar = 100.0f;
     public bool isAlive = true;
+    public string currentState;
 
     //Umbrales
     private float umbralVejiga = 30.0f;
     private float umbralSaciedad = 30.0f;
+    private float umbralBienestar = 30.0f;
     private NavMeshAgent agent;
     private WorldController world;
 
@@ -70,9 +72,20 @@ public class UserDefault : Human
 
     private void CalcularBienestar()
     {
-        
-        //vejiga = vejiga - 0.05f;
-        saciedad = saciedad - 0.05f;
+        if (tolerancia > 100)
+        {
+            tolerancia = 100;
+        }
+        vejiga = vejiga - 0.05f;
+        saciedad = saciedad - 0.01f;
+        if (vejiga < 0)
+        {
+            vejiga = 0;
+        }
+        if (saciedad < 0)
+        {
+            saciedad = 0;
+        }
         float s = saciedad * Mathf.Pow(saciedad, 0.25f);
         float t = tolerancia * Mathf.Pow(tolerancia, 0.25f);
         float v = vejiga * Mathf.Pow(vejiga, 0.25f);
@@ -84,23 +97,32 @@ public class UserDefault : Human
   
 
     private void FSM_Divertirse() {
-        if ((vejiga <= umbralVejiga) && (estado_pasear != STATE_Pasear.MONTARSE_ATRACCIÓN))
+        if ((bienestar <= umbralBienestar) && (estado_pasear != STATE_Pasear.MONTARSE_ATRACCIÓN))
         {
+            currentState = "Samfadao";
+        }
+         else if ((vejiga <= umbralVejiga) && (estado_pasear != STATE_Pasear.MONTARSE_ATRACCIÓN))
+        {
+            currentState = "FSM Baño";
             exitQueues();
             FSM_VejigaBaja();
         }
         else if ((saciedad <= umbralSaciedad) && (estado_pasear != STATE_Pasear.MONTARSE_ATRACCIÓN))
         {
+            currentState = "FSM Comida";
             exitQueues();
             FSM_Hambre();
         }
         else
         {
-           
+            currentState = "FSM Pasear";
             estado_hambre = STATE_Hambre.BUSCANDO;
             FSM_Pasear();
         }
     }
+
+    private void FSM_Enfadarse()
+    { }
 
     private void FSM_Hambre() {
         switch (estado_hambre)
@@ -128,7 +150,7 @@ public class UserDefault : Human
                 }
                 break;
             case STATE_Hambre.ESPERANDO_COMIDA:
-
+                
                 break;
             case STATE_Hambre.COMIENDO:
 
@@ -144,7 +166,7 @@ public class UserDefault : Human
             case STATE_VejigaBaja.BUSCANDO:
                 if (!bathInSight())
                 {
-                  
+                    checkPee();
                     Pasear();
                 }else {
                     Debug.Log(name + "Baño encontrado");
@@ -153,32 +175,28 @@ public class UserDefault : Human
                 }
                 break;
             case STATE_VejigaBaja.DIRIGIENDOSE_BAÑO:
+                checkPee();
                 if (isInObjective())
                 {
                     Debug.Log(name + "He llegado al baño");
                     bathObjective.addUser(this);
                     estado_vejiga = STATE_VejigaBaja.ESPERANDO_BAÑO;
-                    
-                }else if (vejiga <= 0)
-                {
-                    Debug.Log(name + "Me he meado");
-                    estado_pasear = STATE_Pasear.PASEANDO;
-                    estado_vejiga = STATE_VejigaBaja.ORINANDO_ENCIMA;
+
                 }
+                
                 break;
             case STATE_VejigaBaja.ESPERANDO_BAÑO:
-                if (vejiga <= 0)
-                {
-                    Debug.Log(name + "Me he meado");
-                    estado_pasear = STATE_Pasear.PASEANDO;
-                    estado_vejiga = STATE_VejigaBaja.ORINANDO_ENCIMA;
-                }
+                
+                checkPee();
                 break;
             case STATE_VejigaBaja.ORINANDO_BAÑO:
 
                 break;
             case STATE_VejigaBaja.ORINANDO_ENCIMA:
-                bathObjective.leave(this);
+                if (bathObjective != null)
+                {
+                    bathObjective.leave(this);
+                }
                 vejiga = 100;
                 estado_vejiga = STATE_VejigaBaja.BUSCANDO;
                 break;
@@ -211,7 +229,7 @@ public class UserDefault : Human
                 }
                 break;
             case STATE_Pasear.ESPERANDO_ATRACCION:
-
+                
                 break;
             case STATE_Pasear.MONTARSE_ATRACCIÓN:
                 
@@ -343,6 +361,13 @@ public class UserDefault : Human
         return isInAttraction;
     }
 
+    public void lowerTolerance()
+    {
+        tolerancia -= 0.05f;
+        if (tolerancia < 0)
+            tolerancia = 0;
+    }
+
     void OnMouseDown()
     {
         world.mainCamera.followTarget = GetComponent<UserDefault>();
@@ -358,6 +383,7 @@ public class UserDefault : Human
 
     public void finishRide()
     {
+        tolerancia += 60;
        Debug.Log(name + "Terminó");
         transform.position = attracionObjective.exitPosition;
         transform.position.Set(transform.position.x, initY, transform.position.z);
@@ -374,10 +400,25 @@ public class UserDefault : Human
 
     public void finishPee()
     {
+        tolerancia = tolerancia + 50;
         vejiga = 100.0f;
         Debug.Log(name+"Salgo del baño");
         estado_vejiga = STATE_VejigaBaja.BUSCANDO;
         gameObject.SetActive(true);
+    }
+
+    private void checkPee()
+    {
+        if (vejiga <= 0)
+        {
+            tolerancia = tolerancia - 50;
+            if (tolerancia < 0)
+                tolerancia = 0;
+            Debug.Log(name + "Me he meado");
+            estado_pasear = STATE_Pasear.PASEANDO;
+            estado_vejiga = STATE_VejigaBaja.ORINANDO_ENCIMA;
+            vejiga = 100;
+        }
     }
 
     public void giveFood(Food food)
@@ -386,12 +427,14 @@ public class UserDefault : Human
         Debug.Log(name + "Como");
         if (!food.isGood())
         {
+            tolerancia -= 40;
             estado_hambre = STATE_Hambre.VOMITANDO;
             saciedad = 50.0f;
             Debug.Log(name+ "Vomito");
         }
         else
         {
+            tolerancia += 40;
             saciedad = 100.0f;
         }
     }

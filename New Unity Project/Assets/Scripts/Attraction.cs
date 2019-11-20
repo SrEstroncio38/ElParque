@@ -29,17 +29,25 @@ public class Attraction : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if ((!riding)&&(userQueue.Count > 0))
+        if (userQueue.Count > 0)
         {
-            Debug.Log("ATRACCION: hay usuarios");
-            for (int i = 0; i < maxCapacity; i++)
+            foreach (UserDefault user in userQueue)
             {
-                UserDefault nextUser = userQueue.Dequeue();
-                userRiding.Enqueue(nextUser);
-                nextUser.enterRide();
+                user.lowerTolerance();
             }
-            ride();
+            if (!riding)
+            {
+                Debug.Log("ATRACCION: hay usuarios");
+                for (int i = 0; i < maxCapacity; i++)
+                {
+                    UserDefault nextUser = userQueue.Dequeue();
+                    userRiding.Enqueue(nextUser);
+                    nextUser.enterRide();
+                }
+                ride();
+            }
         }
+        
     }
 
     private void OnDrawGizmos()

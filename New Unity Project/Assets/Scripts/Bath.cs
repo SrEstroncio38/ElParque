@@ -26,13 +26,20 @@ public class Bath : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if ((userQueue.Count > 0)&&(userUsing.Count < maxCapacity))
+        if (userQueue.Count > 0)
         {
-            Debug.Log("BAÑO: Hay " + userUsing.Count);
-            UserDefault user = userQueue.Dequeue();
-            userUsing.Add(user);
-            user.enterToilet();
-            use(user);
+            foreach (UserDefault user in userQueue)
+            {
+                user.lowerTolerance();
+            }
+            if (userUsing.Count < maxCapacity)
+            {
+                Debug.Log("BAÑO: Hay " + userUsing.Count);
+                UserDefault user = userQueue.Dequeue();
+                userUsing.Add(user);
+                user.enterToilet();
+                use(user);
+            }
         }
     }
 
