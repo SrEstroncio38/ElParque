@@ -73,5 +73,22 @@ public class FoodShop : MonoBehaviour
         UserDefault customer = currentCustomers.Dequeue();
         customer.giveFood(food);
     }
+
+    public void leave(UserDefault user)
+    {
+        if (customers.Contains(user))
+        {
+            Queue<UserDefault> aux = new Queue<UserDefault>();
+            while (customers.Count > 0)
+            {
+                UserDefault u = customers.Dequeue();
+                if (!u.Equals(user))
+                {
+                    aux.Enqueue(u);
+                }
+            }
+            customers = aux;
+        }
+    }
  
 }

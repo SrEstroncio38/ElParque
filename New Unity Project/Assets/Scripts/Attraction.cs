@@ -75,5 +75,20 @@ public class Attraction : MonoBehaviour
         userRiding.Clear();
     }
 
+    public void leave(UserDefault user) {
+        if (userQueue.Contains(user))
+        {
+            Queue<UserDefault> aux = new Queue<UserDefault>();
+            while (userQueue.Count > 0)
+            {
+                UserDefault u = userQueue.Dequeue();
+                if (!u.Equals(user))
+                {
+                    aux.Enqueue(u);
+                }
+            }
+            userQueue = aux;
+        }
+    }
 
 }

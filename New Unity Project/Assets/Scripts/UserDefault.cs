@@ -86,11 +86,12 @@ public class UserDefault : Human
     private void FSM_Divertirse() {
         if ((vejiga <= umbralVejiga) && (estado_pasear != STATE_Pasear.MONTARSE_ATRACCIÓN))
         {
-            
+            exitQueues();
             FSM_VejigaBaja();
         }
         else if ((saciedad <= umbralSaciedad) && (estado_pasear != STATE_Pasear.MONTARSE_ATRACCIÓN))
         {
+            exitQueues();
             FSM_Hambre();
         }
         else
@@ -268,11 +269,14 @@ public class UserDefault : Human
             {
                 direccion = direccion.normalized;
                 attractionInSight = Mathf.Abs(1.0f - Vector3.Dot(direccion, transform.forward)) < visionAngle;
-                if ((attractionInSight)&&(a != attracionObjective)) //Para que no se repitan atracciones
+                if ((attractionInSight) && (!a.Equals(attracionObjective))) //Para que no se repitan atracciones
                 {
                     attracionObjective = a;
                     objective = a.queuePosition;
-                   
+
+                }
+                else {
+                    attractionInSight = false;
                 }
                 break;
             }
@@ -397,6 +401,20 @@ public class UserDefault : Human
         return agent;
     }
 
+    private void exitQueues() {
+        if (attracionObjective != null)
+        {
+            attracionObjective.leave(this);
+        }
+        if (foodObjective != null)
+        {
+            foodObjective.leave(this);
+        }
+        if (bathObjective != null)
+        {
+            bathObjective.leave(this);
+        }
+    }
 }
 
 
