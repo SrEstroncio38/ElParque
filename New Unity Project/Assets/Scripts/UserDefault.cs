@@ -201,6 +201,9 @@ public class UserDefault : Human
        
 
     }
+
+
+
     protected void FSM_Pasear ()
     {
         switch(estado_pasear)
@@ -212,17 +215,18 @@ public class UserDefault : Human
                 }
                 else {
                     isWandering = false;
-                    estado_pasear = STATE_Pasear.DIRIGIENDOSE_ATRACCIÓN;
                     Debug.Log(name + "Voy a la atraccion");
-                    GoToObjective();
+                    // TODO Arreglar la maquina de estado
+                    //estado_pasear = STATE_Pasear.DIRIGIENDOSE_ATRACCIÓN;
+                    //GoToObjective();
                 }
                 break;
+                /*
             case STATE_Pasear.DIRIGIENDOSE_ATRACCIÓN:
                 if (isInObjective())
                 {
                     estado_pasear = STATE_Pasear.ESPERANDO_ATRACCION;
                     Debug.Log(name + "Espero la atracción");
-                    attracionObjective.AddUser(this);
                 }
                 break;
             case STATE_Pasear.ESPERANDO_ATRACCION:
@@ -231,6 +235,7 @@ public class UserDefault : Human
             case STATE_Pasear.MONTARSE_ATRACCIÓN:
                 
                 break;
+                */
         }
     }
 
@@ -288,7 +293,7 @@ public class UserDefault : Human
                 if ((attractionInSight) && (!a.Equals(attracionObjective))) //Para que no se repitan atracciones
                 {
                     attracionObjective = a;
-                    objective = a.queuePosition;
+                    attracionObjective.AddUser(this);
 
                 }
                 else {

@@ -10,7 +10,7 @@ public class Attraction : MonoBehaviour
 
     [Header("Queue")]
     public int maxCapacity = 1;
-    public int maxQueue = 2;
+    public float maxWait = 10;
     public Vector3 queuePosition = Vector3.zero;
     public Vector3 exitPosition = Vector3.zero;
     public Vector3 queueDirection = Vector3.zero;
@@ -19,6 +19,7 @@ public class Attraction : MonoBehaviour
     private Queue<UserDefault> userRiding;
     private Queue<UserDefault> userQueue;
     private bool riding = false;
+    private float waitTimer = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -28,12 +29,19 @@ public class Attraction : MonoBehaviour
 
         queueDirection = new Vector3(queueDirection.x, 0, queueDirection.z);
         queueDirection.Normalize();
-        queueDirection *= 1000;
+        queueDirection *= 10;
+
     }
 
     // Update is called once per frame
     void Update()
     {
+
+        // Decrease Timer
+        if (waitTimer > 0)
+            waitTimer -= Time.deltaTime;
+
+        // Try to ride
         if (userQueue.Count > 0)
         {
             foreach (UserDefault user in userQueue)
@@ -45,12 +53,31 @@ public class Attraction : MonoBehaviour
                 Debug.Log("ATRACCION: hay usuarios");
                 for (int i = 0; i < maxCapacity; i++)
                 {
-                    UserDefault nextUser = userQueue.Dequeue();
-                    userRiding.Enqueue(nextUser);
-                    nextUser.enterRide();
+                    if (Mathf.Abs((userQueue.Peek().transform.position - queuePosition).magnitude) < 0.1f)
+                    {
+                        UserDefault nextUser = userQueue.Dequeue();
+                        userRiding.Enqueue(nextUser);
+                        nextUser.enterRide();
+                        waitTimer = maxWait;
+                        int j = 0;
+                        foreach (UserDefault user in userQueue)
+                        {
+                            user.getAgent().SetDestination(queuePosition + queueDirection * j);
+                        }
+                    } else
+                    {
+                        break;
+                    }
                 }
-                Ride();
             }
+        }
+
+        if (userRiding.Count >= maxCapacity)
+        {
+            Ride();
+        } else if (userRiding.Count > 0 && waitTimer < 0)
+        {
+            Ride();
         }
         
     }
@@ -70,6 +97,9 @@ public class Attraction : MonoBehaviour
     public void AddUser(UserDefault user)
     {
         userQueue.Enqueue(user);
+        Vector3 dest = queuePosition + queueDirection * (userQueue.Count - 1);
+        user.getAgent().SetDestination(dest);
+        Debug.Log("Destination: " + dest);
     }
 
     public void Ride()
@@ -105,6 +135,8 @@ public class Attraction : MonoBehaviour
             foreach (UserDefault u in aux)
             {
                 userQueue.Enqueue(u);
+
+                //TODO desplazarse en la cola nuevamente
 
             }
             aux.Clear();
