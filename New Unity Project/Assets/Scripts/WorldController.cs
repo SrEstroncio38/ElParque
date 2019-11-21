@@ -10,6 +10,7 @@ public class WorldController : MonoBehaviour
     public Light sun;
     public GameObject userHUD;
     public GameObject userHUDVariables;
+    public SpeechObject speechObject;
     public Camera userCamera;
 
     [Header("Day Color Settings")]
@@ -349,5 +350,11 @@ public class WorldController : MonoBehaviour
         }
     }
 
+    public void ShowEmoticon(string emoticon, GameObject target, float time)
+    {
+        SpeechObject so = Instantiate(speechObject);
+        so.transform.SetParent(canvas.transform);
+        so.Init(emoticon,target,mainCamera.gameObject.GetComponent<Camera>(),time);
+    }
    
 }

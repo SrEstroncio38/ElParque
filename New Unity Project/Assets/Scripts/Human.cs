@@ -34,13 +34,13 @@ public class Human : MonoBehaviour
         world.SetHUDTarget(GetComponent<Human>());
     }
 
-    protected void ShowEmotion(string emotion, float time)
+    protected void ShowEmoticon(string emoticon, float time)
     {
-
+        world.ShowEmoticon(emoticon, gameObject, time);
     }
 
-    protected void ShowEmotion(string emotion)
+    protected void ShowEmoticon(string emoticon)
     {
-        ShowEmotion(emotion, 3);
+        ShowEmoticon(emoticon, 3);
     }
 }

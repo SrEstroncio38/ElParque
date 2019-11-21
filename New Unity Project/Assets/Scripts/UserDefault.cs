@@ -213,7 +213,7 @@ public class UserDefault : Human
                 else {
                     isWandering = false;
                     estado_pasear = STATE_Pasear.DIRIGIENDOSE_ATRACCIÓN;
-                   Debug.Log(name + "Voy a la atraccion");
+                    Debug.Log(name + "Voy a la atraccion");
                     GoToObjective();
                 }
                 break;
@@ -272,6 +272,7 @@ public class UserDefault : Human
         }
         agent.SetDestination(objective);
         isWandering = true;
+        ShowEmoticon("angry");
     }
 
     //TODO
