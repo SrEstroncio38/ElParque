@@ -19,38 +19,38 @@ public class UserDefault : Human
     public string currentState;
 
     //Umbrales
-    private float umbralVejiga = 30.0f;
-    private float umbralSaciedad = 30.0f;
-    private float umbralBienestar = 30.0f;
-    private NavMeshAgent agent;
-    private WorldController world;
+    protected float umbralVejiga = 30.0f;
+    protected float umbralSaciedad = 30.0f;
+    protected float umbralBienestar = 30.0f;
+    protected NavMeshAgent agent;
+    protected WorldController world;
 
     //Variables para pasear
-    private bool isWandering = false;
-    private float wanderCooldown = 2;
+    protected bool isWandering = false;
+    protected float wanderCooldown = 2;
 
     //Variables para encontrar cosas
-    private Attraction attracionObjective;
-    private Vector3 objective;
-    private Bath bathObjective;
-    private FoodShop foodObjective;
-    private float visionAngle = 0.5f;
-    private float visionDistance = 400.0f;
-    private float initY;
-    private Exit parkExit;
+    protected Attraction attracionObjective;
+    protected Vector3 objective;
+    protected Bath bathObjective;
+    protected FoodShop foodObjective;
+    protected float visionAngle = 0.5f;
+    protected float visionDistance = 400.0f;
+    protected float initY;
+    protected Exit parkExit;
 
     //State Machines
-    private enum STATE_Pasear { PASEANDO, DIRIGIENDOSE_ATRACCIÓN, ESPERANDO_ATRACCION, MONTARSE_ATRACCIÓN };
-    private STATE_Pasear estado_pasear = STATE_Pasear.PASEANDO;
+    protected enum STATE_Pasear { PASEANDO, DIRIGIENDOSE_ATRACCIÓN, ESPERANDO_ATRACCION, MONTARSE_ATRACCIÓN };
+    protected STATE_Pasear estado_pasear = STATE_Pasear.PASEANDO;
 
-    private enum STATE_VejigaBaja {BUSCANDO, DIRIGIENDOSE_BAÑO, ESPERANDO_BAÑO, ORINANDO_BAÑO, ORINANDO_ENCIMA};
-    private STATE_VejigaBaja estado_vejiga = STATE_VejigaBaja.BUSCANDO;
-
-    private enum STATE_Hambre {BUSCANDO, DIRIGIENDOSE_TIENDA, ESPERANDO_COMIDA, COMIENDO, VOMITANDO};
-    private STATE_Hambre estado_hambre = STATE_Hambre.BUSCANDO;
-
-    private enum STATE_Enfado { EMPEZAR, DIRIGIENDOSE_SALIDA, FUERA };
-    private STATE_Enfado estado_enfado = STATE_Enfado.EMPEZAR;
+    protected enum STATE_VejigaBaja {BUSCANDO, DIRIGIENDOSE_BAÑO, ESPERANDO_BAÑO, ORINANDO_BAÑO, ORINANDO_ENCIMA};
+    protected STATE_VejigaBaja estado_vejiga = STATE_VejigaBaja.BUSCANDO;
+    
+    protected enum STATE_Hambre {BUSCANDO, DIRIGIENDOSE_TIENDA, ESPERANDO_COMIDA, COMIENDO, VOMITANDO};
+    protected STATE_Hambre estado_hambre = STATE_Hambre.BUSCANDO;
+    
+    protected enum STATE_Enfado { EMPEZAR, DIRIGIENDOSE_SALIDA, FUERA };
+    protected STATE_Enfado estado_enfado = STATE_Enfado.EMPEZAR;
 
     // Start is called before the first frame update
     void Start()
@@ -75,7 +75,7 @@ public class UserDefault : Human
 
     }
 
-    private void CalcularBienestar()
+    protected void CalcularBienestar()
     {
         if (tolerancia > 100)
         {
@@ -101,10 +101,10 @@ public class UserDefault : Human
 
   
 
-    private void FSM_Divertirse() {
+    protected void FSM_Divertirse() {
         if ((bienestar <= umbralBienestar) && (estado_pasear != STATE_Pasear.MONTARSE_ATRACCIÓN))
         {
-            currentState = "Samfadao";
+            
            
             FSM_Enfadarse();
         }
@@ -128,31 +128,10 @@ public class UserDefault : Human
         }
     }
 
-    private void FSM_Enfadarse()
-    {
-        switch (estado_enfado)
-        {
-            case STATE_Enfado.EMPEZAR:
-                exitQueues();
-                objective = parkExit.transform.position;
-                GoToObjective();
-                estado_enfado = STATE_Enfado.DIRIGIENDOSE_SALIDA;
-                break;
-            case STATE_Enfado.DIRIGIENDOSE_SALIDA:
-                if (isInObjective())
-                {
-                    gameObject.SetActive(false);
-                    currentState = "Fuera";
-                    estado_enfado = STATE_Enfado.FUERA;
-                }
-                break;
-            case STATE_Enfado.FUERA:
+    protected virtual void FSM_Enfadarse() { }
+    
 
-                break;
-        }
-    }
-
-    private void FSM_Hambre() {
+    protected void FSM_Hambre() {
         switch (estado_hambre)
         {
             case STATE_Hambre.BUSCANDO:
@@ -189,7 +168,7 @@ public class UserDefault : Human
         }
     }
 
-    private void FSM_VejigaBaja() {
+    protected void FSM_VejigaBaja() {
         switch (estado_vejiga) {
             case STATE_VejigaBaja.BUSCANDO:
                 if (!bathInSight())
@@ -232,7 +211,7 @@ public class UserDefault : Human
        
 
     }
-    private void FSM_Pasear ()
+    protected void FSM_Pasear ()
     {
         switch(estado_pasear)
         {
@@ -266,7 +245,7 @@ public class UserDefault : Human
     }
 
 
-    private void Pasear()
+    protected void Pasear()
     {
         wanderCooldown -= Time.deltaTime;
 
@@ -292,7 +271,7 @@ public class UserDefault : Human
     }
 
     //TODO
-    private void GoToObjective()
+    protected void GoToObjective()
     {
         //Habrá que mejorarlo para el tema de las colisiones, pero es algo provisional para probar
        
@@ -306,7 +285,7 @@ public class UserDefault : Human
     }
 
     //TODO
-    private bool AttractionInSight() {
+    protected bool AttractionInSight() {
         bool attractionInSight = false;
         foreach (Attraction a in world.GetComponentsInChildren<Attraction>())
         {
@@ -330,7 +309,7 @@ public class UserDefault : Human
         return attractionInSight;
     }
 
-    private bool bathInSight() {
+    protected bool bathInSight() {
         bool bathInSight = false;
         foreach (Bath b in world.GetComponentsInChildren<Bath>())
         {
@@ -350,7 +329,7 @@ public class UserDefault : Human
         return bathInSight;
     }
 
-    private bool foodInSight()
+    protected bool foodInSight()
     {
         bool foodInSight = false;
         foreach (FoodShop f in world.GetComponentsInChildren<FoodShop>())
@@ -372,7 +351,7 @@ public class UserDefault : Human
         return foodInSight;
     }
 
-    private bool isInObjective()
+    protected bool isInObjective()
     {
         bool isInAttraction = false;
         if (transform.position.x - objective.x <= 0.2f)
@@ -435,7 +414,7 @@ public class UserDefault : Human
         gameObject.SetActive(true);
     }
 
-    private void checkPee()
+    protected void checkPee()
     {
         if (vejiga <= 0)
         {
@@ -472,7 +451,7 @@ public class UserDefault : Human
         return agent;
     }
 
-    private void exitQueues() {
+    protected void exitQueues() {
         if (attracionObjective != null)
         {
             attracionObjective.leave(this);
