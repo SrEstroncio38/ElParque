@@ -4,14 +4,10 @@ using UnityEngine;
 
 public class Worker : Human
 {
-    protected WorldController world;
-    public string name = "";
-    public bool isMale = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        world = GetComponentInParent<WorldController>();
        
     }
 
@@ -20,13 +16,5 @@ public class Worker : Human
     {
         
     }
-
-    void OnMouseDown()
-    {
-        world.mainCamera.followTarget = GetComponent<Worker>();
-        world.SetHUDTarget(GetComponent<Worker>());
-    }
-
-
 
 }

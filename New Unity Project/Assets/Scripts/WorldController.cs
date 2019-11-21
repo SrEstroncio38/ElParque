@@ -222,7 +222,7 @@ public class WorldController : MonoBehaviour
         {
             userHUDVariables.SetActive(false);
         }
-        userHUDState.text = currentTarget.estadoActual;
+        userHUDState.text = currentTarget.currentState;
 
     }
 

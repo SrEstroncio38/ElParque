@@ -6,24 +6,19 @@ using UnityEngine.AI;
 public class UserDefault : Human
 {
 
-    [Header("Identity")]
-    public bool isMale = true;
-    public string name = "";
-
     [Header("Properties")]
     public float saciedad = 100.0f;
     public float tolerancia = 100.0f;
     public float vejiga = 100.0f;
     public float bienestar = 100.0f;
     public bool isAlive = true;
-    public string currentState;
+    //public string currentState;
 
     //Umbrales
     protected float umbralVejiga = 30.0f;
     protected float umbralSaciedad = 30.0f;
     protected float umbralBienestar = 30.0f;
     protected NavMeshAgent agent;
-    protected WorldController world;
 
     //Variables para pasear
     protected bool isWandering = false;
@@ -55,11 +50,6 @@ public class UserDefault : Human
     // Start is called before the first frame update
     void Start()
     {
-        NameCreator.PersonName p = NameCreator.Generate();
-        isMale = p.isMale;
-        name = p.name;
-        gameObject.name = name;
-        world = GetComponentInParent<WorldController>();
         agent = GetComponent<NavMeshAgent>();
         initY = transform.position.y;
         parkExit = world.GetComponentInChildren<Exit>();
@@ -373,12 +363,6 @@ public class UserDefault : Human
         tolerancia -= 0.05f;
         if (tolerancia < 0)
             tolerancia = 0;
-    }
-
-    void OnMouseDown()
-    {
-        world.mainCamera.followTarget = GetComponent<UserDefault>();
-        world.SetHUDTarget(GetComponent<UserDefault>());
     }
 
     public void enterRide()
