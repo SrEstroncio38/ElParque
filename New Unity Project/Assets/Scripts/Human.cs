@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Human : MonoBehaviour
 {
+
+    public string estadoActual = "";
+
     // Start is called before the first frame update
     void Start()
     {

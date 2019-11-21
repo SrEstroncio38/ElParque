@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ public class WorldController : MonoBehaviour
     public CameraController mainCamera;
     public Light sun;
     public GameObject userHUD;
+    public GameObject userHUDVariables;
     public Camera userCamera;
 
     [Header("Day Color Settings")]
@@ -33,7 +35,7 @@ public class WorldController : MonoBehaviour
     private UnityEngine.UI.Image userHUD2;
     private UnityEngine.UI.Image userHUD3;
     private UnityEngine.UI.Image userHUD4;
-
+    private UnityEngine.UI.Text userHUDState;
    
 
     // Start is called before the first frame update
@@ -66,6 +68,13 @@ public class WorldController : MonoBehaviour
                 userHUD4 = g;
         }
 
+        foreach (UnityEngine.UI.Text t in userHUD4.GetComponentsInChildren<UnityEngine.UI.Text>())
+        {
+            if (t.name.Equals("Estado State"))
+                userHUDState = t;
+        }
+
+        userHUDVariables.SetActive(false);
         userHUD.gameObject.SetActive(false);
 
     }
@@ -200,7 +209,99 @@ public class WorldController : MonoBehaviour
             return;
 
         //Update
+        UserDefault user = null;
+        try
+        {
+            user = (UserDefault) currentTarget;
+        } catch (Exception e) { }
+        if (user != null)
+        {
+            userHUDVariables.SetActive(true);
+            UpdateHUDVariables();
+        } else
+        {
+            userHUDVariables.SetActive(false);
+        }
+        userHUDState.text = currentTarget.estadoActual;
 
+    }
+
+    private void UpdateHUDVariables()
+    {
+        UnityEngine.UI.RawImage saciedad = null;
+        float saciedadWidth = 0;
+        UnityEngine.UI.RawImage tolerancia = null;
+        float toleranciaWidth = 0;
+        UnityEngine.UI.RawImage vejiga = null;
+        float vejigaWidth = 0;
+        UnityEngine.UI.RawImage bienestar = null;
+        float bienestarWidth = 0;
+
+        foreach (UnityEngine.UI.RawImage i in userHUDVariables.GetComponentsInChildren<UnityEngine.UI.RawImage>())
+        {
+            if (i.gameObject.name.Equals("Saciedad Inactive"))
+            {
+                saciedadWidth = i.rectTransform.sizeDelta.x;
+            }
+            else if (i.gameObject.name.Equals("Tolerancia Inactive"))
+            {
+                toleranciaWidth = i.rectTransform.sizeDelta.x;
+            }
+            else if (i.gameObject.name.Equals("Vejiga Inactive"))
+            {
+                vejigaWidth = i.rectTransform.sizeDelta.x;
+            }
+            else if (i.gameObject.name.Equals("Bienestar Inactive"))
+            {
+                bienestarWidth = i.rectTransform.sizeDelta.x;
+            }
+
+            else if (i.gameObject.name.Equals("Saciedad Active"))
+            {
+                saciedad = i;
+            }
+            else if (i.gameObject.name.Equals("Tolerancia Active"))
+            {
+                tolerancia = i;
+            }
+            else if (i.gameObject.name.Equals("Vejiga Active"))
+            {
+                vejiga = i;
+            }
+            else if (i.gameObject.name.Equals("Bienestar Active"))
+            {
+                bienestar = i;
+            }
+        }
+
+        if (saciedad != null)
+        {
+            float saciedadValue = ((UserDefault)currentTarget).saciedad;
+            saciedad.rectTransform.sizeDelta = new Vector2(saciedadValue * saciedadWidth / 100, 8);
+            float currentColor = saciedadValue / 200.0f + 0.5f;
+            saciedad.color = new Color(1, currentColor, currentColor);
+        }
+        if (tolerancia != null)
+        {
+            float toleranciaValue = ((UserDefault)currentTarget).tolerancia;
+            tolerancia.rectTransform.sizeDelta = new Vector2(toleranciaValue * toleranciaWidth / 100, 8);
+            float currentColor = toleranciaValue / 200.0f + 0.5f;
+            tolerancia.color = new Color(1, currentColor, currentColor);
+        }
+        if (vejiga != null)
+        {
+            float vejigaValue = ((UserDefault)currentTarget).vejiga;
+            vejiga.rectTransform.sizeDelta = new Vector2(vejigaValue * vejigaWidth / 100, 8);
+            float currentColor = vejigaValue / 200.0f + 0.5f;
+            vejiga.color = new Color(1, currentColor, currentColor);
+        }
+        if (bienestar != null)
+        {
+            float bienestarValue = ((UserDefault)currentTarget).bienestar;
+            bienestar.rectTransform.sizeDelta = new Vector2(bienestarValue * bienestarWidth / 100, 8);
+            float currentColor = bienestarValue / 200.0f + 0.5f;
+            bienestar.color = new Color(1, currentColor, currentColor);
+        }
     }
 
     public void SetHUDTarget(Human target)
