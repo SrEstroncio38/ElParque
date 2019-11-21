@@ -13,6 +13,7 @@ public class Attraction : MonoBehaviour
     public int maxQueue = 2;
     public Vector3 queuePosition = Vector3.zero;
     public Vector3 exitPosition = Vector3.zero;
+    public Vector3 queueDirection = Vector3.zero;
 
     //Variables
     private Queue<UserDefault> userRiding;
@@ -24,6 +25,10 @@ public class Attraction : MonoBehaviour
     {
         userRiding = new Queue<UserDefault>();
         userQueue = new Queue<UserDefault>();
+
+        queueDirection = new Vector3(queueDirection.x, 0, queueDirection.z);
+        queueDirection.Normalize();
+        queueDirection *= 1000;
     }
 
     // Update is called once per frame
@@ -44,10 +49,15 @@ public class Attraction : MonoBehaviour
                     userRiding.Enqueue(nextUser);
                     nextUser.enterRide();
                 }
-                ride();
+                Ride();
             }
         }
         
+    }
+
+    public int GetQueueLength()
+    {
+        return userQueue.Count;
     }
 
     private void OnDrawGizmos()
@@ -57,15 +67,12 @@ public class Attraction : MonoBehaviour
         Gizmos.color = Color.blue;
         Gizmos.DrawSphere(exitPosition, 5);
     }
-    public void addUser(UserDefault user)
+    public void AddUser(UserDefault user)
     {
         userQueue.Enqueue(user);
-       // user.getAgent().SetDestination(queuePosition);
-        //queuePosition = user.transform.position;
-        
     }
 
-    public void ride()
+    public void Ride()
     {
         riding = true;
         StartCoroutine(TimeRiding()); //Esto se debería convertir en animacion
@@ -83,7 +90,7 @@ public class Attraction : MonoBehaviour
         userRiding.Clear();
     }
 
-    public void leave(UserDefault user) {
+    public void Leave(UserDefault user) {
         if (userQueue.Contains(user))
         {
             Queue<UserDefault> aux = new Queue<UserDefault>();

@@ -205,7 +205,10 @@ public class WorldController : MonoBehaviour
 
     public void SetHUDTarget(Human target)
     {
-
+        foreach (Human nonTarget in GetComponentsInChildren<Human>())
+        {
+            SetLayerRecursively(nonTarget.gameObject, 9);
+        }
         SetLayerRecursively(target.gameObject, 10);
         userCamera.transform.parent = target.transform;
         float distance = 75;

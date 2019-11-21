@@ -232,7 +232,7 @@ public class UserDefault : Human
                 {
                     estado_pasear = STATE_Pasear.ESPERANDO_ATRACCION;
                     Debug.Log(name + "Espero la atracción");
-                    attracionObjective.addUser(this);
+                    attracionObjective.AddUser(this);
                 }
                 break;
             case STATE_Pasear.ESPERANDO_ATRACCION:
@@ -454,7 +454,7 @@ public class UserDefault : Human
     protected void exitQueues() {
         if (attracionObjective != null)
         {
-            attracionObjective.leave(this);
+            attracionObjective.Leave(this);
         }
         if (foodObjective != null)
         {
