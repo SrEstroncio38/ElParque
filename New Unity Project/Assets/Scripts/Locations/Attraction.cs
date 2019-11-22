@@ -7,6 +7,7 @@ public class Attraction : MonoBehaviour
 
     [Header("Atrributes")]
     public float quality = 100.0f;
+    public float qualityThreshold = 20.0f;
 
     [Header("Queue")]
     public int maxCapacity = 1;
@@ -53,7 +54,7 @@ public class Attraction : MonoBehaviour
             {
                 user.LowerTolerance();
             }
-            if (!riding)
+            if (!riding && quality > qualityThreshold)
             {
                
                 for (int i = 0; i < maxCapacity; i++)
@@ -174,7 +175,7 @@ public class Attraction : MonoBehaviour
     }
 
     //Todos los que estén montando mueren
-    public void explode()
+    public void Explode()
     {
         quality = 0;
         world.ShowEmoticon("Explosion", gameObject, 3);

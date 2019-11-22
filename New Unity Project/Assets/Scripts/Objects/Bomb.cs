@@ -65,7 +65,7 @@ public class Bomb : Weapon
 
     private void explode()
     {
-        objective.explode();
+        objective.Explode();
         terrorist.explodeBomb();
         gameObject.SetActive(false);
         thereIsObject = false;
