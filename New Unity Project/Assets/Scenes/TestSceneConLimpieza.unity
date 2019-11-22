@@ -571,7 +571,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minSeconds: 1
   maxSeconds: 5
-  objective: {fileID: 1050365976}
 --- !u!1 &126064079
 GameObject:
   m_ObjectHideFlags: 0
@@ -988,6 +987,8 @@ MonoBehaviour:
   isMale: 0
   name: 
   currentState: 
+  isAlive: 1
+  skeleton: {fileID: 0}
 --- !u!1001 &201141739
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2024,12 +2025,12 @@ MonoBehaviour:
   isMale: 1
   name: 
   currentState: 
+  isAlive: 1
+  skeleton: {fileID: 4517475}
   saciedad: 20
   tolerancia: 10
   vejiga: 20
   bienestar: 100
-  isAlive: 1
-  skeleton: {fileID: 4517475}
 --- !u!136 &409939223
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -3625,6 +3626,7 @@ RectTransform:
   - {fileID: 470969886}
   - {fileID: 948661072}
   - {fileID: 626750910}
+  - {fileID: 1381241244}
   - {fileID: 1640376643}
   m_Father: {fileID: 976500110}
   m_RootOrder: 4
@@ -4258,10 +4260,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 534669906}
   sun: {fileID: 170076734}
+  userCamera: {fileID: 20052491}
   userHUD: {fileID: 1640376642}
   userHUDVariables: {fileID: 1879730352}
   speechObject: {fileID: 626750913}
-  userCamera: {fileID: 20052491}
+  speechLocation: {fileID: 1381241243}
   dayColor: {r: 0.3921569, g: 0.5019608, b: 0.6745098, a: 1}
   nightColor: {r: 0.1921569, g: 0.3019608, b: 0.4745098, a: 1}
   dawnColor: {r: 0.8679245, g: 0.76600844, b: 0.45443216, a: 1}
@@ -4840,10 +4843,10 @@ MonoBehaviour:
   quality: 100
   maxCapacity: 1
   maxWait: 10
-  localQueuePosition: {x: 0, y: 0}
-  localExitPosition: {x: 0, y: 0}
-  localQueueDirection: {x: 0, y: 0}
-  queueOffset: 15
+  localQueuePosition: {x: 100, y: -80}
+  localExitPosition: {x: -40, y: -80}
+  localQueueDirection: {x: 1, y: 0}
+  queueOffset: 25
 --- !u!114 &1050365977
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5090,9 +5093,9 @@ MonoBehaviour:
   quality: 100
   maxCapacity: 1
   maxWait: 10
-  localQueuePosition: {x: 0, y: 0}
-  localExitPosition: {x: 0, y: 0}
-  localQueueDirection: {x: 0, y: 0}
+  localQueuePosition: {x: 25, y: 20}
+  localExitPosition: {x: -75, y: 20}
+  localQueueDirection: {x: 1, y: 0}
   queueOffset: 15
 --- !u!114 &1132687095
 MonoBehaviour:
@@ -5263,11 +5266,12 @@ MonoBehaviour:
   isMale: 1
   name: 
   currentState: 
+  isAlive: 1
+  skeleton: {fileID: 0}
   saciedad: 100
   tolerancia: 100
   vejiga: 100
   bienestar: 100
-  isAlive: 1
 --- !u!136 &1145879869
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -5567,11 +5571,12 @@ MonoBehaviour:
   isMale: 1
   name: 
   currentState: 
+  isAlive: 1
+  skeleton: {fileID: 0}
   saciedad: 100
   tolerancia: 100
   vejiga: 100
   bienestar: 100
-  isAlive: 1
 --- !u!195 &1217309082
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -6028,6 +6033,41 @@ Transform:
   m_Father: {fileID: 262976328}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1381241243
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1381241244}
+  m_Layer: 5
+  m_Name: Speech Bubbles
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1381241244
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1381241243}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 834935921}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0, y: 0}
 --- !u!1001 &1425198215
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6294,11 +6334,12 @@ MonoBehaviour:
   isMale: 1
   name: 
   currentState: 
+  isAlive: 1
+  skeleton: {fileID: 0}
   saciedad: 100
   tolerancia: 100
   vejiga: 100
   bienestar: 100
-  isAlive: 1
 --- !u!136 &1425198220
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -6793,6 +6834,8 @@ MonoBehaviour:
   isMale: 0
   name: 
   currentState: 
+  isAlive: 1
+  skeleton: {fileID: 0}
 --- !u!195 &1628042348
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -6880,7 +6923,7 @@ RectTransform:
   - {fileID: 397617673}
   - {fileID: 756564441}
   m_Father: {fileID: 834935921}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -9460,6 +9503,8 @@ MonoBehaviour:
   isMale: 0
   name: 
   currentState: 
+  isAlive: 1
+  skeleton: {fileID: 0}
 --- !u!1 &1927583363
 GameObject:
   m_ObjectHideFlags: 0
@@ -9525,8 +9570,8 @@ MonoBehaviour:
     m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: 
 --- !u!222 &1927583366
