@@ -9,6 +9,7 @@ public class Terrorist : UserDefault
     private STATE_terrorismo estado_terrorismo;
     private Weapon weaponObjective;
     private Vector3 aux;
+    public Corpse skeleton;
 
     // Start is called before the first frame update
     void Start()
@@ -107,6 +108,10 @@ public class Terrorist : UserDefault
     public void explodeBomb()
     {
         ShowEmoticon("Explosion");
+        Corpse c = Instantiate(skeleton, transform.position, Quaternion.identity, world.GetComponent<Transform>());
+       
+        c.gameObject.SetActive(true);
+        gameObject.SetActive(false);
     }
 
     public Vector3 getPos()

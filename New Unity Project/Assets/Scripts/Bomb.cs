@@ -74,11 +74,12 @@ public class Bomb : Weapon
                 transform.position = terrorist.transform.position;
                 if (isInTerroristObjective())
                 {
+                    explode();
                     estado_uso = STATE_uso.EXPLOTAR;
                 }
                 break;
             case STATE_uso.EXPLOTAR:
-                explode();
+                
                 break;
         }
     }
