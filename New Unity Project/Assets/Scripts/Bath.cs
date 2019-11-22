@@ -30,7 +30,7 @@ public class Bath : MonoBehaviour
         {
             foreach (UserDefault user in userQueue)
             {
-                user.lowerTolerance();
+                user.LowerTolerance();
             }
             if (userUsing.Count < maxCapacity)
             {

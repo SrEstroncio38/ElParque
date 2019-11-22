@@ -29,7 +29,7 @@ public class Attraction : MonoBehaviour
 
         queueDirection = new Vector3(queueDirection.x, 0, queueDirection.z);
         queueDirection.Normalize();
-        queueDirection *= 10;
+        queueDirection *= 20;
 
     }
 
@@ -37,33 +37,31 @@ public class Attraction : MonoBehaviour
     void Update()
     {
 
-        // Decrease Timer
+        // Decrementar tiempo
         if (waitTimer > 0)
             waitTimer -= Time.deltaTime;
 
-        // Try to ride
+        // Actualizar cola
         if (userQueue.Count > 0)
         {
             foreach (UserDefault user in userQueue)
             {
-                user.lowerTolerance();
+                user.LowerTolerance();
             }
             if (!riding)
             {
                 Debug.Log("ATRACCION: hay usuarios");
                 for (int i = 0; i < maxCapacity; i++)
                 {
-                    if (Mathf.Abs((userQueue.Peek().transform.position - queuePosition).magnitude) < 0.1f)
+                    // Añadir a la atraccion
+                    if (Mathf.Abs((userQueue.Peek().transform.position - queuePosition).magnitude) < 1)
                     {
                         UserDefault nextUser = userQueue.Dequeue();
                         userRiding.Enqueue(nextUser);
-                        nextUser.enterRide();
+                        nextUser.EnterRide();
                         waitTimer = maxWait;
-                        int j = 0;
-                        foreach (UserDefault user in userQueue)
-                        {
-                            user.getAgent().SetDestination(queuePosition + queueDirection * j);
-                        }
+                        // Recolocar cola
+                        ReajustQueue();
                     } else
                     {
                         break;
@@ -72,6 +70,7 @@ public class Attraction : MonoBehaviour
             }
         }
 
+        // Comenzar attraccion
         if (userRiding.Count >= maxCapacity)
         {
             Ride();
@@ -82,11 +81,6 @@ public class Attraction : MonoBehaviour
         
     }
 
-    public int GetQueueLength()
-    {
-        return userQueue.Count;
-    }
-
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
@@ -94,6 +88,17 @@ public class Attraction : MonoBehaviour
         Gizmos.color = Color.blue;
         Gizmos.DrawSphere(exitPosition, 5);
     }
+
+    protected void ReajustQueue()
+    {
+        int j = 0;
+        foreach (UserDefault user in userQueue)
+        {
+            user.getAgent().SetDestination(queuePosition + queueDirection * j);
+            j++;
+        }
+    }
+
     public void AddUser(UserDefault user)
     {
         userQueue.Enqueue(user);
@@ -114,7 +119,7 @@ public class Attraction : MonoBehaviour
         yield return new WaitForSeconds(5); //Se supone que la atracción dura dos minutos de tiempo de juego, 2 segundos para nosotros
         foreach (UserDefault user in userRiding)
         {
-            user.finishRide();
+            user.FinishRide();
         }
         riding = false;
         userRiding.Clear();
@@ -135,9 +140,7 @@ public class Attraction : MonoBehaviour
             foreach (UserDefault u in aux)
             {
                 userQueue.Enqueue(u);
-
-                //TODO desplazarse en la cola nuevamente
-
+                ReajustQueue();
             }
             aux.Clear();
         }

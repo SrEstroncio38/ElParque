@@ -33,7 +33,7 @@ public class UserNormie : UserDefault
         switch (estado_enfado)
         {
             case STATE_Enfado.EMPEZAR:
-                exitQueues();
+                ExitQueues();
                 objective = parkExit.transform.position;
                 GoToObjective();
                 estado_enfado = STATE_Enfado.DIRIGIENDOSE_SALIDA;

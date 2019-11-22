@@ -41,7 +41,7 @@ public class FoodShop : MonoBehaviour
         {
             foreach (UserDefault user in customers)
             {
-                user.lowerTolerance();
+                user.LowerTolerance();
             }
             if (currentCustomers.Count < maxCapacity)
             {

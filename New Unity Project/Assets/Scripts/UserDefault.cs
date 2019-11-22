@@ -6,13 +6,16 @@ using UnityEngine.AI;
 public class UserDefault : Human
 {
 
+    /*************
+     * Variables *
+     *************/
+
     [Header("Properties")]
     public float saciedad = 100.0f;
     public float tolerancia = 100.0f;
     public float vejiga = 100.0f;
     public float bienestar = 100.0f;
     public bool isAlive = true;
-    //public string currentState;
 
     //Umbrales
     protected float umbralVejiga = 30.0f;
@@ -35,9 +38,6 @@ public class UserDefault : Human
     protected Exit parkExit;
 
     //State Machines
-    protected enum STATE_Pasear { PASEANDO, DIRIGIENDOSE_ATRACCIÓN, ESPERANDO_ATRACCION, MONTARSE_ATRACCIÓN };
-    protected STATE_Pasear estado_pasear = STATE_Pasear.PASEANDO;
-
     protected enum STATE_VejigaBaja {BUSCANDO, DIRIGIENDOSE_BAÑO, ESPERANDO_BAÑO, ORINANDO_BAÑO, ORINANDO_ENCIMA};
     protected STATE_VejigaBaja estado_vejiga = STATE_VejigaBaja.BUSCANDO;
     
@@ -47,15 +47,18 @@ public class UserDefault : Human
     protected enum STATE_Enfado { EMPEZAR, DIRIGIENDOSE_SALIDA, FUERA };
     protected STATE_Enfado estado_enfado = STATE_Enfado.EMPEZAR;
 
-    // Start is called before the first frame update
+    /*************
+     * Game Loop *
+     *************/
+    
     void Start()
     {
+        currentState = "[FSM_Pasear] Esperando en atracción";
         agent = GetComponent<NavMeshAgent>();
         initY = transform.position.y;
         parkExit = world.GetComponentInChildren<Exit>();
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
 
@@ -89,8 +92,10 @@ public class UserDefault : Human
 
     }
 
-  
-
+    /**********************
+     * Maquinas de Estado *
+     **********************/
+    
     protected void FSM_Divertirse() {
         if ((bienestar <= umbralBienestar) && (estado_pasear != STATE_Pasear.MONTARSE_ATRACCIÓN))
         {
@@ -100,26 +105,22 @@ public class UserDefault : Human
         }
          else if ((vejiga <= umbralVejiga) && (estado_pasear != STATE_Pasear.MONTARSE_ATRACCIÓN))
         {
-            currentState = "FSM Baño";
-            exitQueues();
+            ExitQueues();
             FSM_VejigaBaja();
         }
         else if ((saciedad <= umbralSaciedad) && (estado_pasear != STATE_Pasear.MONTARSE_ATRACCIÓN))
         {
-            currentState = "FSM Comida";
-            exitQueues();
+            ExitQueues();
             FSM_Hambre();
         }
         else
         {
-            currentState = "FSM Pasear";
             estado_hambre = STATE_Hambre.BUSCANDO;
             FSM_Pasear();
         }
     }
 
     protected virtual void FSM_Enfadarse() { }
-    
 
     protected void FSM_Hambre() {
         switch (estado_hambre)
@@ -198,47 +199,46 @@ public class UserDefault : Human
                 estado_vejiga = STATE_VejigaBaja.BUSCANDO;
                 break;
         }
-       
+
 
     }
 
+    // Pasear
 
+    protected enum STATE_Pasear { PASEANDO, ESPERANDO_ATRACCION, MONTARSE_ATRACCIÓN };
+    protected STATE_Pasear estado_pasear = STATE_Pasear.PASEANDO;
 
     protected void FSM_Pasear ()
     {
         switch(estado_pasear)
         {
             case STATE_Pasear.PASEANDO:
-                if (!AttractionInSight())
+                attracionObjective = AttractionInSight();
+                if (attracionObjective == null)
                 {
                     Pasear();
                 }
-                else {
-                    isWandering = false;
-                    Debug.Log(name + "Voy a la atraccion");
-                    // TODO Arreglar la maquina de estado
-                    //estado_pasear = STATE_Pasear.DIRIGIENDOSE_ATRACCIÓN;
-                    //GoToObjective();
-                }
-                break;
-                /*
-            case STATE_Pasear.DIRIGIENDOSE_ATRACCIÓN:
-                if (isInObjective())
+                else
                 {
+                    isWandering = false;
+                    attracionObjective.AddUser(this);
+                    Debug.Log(name + ": Me he colocado en la cola");
                     estado_pasear = STATE_Pasear.ESPERANDO_ATRACCION;
-                    Debug.Log(name + "Espero la atracción");
+                    currentState = "[FSM_Pasear] Esperando en atracción";
                 }
                 break;
             case STATE_Pasear.ESPERANDO_ATRACCION:
-                
+                // No es necesario que haga nada
                 break;
             case STATE_Pasear.MONTARSE_ATRACCIÓN:
-                
+                // No es necesario que haga nada
                 break;
-                */
         }
     }
 
+    /**********
+     * Pasear *
+     **********/
 
     protected void Pasear()
     {
@@ -278,31 +278,6 @@ public class UserDefault : Human
         agent.SetDestination(objective);
         isWandering = true;
         ShowEmoticon("angry");
-    }
-
-    //TODO
-    protected bool AttractionInSight() {
-        bool attractionInSight = false;
-        foreach (Attraction a in world.GetComponentsInChildren<Attraction>())
-        {
-            Vector3 direccion = (a.transform.position - transform.position);
-            if (direccion.magnitude <= visionDistance)
-            {
-                direccion = direccion.normalized;
-                attractionInSight = Mathf.Abs(1.0f - Vector3.Dot(direccion, transform.forward)) < visionAngle;
-                if ((attractionInSight) && (!a.Equals(attracionObjective))) //Para que no se repitan atracciones
-                {
-                    attracionObjective = a;
-                    attracionObjective.AddUser(this);
-
-                }
-                else {
-                    attractionInSight = false;
-                }
-                break;
-            }
-        }
-        return attractionInSight;
     }
 
     protected bool bathInSight() {
@@ -364,29 +339,58 @@ public class UserDefault : Human
         return isInAttraction;
     }
 
-    public void lowerTolerance()
+    public void LowerTolerance()
     {
         tolerancia -= 0.05f;
         if (tolerancia < 0)
             tolerancia = 0;
     }
 
-    public void enterRide()
+    /****************
+     * Attracciones *
+     ****************/
+
+    protected Attraction AttractionInSight()
+    {
+        foreach (Attraction a in world.GetComponentsInChildren<Attraction>())
+        {
+            Vector3 direccion = (a.transform.position - transform.position);
+            if (direccion.magnitude <= visionDistance)
+            {
+                direccion = direccion.normalized;
+                bool attractionInSight = Mathf.Abs(1.0f - Vector3.Dot(direccion, transform.forward)) < visionAngle;
+                if (attractionInSight)
+                {
+                    return a;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public void EnterRide()
     {
         Debug.Log(name + "Entro en atraccion");
         estado_pasear = STATE_Pasear.MONTARSE_ATRACCIÓN;
+        currentState = "[FSM_Pasear] Montado en atracción";
         gameObject.SetActive(false);
     }
 
-    public void finishRide()
+    public void FinishRide()
     {
         tolerancia += 60;
-       Debug.Log(name + "Terminó");
+        Debug.Log(name + "Terminó");
         transform.position = attracionObjective.exitPosition;
         transform.position.Set(transform.position.x, initY, transform.position.z);
         gameObject.SetActive(true);
         estado_pasear = STATE_Pasear.PASEANDO;
+        currentState = "[FSM_Pasear] Paseando";
     }
+
+    /**********
+     * Lavabo *
+     **********/
 
     public void enterToilet() {
         Debug.Log(name + "Entro al baño");
@@ -418,6 +422,10 @@ public class UserDefault : Human
         }
     }
 
+    /**********
+     * Comida *
+     **********/
+
     public void giveFood(Food food)
     {
         estado_hambre = STATE_Hambre.COMIENDO;
@@ -436,12 +444,16 @@ public class UserDefault : Human
         }
     }
 
+    /*********
+     * Otros *
+     *********/
+
     public NavMeshAgent getAgent()
     {
         return agent;
     }
 
-    protected void exitQueues() {
+    protected void ExitQueues() {
         if (attracionObjective != null)
         {
             attracionObjective.Leave(this);
