@@ -11,11 +11,13 @@ public class Attraction : MonoBehaviour
     [Header("Queue")]
     public int maxCapacity = 1;
     public float maxWait = 10;
-    public Vector3 queuePosition = Vector3.zero;
-    public Vector3 exitPosition = Vector3.zero;
+    public Vector2 localQueuePosition = Vector2.zero;
+    public Vector2 localExitPosition = Vector2.zero;
     public Vector3 queueDirection = Vector3.zero;
 
     //Variables
+    private Vector3 queuePosition = Vector3.zero;
+    private Vector3 exitPosition = Vector3.zero;
     private Queue<UserDefault> userRiding;
     private Queue<UserDefault> userQueue;
     private bool riding = false;
@@ -27,6 +29,8 @@ public class Attraction : MonoBehaviour
         userRiding = new Queue<UserDefault>();
         userQueue = new Queue<UserDefault>();
 
+        QueueToWorld();
+
         queueDirection = new Vector3(queueDirection.x, 0, queueDirection.z);
         queueDirection.Normalize();
         queueDirection *= 20;
@@ -36,6 +40,8 @@ public class Attraction : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        QueueToWorld();
 
         // Decrementar tiempo
         if (waitTimer > 0)
@@ -81,8 +87,22 @@ public class Attraction : MonoBehaviour
         
     }
 
+    private void QueueToWorld()
+    {
+
+        queuePosition = transform.TransformPoint(new Vector3(localQueuePosition.x, 0, localQueuePosition.y));
+        exitPosition = transform.TransformPoint(new Vector3(localExitPosition.x, 0, localExitPosition.y));
+
+        queuePosition = new Vector3(queuePosition.x, 0, queuePosition.z);
+        exitPosition = new Vector3(exitPosition.x, 0, exitPosition.z);
+
+    }
+
     private void OnDrawGizmos()
     {
+
+        QueueToWorld();
+
         Gizmos.color = Color.red;
         Gizmos.DrawSphere(queuePosition, 5);
         Gizmos.color = Color.blue;
@@ -119,10 +139,10 @@ public class Attraction : MonoBehaviour
         yield return new WaitForSeconds(5); //Se supone que la atracción dura dos minutos de tiempo de juego, 2 segundos para nosotros
         foreach (UserDefault user in userRiding)
         {
-            user.FinishRide();
+            user.FinishRide(exitPosition);
         }
-        riding = false;
         userRiding.Clear();
+        riding = false;
     }
 
     public void Leave(UserDefault user) {

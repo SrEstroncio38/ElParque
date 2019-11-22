@@ -1477,14 +1477,6 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
-    - target: {fileID: 100000, guid: 3e8969855a1b09a4c9d98011f8fb67ad, type: 3}
-      propertyPath: m_Layer
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 100002, guid: 3e8969855a1b09a4c9d98011f8fb67ad, type: 3}
-      propertyPath: m_Layer
-      value: 9
-      objectReference: {fileID: 0}
     - target: {fileID: 100004, guid: 3e8969855a1b09a4c9d98011f8fb67ad, type: 3}
       propertyPath: m_Layer
       value: 9
@@ -1510,6 +1502,14 @@ PrefabInstance:
       value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 100016, guid: 3e8969855a1b09a4c9d98011f8fb67ad, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 3e8969855a1b09a4c9d98011f8fb67ad, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 3e8969855a1b09a4c9d98011f8fb67ad, type: 3}
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
@@ -1632,9 +1632,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   quality: 100
   maxCapacity: 1
-  maxQueue: 1
-  queuePosition: {x: -150, y: 0, z: 200}
-  exitPosition: {x: -600, y: 0, z: 200}
+  maxWait: 10
+  localQueuePosition: {x: 0, y: 0}
+  localExitPosition: {x: 0, y: 0}
   queueDirection: {x: 0, y: 0, z: 0}
 --- !u!1 &388112176
 GameObject:
@@ -3063,7 +3063,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 80, y: 80}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &626750911
 MonoBehaviour:
@@ -4715,9 +4715,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   quality: 100
   maxCapacity: 1
-  maxQueue: 2
-  queuePosition: {x: -200, y: 0, z: 200}
-  exitPosition: {x: -350, y: 0, z: 200}
+  maxWait: 10
+  localQueuePosition: {x: 100, y: -70}
+  localExitPosition: {x: -50, y: -70}
   queueDirection: {x: 0, y: 0, z: 0}
 --- !u!114 &1050365977
 MonoBehaviour:
@@ -4964,9 +4964,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   quality: 100
   maxCapacity: 1
-  maxQueue: 2
-  queuePosition: {x: -450, y: 0, z: -300}
-  exitPosition: {x: -630, y: 0, z: -300}
+  maxWait: 10
+  localQueuePosition: {x: 20, y: 20}
+  localExitPosition: {x: -80, y: 20}
   queueDirection: {x: 1, y: 0, z: 0}
 --- !u!114 &1132687095
 MonoBehaviour:
@@ -5111,7 +5111,7 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 0.01
   m_Speed: 50
-  m_Acceleration: 8
+  m_Acceleration: 58
   avoidancePriority: 50
   m_AngularSpeed: 500
   m_StoppingDistance: 0
@@ -5457,7 +5457,7 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 0.01
   m_Speed: 50
-  m_Acceleration: 8
+  m_Acceleration: 58
   avoidancePriority: 50
   m_AngularSpeed: 500
   m_StoppingDistance: 0
@@ -6142,7 +6142,7 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 0.01
   m_Speed: 50
-  m_Acceleration: 8
+  m_Acceleration: 58
   avoidancePriority: 50
   m_AngularSpeed: 500
   m_StoppingDistance: 0
@@ -6390,9 +6390,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   quality: 100
   maxCapacity: 1
-  maxQueue: 1
-  queuePosition: {x: -333, y: 0, z: -250}
-  exitPosition: {x: -666, y: 0, z: -333}
+  maxWait: 10
+  localQueuePosition: {x: 0, y: 0}
+  localExitPosition: {x: 0, y: 0}
   queueDirection: {x: 0, y: 0, z: 0}
 --- !u!65 &1544402852
 BoxCollider:
@@ -6934,7 +6934,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 50, y: 50}
+  m_SizeDelta: {x: 40, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1683005427
 MonoBehaviour:

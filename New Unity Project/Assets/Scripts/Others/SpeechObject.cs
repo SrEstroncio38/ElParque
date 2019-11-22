@@ -39,6 +39,11 @@ public class SpeechObject : MonoBehaviour
         this.target = target;
         this.aliveTimer = time;
 
+        UnityEngine.UI.RawImage image = GetComponentInChildren<UnityEngine.UI.RawImage>();
+        image.texture = (Texture2D)UnityEditor.AssetDatabase.LoadAssetAtPath("Assets/Emoticons/" + emoticon + ".png", typeof(Texture2D));
+
+        gameObject.name = "Speech Object [" + target.name + "]";
+
         UpdatePos();
         gameObject.SetActive(true);
     }

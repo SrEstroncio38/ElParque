@@ -37,6 +37,8 @@ public class UserDefault : Human
     protected float initY;
     protected Exit parkExit;
 
+    protected Attraction lastAttractionVisited;
+
     //State Machines
     protected enum STATE_VejigaBaja {BUSCANDO, DIRIGIENDOSE_BAÑO, ESPERANDO_BAÑO, ORINANDO_BAÑO, ORINANDO_ENCIMA};
     protected STATE_VejigaBaja estado_vejiga = STATE_VejigaBaja.BUSCANDO;
@@ -222,9 +224,11 @@ public class UserDefault : Human
                 {
                     isWandering = false;
                     attracionObjective.AddUser(this);
+                    lastAttractionVisited = attracionObjective;
                     Debug.Log(name + ": Me he colocado en la cola");
                     estado_pasear = STATE_Pasear.ESPERANDO_ATRACCION;
                     currentState = "[FSM_Pasear] Esperando en atracción";
+                    ShowEmoticon("Fun");
                 }
                 break;
             case STATE_Pasear.ESPERANDO_ATRACCION:
@@ -359,7 +363,7 @@ public class UserDefault : Human
             {
                 direccion = direccion.normalized;
                 bool attractionInSight = Mathf.Abs(1.0f - Vector3.Dot(direccion, transform.forward)) < visionAngle;
-                if (attractionInSight)
+                if (attractionInSight && a != lastAttractionVisited)
                 {
                     return a;
                 }
@@ -377,15 +381,16 @@ public class UserDefault : Human
         gameObject.SetActive(false);
     }
 
-    public void FinishRide()
+    public void FinishRide(Vector3 exitPosition)
     {
         tolerancia += 60;
         Debug.Log(name + "Terminó");
-        transform.position = attracionObjective.exitPosition;
+        transform.position = exitPosition;
         transform.position.Set(transform.position.x, initY, transform.position.z);
         gameObject.SetActive(true);
         estado_pasear = STATE_Pasear.PASEANDO;
         currentState = "[FSM_Pasear] Paseando";
+        ShowEmoticon("Fun");
     }
 
     /**********
