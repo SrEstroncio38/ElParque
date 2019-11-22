@@ -38,13 +38,14 @@ public class SpeechObject : MonoBehaviour
         this.camara = camera;
         this.target = target;
         this.aliveTimer = time;
-        string path = "Assets/Emoticons/BebePoop.png";
-        Texture t = Resources.Load<Texture>(path);
-        if (Resources.Load<Texture>(path) == null)
-        {
-            Debug.Log("null");
-        }
-        transform.GetComponentInChildren<UnityEngine.UI.RawImage>().texture = Resources.Load<Texture>(path);
+
+
+        UnityEngine.UI.RawImage image = GetComponentInChildren<UnityEngine.UI.RawImage>();
+        image.texture = (Texture2D)UnityEditor.AssetDatabase.LoadAssetAtPath("Assets/Emoticons/" + emoticon + ".png", typeof(Texture2D));
+
+        gameObject.name = "Speech Object [" + target.name + "]";
+
+
         UpdatePos();
         gameObject.SetActive(true);
     }
