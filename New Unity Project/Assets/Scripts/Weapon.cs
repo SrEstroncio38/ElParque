@@ -13,7 +13,7 @@ public class Weapon : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        terrorist = null;
     }
 
     // Update is called once per frame
@@ -39,12 +39,36 @@ public class Weapon : MonoBehaviour
             newPos = col.ClosestPointOnBounds(newPos);
         }
         transform.position = newPos;
+        gameObject.SetActive(true);
         generating = false;
         thereIsObject = true;
     }
 
-    public virtual void use(Terrorist t) {
-        terrorist = t;
+    protected void makeInvisible()
+    {
+        gameObject.SetActive(false);
+    }
+
+    public virtual bool use(Terrorist t) {
+        if (terrorist != null)
+        {
+            return false;
+        }
+        else
+        {
+            terrorist = t;
+            return true;
+        }
+    }
+
+    protected virtual void setTerroristObjective()
+    {
+
+    }
+
+    protected virtual bool isInTerroristObjective()
+    {
+        return false;
     }
 
     protected virtual void FSM_uso() { }

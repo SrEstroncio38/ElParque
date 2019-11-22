@@ -451,6 +451,27 @@ MonoBehaviour:
   minSeconds: 1
   maxSeconds: 5
   smellStrength: 1000
+--- !u!1 &118796355 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100000, guid: 4f3f5e61c98987b4b865d51ce2a78ace,
+    type: 3}
+  m_PrefabInstance: {fileID: 549101600}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &118796358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 118796355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfef22d58abd2ac4e8dbd7dfacd34840, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minSeconds: 1
+  maxSeconds: 5
+  objective: {fileID: 1050365976}
 --- !u!1 &126064079
 GameObject:
   m_ObjectHideFlags: 0
@@ -1028,7 +1049,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400072, guid: 8bd947650bd5170488be684888cf813c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -468.99088
+      value: -40
       objectReference: {fileID: 0}
     - target: {fileID: 400072, guid: 8bd947650bd5170488be684888cf813c, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1036,7 +1057,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400072, guid: 8bd947650bd5170488be684888cf813c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -213.8765
+      value: 34
       objectReference: {fileID: 0}
     - target: {fileID: 400072, guid: 8bd947650bd5170488be684888cf813c, type: 3}
       propertyPath: m_LocalRotation.x
@@ -1515,7 +1536,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400018, guid: 3e8969855a1b09a4c9d98011f8fb67ad, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -69.834
+      value: -268.83398
       objectReference: {fileID: 0}
     - target: {fileID: 400018, guid: 3e8969855a1b09a4c9d98011f8fb67ad, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1523,23 +1544,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400018, guid: 3e8969855a1b09a4c9d98011f8fb67ad, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 66.255
+      value: -375.2561
       objectReference: {fileID: 0}
     - target: {fileID: 400018, guid: 3e8969855a1b09a4c9d98011f8fb67ad, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 400018, guid: 3e8969855a1b09a4c9d98011f8fb67ad, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0.61687344
       objectReference: {fileID: 0}
     - target: {fileID: 400018, guid: 3e8969855a1b09a4c9d98011f8fb67ad, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 400018, guid: 3e8969855a1b09a4c9d98011f8fb67ad, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7870624
       objectReference: {fileID: 0}
     - target: {fileID: 400018, guid: 3e8969855a1b09a4c9d98011f8fb67ad, type: 3}
       propertyPath: m_RootOrder
@@ -1551,7 +1572,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400018, guid: 3e8969855a1b09a4c9d98011f8fb67ad, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: -76.176
       objectReference: {fileID: 0}
     - target: {fileID: 400018, guid: 3e8969855a1b09a4c9d98011f8fb67ad, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -1635,7 +1656,8 @@ MonoBehaviour:
   maxWait: 10
   localQueuePosition: {x: 0, y: 0}
   localExitPosition: {x: 0, y: 0}
-  queueDirection: {x: 0, y: 0, z: 0}
+  localQueueDirection: {x: 0, y: 0}
+  queueOffset: 15
 --- !u!1 &388112176
 GameObject:
   m_ObjectHideFlags: 0
@@ -1901,9 +1923,9 @@ MonoBehaviour:
   isMale: 1
   name: 
   currentState: 
-  saciedad: 30
+  saciedad: 20
   tolerancia: 10
-  vejiga: 30
+  vejiga: 20
   bienestar: 100
   isAlive: 1
 --- !u!136 &409939223
@@ -2758,7 +2780,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400072, guid: 8bd947650bd5170488be684888cf813c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -411.55118
+      value: -17
       objectReference: {fileID: 0}
     - target: {fileID: 400072, guid: 8bd947650bd5170488be684888cf813c, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2766,7 +2788,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400072, guid: 8bd947650bd5170488be684888cf813c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -175.9147
+      value: 72
       objectReference: {fileID: 0}
     - target: {fileID: 400072, guid: 8bd947650bd5170488be684888cf813c, type: 3}
       propertyPath: m_LocalRotation.x
@@ -4716,9 +4738,10 @@ MonoBehaviour:
   quality: 100
   maxCapacity: 1
   maxWait: 10
-  localQueuePosition: {x: 100, y: -70}
-  localExitPosition: {x: -50, y: -70}
-  queueDirection: {x: 0, y: 0, z: 0}
+  localQueuePosition: {x: 0, y: 0}
+  localExitPosition: {x: 0, y: 0}
+  localQueueDirection: {x: 0, y: 0}
+  queueOffset: 15
 --- !u!114 &1050365977
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4965,9 +4988,10 @@ MonoBehaviour:
   quality: 100
   maxCapacity: 1
   maxWait: 10
-  localQueuePosition: {x: 20, y: 20}
-  localExitPosition: {x: -80, y: 20}
-  queueDirection: {x: 1, y: 0, z: 0}
+  localQueuePosition: {x: 0, y: 0}
+  localExitPosition: {x: 0, y: 0}
+  localQueueDirection: {x: 0, y: 0}
+  queueOffset: 15
 --- !u!114 &1132687095
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6063,7 +6087,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400072, guid: 8bd947650bd5170488be684888cf813c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -370
+      value: -34
       objectReference: {fileID: 0}
     - target: {fileID: 400072, guid: 8bd947650bd5170488be684888cf813c, type: 3}
       propertyPath: m_LocalPosition.y
@@ -6071,7 +6095,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400072, guid: 8bd947650bd5170488be684888cf813c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -310
+      value: -12
       objectReference: {fileID: 0}
     - target: {fileID: 400072, guid: 8bd947650bd5170488be684888cf813c, type: 3}
       propertyPath: m_LocalRotation.x
@@ -6393,7 +6417,8 @@ MonoBehaviour:
   maxWait: 10
   localQueuePosition: {x: 0, y: 0}
   localExitPosition: {x: 0, y: 0}
-  queueDirection: {x: 0, y: 0, z: 0}
+  localQueueDirection: {x: 0, y: 0}
+  queueOffset: 15
 --- !u!65 &1544402852
 BoxCollider:
   m_ObjectHideFlags: 0

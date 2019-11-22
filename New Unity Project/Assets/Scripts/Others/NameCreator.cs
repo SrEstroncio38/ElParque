@@ -41,13 +41,13 @@ public class NameCreator
         "Rogers", "West", "North", "Claus", "Christmas",
         "Summer", "Bayern", "Avogadro", "Heisenberg", "Viyuela",
         "Romero", "Dudeman", "Marley", "Fridge", "Arnold",
-        "Poppers", "Wolf", "Carbon", "Shower", "Kim"
+        "Poppers", "Wolf", "Carbon", "Shower", "Kim", "Bellido-Durán"
     };
 
     private static string[] maleUniqueName =
     {
         "Joe Mama", "Ronald McDonald", "NoobMaster69", "Lil Timmy", "Mark Zuckerberg",
-        "Carlos Ruiz", "Herctor Fernandez", "David Fontela", "Dan Casas", "Carlos Garre"
+        "Carlos Ruiz", "Hector Fernandez", "David Fontela", "Dan Casas", "Carlos Garre"
     };
 
     private static string[] femaleUniqueName =

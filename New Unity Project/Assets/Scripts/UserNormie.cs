@@ -33,6 +33,7 @@ public class UserNormie : UserDefault
         switch (estado_enfado)
         {
             case STATE_Enfado.EMPEZAR:
+                ShowEmoticon("angry");
                 ExitQueues();
                 objective = parkExit.transform.position;
                 GoToObjective();
