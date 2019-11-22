@@ -4423,7 +4423,8 @@ MonoBehaviour:
   timeStepMultiplier: 3
   dayTheme: {fileID: 8300000, guid: f267d2884a2aa2a4c947c668d7f6f7e2, type: 3}
   nightTheme: {fileID: 8300000, guid: cb6ac585f33a1904aa095d0acf1aa254, type: 3}
-  audioVolume: 0.2
+  dayVolume: 0.2
+  nightVolume: 0.4
 --- !u!4 &976500110
 Transform:
   m_ObjectHideFlags: 0
@@ -4455,9 +4456,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: f267d2884a2aa2a4c947c668d7f6f7e2, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.2
+  m_Volume: 1
   m_Pitch: 1
   Loop: 1
   Mute: 0
