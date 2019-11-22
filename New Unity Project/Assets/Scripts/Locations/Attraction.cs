@@ -73,16 +73,17 @@ public class Attraction : MonoBehaviour
                         break;
                     }
                 }
-            }
-        }
 
-        // Comenzar attraccion
-        if (userRiding.Count >= maxCapacity)
-        {
-            Ride();
-        } else if (userRiding.Count > 0 && waitTimer < 0)
-        {
-            Ride();
+                // Comenzar attraccion
+                if (userRiding.Count >= maxCapacity)
+                {
+                    Ride();
+                }
+                else if (userRiding.Count > 0 && waitTimer < 0)
+                {
+                    Ride();
+                }
+            }
         }
         
     }
@@ -147,7 +148,6 @@ public class Attraction : MonoBehaviour
     {
         riding = true;
         StartCoroutine(TimeRiding()); //Esto se debería convertir en animacion
-        quality -= Random.Range(1, 10);
     }
 
     IEnumerator TimeRiding()
@@ -158,6 +158,7 @@ public class Attraction : MonoBehaviour
             user.FinishRide(exitPosition);
         }
         userRiding.Clear();
+        quality -= Random.Range(1.0f, 10.0f);
         riding = false;
     }
 
