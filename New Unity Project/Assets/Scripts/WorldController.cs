@@ -32,8 +32,13 @@ public class WorldController : MonoBehaviour
     public float duskLength = 50;
     public float timeStepMultiplier = 3;
 
-    // Canvas
+    [Header("Music Settings")]
+    public AudioClip dayTheme;
+    public AudioClip nightTheme;
+    public float dayVolume = 0.2f;
+    public float nightVolume = 0.2f;
 
+    // Canvas
     private Canvas canvas;
 
     private UnityEngine.UI.Image mouseHUD;
@@ -110,6 +115,7 @@ public class WorldController : MonoBehaviour
         UpdateDayTime();
         UpdateHUD();
         UpdateMouseHUD();
+        UpdateMusic();
 
     }
 
@@ -400,6 +406,29 @@ public class WorldController : MonoBehaviour
         SpeechObject so = Instantiate(speechObject);
         so.transform.SetParent(speechLocation.transform);
         so.Init(emoticon,target,mainCamera.gameObject.GetComponent<Camera>(),time);
+    }
+
+    private void UpdateMusic()
+    {
+
+        AudioSource audioSource = gameObject.GetComponent<AudioSource>();
+
+        AudioClip currentSong = dayTheme;
+        float currentVolume = dayVolume;
+        if (worldCurrentTime < dawnTime || worldCurrentTime > duskTime)
+        {
+            currentSong = nightTheme;
+            currentVolume = nightVolume;
+        }
+
+        if (audioSource.clip != currentSong)
+        {
+            audioSource.clip = currentSong;
+            audioSource.Play();
+        }
+
+        audioSource.volume = currentVolume;
+
     }
    
 }

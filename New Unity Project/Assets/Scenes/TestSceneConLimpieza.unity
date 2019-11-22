@@ -4421,6 +4421,9 @@ MonoBehaviour:
   dayLength: 2400
   duskLength: 50
   timeStepMultiplier: 3
+  dayTheme: {fileID: 8300000, guid: f267d2884a2aa2a4c947c668d7f6f7e2, type: 3}
+  nightTheme: {fileID: 8300000, guid: cb6ac585f33a1904aa095d0acf1aa254, type: 3}
+  audioVolume: 0.2
 --- !u!4 &976500110
 Transform:
   m_ObjectHideFlags: 0
