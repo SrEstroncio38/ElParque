@@ -13,11 +13,13 @@ public class Attraction : MonoBehaviour
     public float maxWait = 10;
     public Vector2 localQueuePosition = Vector2.zero;
     public Vector2 localExitPosition = Vector2.zero;
-    public Vector3 queueDirection = Vector3.zero;
+    public Vector2 localQueueDirection = Vector2.zero;
+    public float queueOffset = 15;
 
     //Variables
     private Vector3 queuePosition = Vector3.zero;
     private Vector3 exitPosition = Vector3.zero;
+    private Vector3 queueDirection = Vector3.zero;
     private Queue<UserDefault> userRiding;
     private Queue<UserDefault> userQueue;
     private bool riding = false;
@@ -30,10 +32,6 @@ public class Attraction : MonoBehaviour
         userQueue = new Queue<UserDefault>();
 
         QueueToWorld();
-
-        queueDirection = new Vector3(queueDirection.x, 0, queueDirection.z);
-        queueDirection.Normalize();
-        queueDirection *= 20;
 
     }
 
@@ -96,6 +94,10 @@ public class Attraction : MonoBehaviour
         queuePosition = new Vector3(queuePosition.x, 0, queuePosition.z);
         exitPosition = new Vector3(exitPosition.x, 0, exitPosition.z);
 
+        localQueueDirection.Normalize();
+        queueDirection = transform.TransformVector(new Vector3(localQueueDirection.x, 0, localQueueDirection.y));
+        queueDirection *= queueOffset;
+
     }
 
     private void OnDrawGizmos()
@@ -105,6 +107,10 @@ public class Attraction : MonoBehaviour
 
         Gizmos.color = Color.red;
         Gizmos.DrawSphere(queuePosition, 5);
+        Gizmos.color = new Color(1, 0, 0, 0.25f);
+        Gizmos.DrawSphere(queuePosition + queueDirection, 5);
+        Gizmos.color = new Color(2, 0, 0, 0.1f);
+        Gizmos.DrawSphere(queuePosition + 2 * queueDirection, 5);
         Gizmos.color = Color.blue;
         Gizmos.DrawSphere(exitPosition, 5);
     }
