@@ -34,7 +34,7 @@ public class Bath : MonoBehaviour
             }
             if (userUsing.Count < maxCapacity)
             {
-                Debug.Log("BAÑO: Hay " + userUsing.Count);
+                
                 UserDefault user = userQueue.Dequeue();
                 userUsing.Add(user);
                 user.enterToilet();

@@ -142,7 +142,7 @@ public class UserDefault : Human
             case STATE_Hambre.DIRIGIENDOSE_TIENDA:
                 if (isInObjective())
                 {
-                    Debug.Log(name+" Estoy en la tienda");
+                  
                     foodObjective.addCustomer(this);
                     estado_hambre = STATE_Hambre.ESPERANDO_COMIDA;
                 }
@@ -167,7 +167,7 @@ public class UserDefault : Human
                     checkPee();
                     Pasear();
                 }else {
-                    Debug.Log(name + "Baño encontrado");
+                  
                     estado_vejiga = STATE_VejigaBaja.DIRIGIENDOSE_BAÑO;
                     GoToObjective();
                 }
@@ -176,7 +176,7 @@ public class UserDefault : Human
                 checkPee();
                 if (isInObjective())
                 {
-                    Debug.Log(name + "He llegado al baño");
+                    
                     bathObjective.addUser(this);
                     estado_vejiga = STATE_VejigaBaja.ESPERANDO_BAÑO;
 
@@ -222,7 +222,7 @@ public class UserDefault : Human
                 {
                     isWandering = false;
                     attracionObjective.AddUser(this);
-                    Debug.Log(name + ": Me he colocado en la cola");
+                
                     estado_pasear = STATE_Pasear.ESPERANDO_ATRACCION;
                     currentState = "[FSM_Pasear] Esperando en atracción";
                 }
@@ -277,7 +277,7 @@ public class UserDefault : Human
         }
         agent.SetDestination(objective);
         isWandering = true;
-        ShowEmoticon("angry");
+       // ShowEmoticon("angry");
     }
 
     protected bool bathInSight() {
@@ -312,7 +312,7 @@ public class UserDefault : Human
                 foodInSight = Mathf.Abs(1.0f - Vector3.Dot(direccion, transform.forward)) < visionAngle;
                 if (foodInSight)
                 {
-                    Debug.Log(name + "Encuentro comida");
+                    
                     foodObjective = f;
                     objective = f.queuePos;
                 }
@@ -371,7 +371,7 @@ public class UserDefault : Human
 
     public void EnterRide()
     {
-        Debug.Log(name + "Entro en atraccion");
+        
         estado_pasear = STATE_Pasear.MONTARSE_ATRACCIÓN;
         currentState = "[FSM_Pasear] Montado en atracción";
         gameObject.SetActive(false);
@@ -380,7 +380,7 @@ public class UserDefault : Human
     public void FinishRide()
     {
         tolerancia += 60;
-        Debug.Log(name + "Terminó");
+        
         transform.position = attracionObjective.exitPosition;
         transform.position.Set(transform.position.x, initY, transform.position.z);
         gameObject.SetActive(true);
@@ -393,7 +393,7 @@ public class UserDefault : Human
      **********/
 
     public void enterToilet() {
-        Debug.Log(name + "Entro al baño");
+      
         estado_vejiga = STATE_VejigaBaja.ORINANDO_BAÑO;
         estado_pasear = STATE_Pasear.PASEANDO;
         gameObject.SetActive(false);
@@ -403,7 +403,7 @@ public class UserDefault : Human
     {
         tolerancia = tolerancia + 50;
         vejiga = 100.0f;
-        Debug.Log(name+"Salgo del baño");
+       
         estado_vejiga = STATE_VejigaBaja.BUSCANDO;
         gameObject.SetActive(true);
     }
@@ -415,7 +415,8 @@ public class UserDefault : Human
             tolerancia -= 50;
             if (tolerancia < 0)
                 tolerancia = 0;
-            Debug.Log(name + "Me he meado");
+           
+            ShowEmoticon("BebePoop", 3);
             estado_pasear = STATE_Pasear.PASEANDO;
             estado_vejiga = STATE_VejigaBaja.ORINANDO_ENCIMA;
             vejiga = 100;
@@ -429,13 +430,13 @@ public class UserDefault : Human
     public void giveFood(Food food)
     {
         estado_hambre = STATE_Hambre.COMIENDO;
-        Debug.Log(name + "Como");
+       
         if (!food.isGood())
         {
             tolerancia -= 40;
             estado_hambre = STATE_Hambre.VOMITANDO;
             saciedad = 50.0f;
-            Debug.Log(name+ "Vomito");
+           
         }
         else
         {

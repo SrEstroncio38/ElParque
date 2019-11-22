@@ -38,7 +38,13 @@ public class SpeechObject : MonoBehaviour
         this.camara = camera;
         this.target = target;
         this.aliveTimer = time;
-
+        string path = "Assets/Emoticons/BebePoop.png";
+        Texture t = Resources.Load<Texture>(path);
+        if (Resources.Load<Texture>(path) == null)
+        {
+            Debug.Log("null");
+        }
+        transform.GetComponentInChildren<UnityEngine.UI.RawImage>().texture = Resources.Load<Texture>(path);
         UpdatePos();
         gameObject.SetActive(true);
     }

@@ -50,7 +50,7 @@ public class Attraction : MonoBehaviour
             }
             if (!riding)
             {
-                Debug.Log("ATRACCION: hay usuarios");
+               
                 for (int i = 0; i < maxCapacity; i++)
                 {
                     // Añadir a la atraccion
@@ -104,7 +104,7 @@ public class Attraction : MonoBehaviour
         userQueue.Enqueue(user);
         Vector3 dest = queuePosition + queueDirection * (userQueue.Count - 1);
         user.getAgent().SetDestination(dest);
-        Debug.Log("Destination: " + dest);
+        
     }
 
     public void Ride()

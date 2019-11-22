@@ -34,10 +34,11 @@ public class Cleaner : Worker
             case (STATE_working.SEARCHING):
                 if (!smellsLikeGarbage())
                 {
+                    currentState = "Buscando basura";
                     wander();
                 }
                 else {
-                    //Debug.Log(name + " he encontrado basura");
+                    currentState = "Voy a la basura";
                     goToTrash();
                     state_working = STATE_working.GOING_TO_TRASH;
                 }
@@ -45,7 +46,7 @@ public class Cleaner : Worker
             case (STATE_working.GOING_TO_TRASH):
                 if (isInTrash())
                 {
-                   // Debug.Log(name + "he llegado a basura");
+                    currentState = "Limpiando basura";
                     objective.clean();
                     state_working = STATE_working.CLEANING_TRASH;
                 }
@@ -117,7 +118,6 @@ public class Cleaner : Worker
     }
 
     public void finishedCleaning() {
-        //Debug.Log(name + "he limpiado basura");
         state_working = STATE_working.SEARCHING;
     }
 }
