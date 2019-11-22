@@ -15,7 +15,7 @@ public class UserDefault : Human
     public float tolerancia = 100.0f;
     public float vejiga = 100.0f;
     public float bienestar = 100.0f;
-    public bool isAlive = true;
+   
 
     //Umbrales
     protected float umbralVejiga = 30.0f;

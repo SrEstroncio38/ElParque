@@ -9,6 +9,8 @@ public class Human : MonoBehaviour
     public bool isMale = true;
     public string name = "";
     public string currentState = "";
+    public bool isAlive = true;
+    public Corpse skeleton;
 
     protected WorldController world;
 
@@ -20,6 +22,7 @@ public class Human : MonoBehaviour
         name = p.name;
         gameObject.name = name;
         world = GetComponentInParent<WorldController>();
+        skeleton = world.GetComponentInChildren<Corpse>();
     }
 
     // Update is called once per frame
@@ -42,5 +45,14 @@ public class Human : MonoBehaviour
     protected void ShowEmoticon(string emoticon)
     {
         ShowEmoticon(emoticon, 3);
+    }
+
+    public void kill()
+    {
+
+        Corpse c = Instantiate(skeleton, transform.position, Quaternion.identity, world.GetComponent<Transform>());
+        isAlive = false;
+        c.gameObject.SetActive(true);
+        gameObject.SetActive(false);
     }
 }

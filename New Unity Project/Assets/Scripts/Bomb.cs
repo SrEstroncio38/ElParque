@@ -7,14 +7,17 @@ public class Bomb : Weapon
     
     private enum STATE_uso{NO_ENCONTRADA, DIRIGIRSE_ATRACCION, EXPLOTAR};
     private STATE_uso estado_uso = STATE_uso.NO_ENCONTRADA;
-    public Attraction objective;
+    private Attraction objective;
     private Vector3 terroristObjective;
     private WorldController world;
     // Start is called before the first frame update
     void Start()
     {
         terrorist = null;
+
         world = GetComponentInParent<WorldController>();
+        Attraction[] attractions = world.GetComponentsInChildren<Attraction>();
+        objective = attractions[Random.Range(0, attractions.Length - 1)];
         terroristObjective = objective.transform.position;
     }
 
@@ -28,6 +31,8 @@ public class Bomb : Weapon
        
         FSM_uso();
     }
+
+
 
     public override bool use(Terrorist t)
     {
@@ -60,7 +65,10 @@ public class Bomb : Weapon
 
     private void explode()
     {
+        objective.explode();
         terrorist.explodeBomb();
+        gameObject.SetActive(false);
+        thereIsObject = false;
     }
 
     protected override void FSM_uso()

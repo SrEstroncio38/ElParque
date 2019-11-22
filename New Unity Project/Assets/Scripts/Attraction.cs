@@ -24,13 +24,14 @@ public class Attraction : MonoBehaviour
     private Queue<UserDefault> userQueue;
     private bool riding = false;
     private float waitTimer = 0;
+    private WorldController world;
 
     // Start is called before the first frame update
     void Start()
     {
         userRiding = new Queue<UserDefault>();
         userQueue = new Queue<UserDefault>();
-
+        world = GetComponentInParent<WorldController>();
         QueueToWorld();
 
     }
@@ -169,6 +170,20 @@ public class Attraction : MonoBehaviour
                 ReajustQueue();
             }
             aux.Clear();
+        }
+    }
+
+    //Todos los que estén montando mueren
+    public void explode()
+    {
+        quality = 0;
+        world.ShowEmoticon("Explosion", gameObject, 3);
+        if (riding)
+        {
+            foreach (UserDefault user in userRiding)
+            {
+                user.kill();
+            }
         }
     }
 
