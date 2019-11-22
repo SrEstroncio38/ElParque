@@ -102,6 +102,14 @@ public class Attraction : MonoBehaviour
 
     }
 
+    void OnMouseOver()
+    {
+        int tmp = (int)quality;
+        int tmp2 = (int)(quality * 10 - tmp * 10);
+        string qualityString = tmp + "," + tmp2 + "%";
+        world.SetCursorText(userRiding.Count + "/" + maxCapacity + "   ( " + qualityString + " )");
+    }
+
     private void OnDrawGizmos()
     {
 
@@ -139,7 +147,7 @@ public class Attraction : MonoBehaviour
     {
         riding = true;
         StartCoroutine(TimeRiding()); //Esto se debería convertir en animacion
-
+        quality -= Random.Range(1, 10);
     }
 
     IEnumerator TimeRiding()

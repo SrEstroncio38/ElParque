@@ -94,6 +94,14 @@ public class UserDefault : Human
 
     }
 
+    void OnMouseOver()
+    {
+        int tmp = (int)bienestar;
+        int tmp2 = (int)(bienestar * 10 - tmp * 10);
+        string bienestarString = tmp + "," + tmp2 + "%";
+        world.SetCursorText(gameObject.name + "   ( " + bienestarString + " )");
+    }
+
     /**********************
      * Maquinas de Estado *
      **********************/

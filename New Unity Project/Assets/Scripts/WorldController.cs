@@ -34,8 +34,12 @@ public class WorldController : MonoBehaviour
 
     // Canvas
 
-    private Human currentTarget;
     private Canvas canvas;
+
+    private UnityEngine.UI.Image mouseHUD;
+    private string mouseHUDText = "";
+
+    private Human currentTarget;
     private UnityEngine.UI.Text charName;
     private UnityEngine.UI.Image userHUD1;
     private UnityEngine.UI.Image userHUD2;
@@ -73,6 +77,11 @@ public class WorldController : MonoBehaviour
             else if (g.gameObject.name.Equals("User HUD 4"))
                 userHUD4 = g;
         }
+        foreach (UnityEngine.UI.Image g in canvas.GetComponentsInChildren<UnityEngine.UI.Image>())
+        {
+            if (g.gameObject.name.Equals("Mouse HUD"))
+                mouseHUD = g;
+        }
 
         foreach (UnityEngine.UI.Text t in userHUD4.GetComponentsInChildren<UnityEngine.UI.Text>())
         {
@@ -83,6 +92,7 @@ public class WorldController : MonoBehaviour
         userHUDVariables.SetActive(false);
         userHUD.gameObject.SetActive(false);
         noTargetHUD.SetActive(false);
+        mouseHUD.gameObject.SetActive(false);
 
     }
 
@@ -99,6 +109,7 @@ public class WorldController : MonoBehaviour
         noTargetHUD.SetActive(false);
         UpdateDayTime();
         UpdateHUD();
+        UpdateMouseHUD();
 
     }
 
@@ -315,6 +326,28 @@ public class WorldController : MonoBehaviour
             float currentColor = bienestarValue / 200.0f + 0.5f;
             bienestar.color = new Color(1, currentColor, currentColor);
         }
+    }
+
+    public void SetCursorText(string text)
+    {
+        mouseHUDText = text;
+    }
+
+    private void UpdateMouseHUD()
+    {
+        if (mouseHUDText.Equals(""))
+        {
+            mouseHUD.gameObject.SetActive(false);
+        } else
+        {
+            mouseHUD.gameObject.SetActive(true);
+            UnityEngine.UI.Text textBox = mouseHUD.GetComponentInChildren<UnityEngine.UI.Text>();
+            textBox.text = mouseHUDText;
+            mouseHUD.rectTransform.sizeDelta = new Vector2(textBox.preferredWidth + 16, mouseHUD.rectTransform.sizeDelta.y);
+            mouseHUD.rectTransform.position = Input.mousePosition + new Vector3(8, 0, -8);
+        }
+
+        mouseHUDText = "";
     }
 
     public void SetHUDTarget(Human target)

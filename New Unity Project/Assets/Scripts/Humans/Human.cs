@@ -37,6 +37,11 @@ public class Human : MonoBehaviour
         world.SetHUDTarget(GetComponent<Human>());
     }
 
+    void OnMouseOver()
+    {
+        world.SetCursorText(gameObject.name);
+    }
+
     protected void ShowEmoticon(string emoticon, float time)
     {
         world.ShowEmoticon(emoticon, gameObject, time);
