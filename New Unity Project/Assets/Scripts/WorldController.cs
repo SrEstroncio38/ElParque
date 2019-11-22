@@ -6,11 +6,13 @@ using UnityEngine;
 public class WorldController : MonoBehaviour
 {
 
+    [Header("Scene Settings")]
     public CameraController mainCamera;
     public Light sun;
 
     [Header("Canvas Settings")]
     public Camera userCamera;
+    public GameObject noTargetHUD;
     public GameObject userHUD;
     public GameObject userHUDVariables;
     public SpeechObject speechObject;
@@ -80,6 +82,7 @@ public class WorldController : MonoBehaviour
 
         userHUDVariables.SetActive(false);
         userHUD.gameObject.SetActive(false);
+        noTargetHUD.SetActive(false);
 
     }
 
@@ -93,6 +96,7 @@ public class WorldController : MonoBehaviour
     void Update()
     {
 
+        noTargetHUD.SetActive(false);
         UpdateDayTime();
         UpdateHUD();
 
@@ -227,6 +231,11 @@ public class WorldController : MonoBehaviour
             userHUDVariables.SetActive(false);
         }
         userHUDState.text = currentTarget.currentState;
+
+        if (!currentTarget.gameObject.activeSelf)
+        {
+            noTargetHUD.SetActive(true);
+        }
 
     }
 
