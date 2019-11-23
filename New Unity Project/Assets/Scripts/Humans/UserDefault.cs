@@ -340,14 +340,14 @@ public class UserDefault : Human
     protected bool isInObjective()
     {
         bool isInAttraction = false;
-        if (transform.position.x - objective.x <= 0.2f)
+        if (Mathf.Abs(transform.position.x - objective.x) <= 0.2f)
         {
-            if (transform.position.y - objective.y <= 0.3f)
+            if (Mathf.Abs(transform.position.y - objective.y) <= 0.3f)
             {
-                if (transform.position.z - objective.z <= 0.2f)
+                if (Mathf.Abs(transform.position.z - objective.z) <= 0.2f)
                 {
                     isInAttraction = true;
-                    
+
                 }
             }
         }
