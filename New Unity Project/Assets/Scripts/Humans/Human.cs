@@ -7,7 +7,7 @@ public class Human : MonoBehaviour
 
     [Header("Identity")]
     public bool isMale = true;
-    public string name = "";
+    public string userName = "";
     public string currentState = "";
     public bool isAlive = true;
     public Corpse skeleton;
@@ -20,8 +20,8 @@ public class Human : MonoBehaviour
     {
         NameCreator.PersonName p = NameCreator.Generate();
         isMale = p.isMale;
-        name = p.name;
-        gameObject.name = name;
+        userName = p.name;
+        gameObject.name = userName;
         world = GetComponentInParent<WorldController>();
     }
 
@@ -39,7 +39,7 @@ public class Human : MonoBehaviour
 
     void OnMouseOver()
     {
-        world.SetCursorText(gameObject.name);
+        world.SetCursorText(userName);
     }
 
     protected void ShowEmoticon(string emoticon, float time)
@@ -57,7 +57,7 @@ public class Human : MonoBehaviour
 
         Corpse c = Instantiate(skeleton, transform.position, transform.rotation, skeletonDestination.transform);
         isAlive = false;
-        c.gameObject.name = "Corpse (" + gameObject.name + ")";
+        c.gameObject.name = "Corpse (" + userName + ")";
         c.gameObject.SetActive(true);
     }
 }

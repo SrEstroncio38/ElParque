@@ -15,7 +15,7 @@ public class Terrorist : UserDefault
     protected override void Start()
     {
         base.Start();
-        gameObject.name = "[T] " + gameObject.name;
+        gameObject.name = "[T] " + userName;
     }
 
     protected override void FSM_Enfadarse()

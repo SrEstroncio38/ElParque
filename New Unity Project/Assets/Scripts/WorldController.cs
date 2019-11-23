@@ -9,6 +9,7 @@ public class WorldController : MonoBehaviour
     [Header("Scene Settings")]
     public CameraController mainCamera;
     public Light sun;
+    public BoxCollider floorBounds;
     public Exit parkExit;
 
     [Header("World Population")]
@@ -16,10 +17,21 @@ public class WorldController : MonoBehaviour
     public UserDefault userPrefab;
     public GameObject userContainer;
     public int userAmount;
+    [Space(10)]
     // Terrorista
     public Terrorist terroristPrefab;
     public GameObject terroristContainer;
     public int terroristAmount;
+    [Space(10)]
+    // Limpieza
+    public Cleaner cleanerPrefab;
+    public GameObject cleanerContainer;
+    public int cleanerAmount;
+    [Space(10)]
+    // Ingenieros
+    public Engineer engineerPrefab;
+    public GameObject engineerContainer;
+    public int engineerAmount;
 
     [Header("Canvas Settings")]
     public Camera userCamera;
@@ -49,6 +61,7 @@ public class WorldController : MonoBehaviour
     public float dayVolume = 0.2f;
     public float nightVolume = 0.2f;
 
+    private UnityEngine.AI.NavMeshSurface navMesh;
 
     // Canvas
     private Canvas canvas;
@@ -63,11 +76,17 @@ public class WorldController : MonoBehaviour
     private UnityEngine.UI.Image userHUD3;
     private UnityEngine.UI.Image userHUD4;
     private UnityEngine.UI.Text userHUDState;
-   
 
-    // Start is called before the first frame update
+    /********
+     * Init *
+     ********/
+
     void Start()
     {
+
+        navMesh = GetComponentInChildren<UnityEngine.AI.NavMeshSurface>();
+        mainCamera.movementRestrictor = floorBounds;
+
         InitCanvas();
         AdjustDisplay2();
         PopulateWorld();
@@ -122,12 +141,24 @@ public class WorldController : MonoBehaviour
     private void PopulateWorld()
     {
 
+        GenerateUser(userAmount);
+        GenerateTerrorist(terroristAmount);
+        GenerateCleaner(cleanerAmount);
+        GenerateEngineer(engineerAmount);
+        
+    }
+
+    /*********************
+     * Prefab Generators *
+     *********************/
+
+    public bool GenerateUser(int amount)
+    {
         Bounds exitBounds = parkExit.GetComponent<BoxCollider>().bounds;
 
-        // Generar usuarios
         if (userPrefab != null)
         {
-            for (int i = 0; i < userAmount; i++)
+            for (int i = 0; i < amount; i++)
             {
                 float spawnPosX = UnityEngine.Random.Range(exitBounds.min.x, exitBounds.max.x);
                 float spawnPosY = UnityEngine.Random.Range(exitBounds.min.z, exitBounds.max.z);
@@ -135,33 +166,91 @@ public class WorldController : MonoBehaviour
                 UserDefault u = Instantiate(
                         userPrefab,
                         spawnPos,
-                        Quaternion.Euler(0, UnityEngine.Random.Range(0,359), 0),
+                        Quaternion.Euler(0, UnityEngine.Random.Range(0, 359), 0),
                         userContainer.transform
                 );
                 u.gameObject.SetActive(true);
             }
+            return true;
         }
+        return false;
 
-        // Generar terroristas
+    }
+
+    public bool GenerateTerrorist(int amount)
+    {
+        Bounds exitBounds = parkExit.GetComponent<BoxCollider>().bounds;
+
         if (terroristPrefab != null)
         {
-            for (int i = 0; i < terroristAmount; i++)
+            for (int i = 0; i < amount; i++)
             {
                 float spawnPosX = UnityEngine.Random.Range(exitBounds.min.x, exitBounds.max.x);
                 float spawnPosY = UnityEngine.Random.Range(exitBounds.min.z, exitBounds.max.z);
                 Vector3 spawnPos = new Vector3(spawnPosX, 0, spawnPosY);
-                Terrorist u = Instantiate(
+                Terrorist t = Instantiate(
                         terroristPrefab,
                         spawnPos,
                         Quaternion.Euler(0, UnityEngine.Random.Range(0, 359), 0),
                         terroristContainer.transform
                 );
-                u.gameObject.SetActive(true);
+                t.gameObject.SetActive(true);
             }
+            return true;
         }
+        return false;
     }
 
-    // Update is called once per frame
+    public bool GenerateCleaner(int amount)
+    {
+
+        if (cleanerPrefab != null)
+        {
+            for (int i = 0; i < amount; i++)
+            {
+                float spawnPosX = UnityEngine.Random.Range(floorBounds.bounds.min.x, floorBounds.bounds.max.x);
+                float spawnPosY = UnityEngine.Random.Range(floorBounds.bounds.min.z, floorBounds.bounds.max.z);
+                Vector3 spawnPos = new Vector3(spawnPosX, 0, spawnPosY);
+                Cleaner c = Instantiate(
+                        cleanerPrefab,
+                        spawnPos,
+                        Quaternion.Euler(0, UnityEngine.Random.Range(0, 359), 0),
+                        cleanerContainer.transform
+                );
+                c.gameObject.SetActive(true);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public bool GenerateEngineer(int amount)
+    {
+
+        if (engineerPrefab != null)
+        {
+            for (int i = 0; i < amount; i++)
+            {
+                float spawnPosX = UnityEngine.Random.Range(floorBounds.bounds.min.x, floorBounds.bounds.max.x);
+                float spawnPosY = UnityEngine.Random.Range(floorBounds.bounds.min.z, floorBounds.bounds.max.z);
+                Vector3 spawnPos = new Vector3(spawnPosX, 0, spawnPosY);
+                Engineer e = Instantiate(
+                        engineerPrefab,
+                        spawnPos,
+                        Quaternion.Euler(0, UnityEngine.Random.Range(0, 359), 0),
+                        engineerContainer.transform
+                );
+                e.gameObject.SetActive(true);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    /**********
+     * Update *
+     **********/
+
     void Update()
     {
 
