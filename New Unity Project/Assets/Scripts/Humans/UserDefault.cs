@@ -56,7 +56,7 @@ public class UserDefault : Human
     protected override void Start()
     {
         base.Start();
-        currentState = "[FSM_Pasear] Esperando en atracción";
+        
         agent = GetComponent<NavMeshAgent>();
         initY = transform.position.y;
         parkExit = world.GetComponentInChildren<Exit>();
@@ -78,7 +78,7 @@ public class UserDefault : Human
             tolerancia = 100;
         }
         vejiga -= Random.Range(0, 0.05f);
-        saciedad = saciedad - 0.01f;
+        saciedad -= Random.Range(0, 0.01f);
         if (vejiga < 0)
         {
             vejiga = 0;
@@ -110,23 +110,25 @@ public class UserDefault : Human
     protected void FSM_Divertirse() {
         if ((bienestar <= umbralBienestar) && (estado_pasear != STATE_Pasear.MONTARSE_ATRACCIÓN))
         {
-            
-           
             FSM_Enfadarse();
         }
          else if ((vejiga <= umbralVejiga) && (estado_pasear != STATE_Pasear.MONTARSE_ATRACCIÓN))
         {
+            
             ExitQueues();
+            estado_pasear = STATE_Pasear.PASEANDO;
             FSM_VejigaBaja();
         }
         else if ((saciedad <= umbralSaciedad) && (estado_pasear != STATE_Pasear.MONTARSE_ATRACCIÓN))
         {
+            
             ExitQueues();
+            estado_pasear = STATE_Pasear.PASEANDO;
             FSM_Hambre();
         }
         else
         {
-            estado_hambre = STATE_Hambre.BUSCANDO;
+            
             FSM_Pasear();
         }
     }
@@ -140,12 +142,13 @@ public class UserDefault : Human
                 currentState = "[FSM_Hambre] Buscando tienda de comida";
                 if (!foodInSight())
                 {
-                   
+                    ShowEmoticon("hambre");
                     Pasear();
                 }
                 else
                 {
                     currentState = "[FSM_Hambre] Yendo a tienda de comida";
+                    ShowEmoticon("hambre");
                     GoToObjective();
                     estado_hambre = STATE_Hambre.DIRIGIENDOSE_TIENDA;
                 }
@@ -164,10 +167,10 @@ public class UserDefault : Human
                 break;
             case STATE_Hambre.COMIENDO:
                 currentState = "[FSM_Hambre] Comiendo";
+
                 break;
             case STATE_Hambre.VOMITANDO:
                 currentState = "[FSM_Hambre] Vomitando";
-                ShowEmoticon("Sick");
                 break;
         }
     }
@@ -249,7 +252,7 @@ public class UserDefault : Human
                 }
                 break;
             case STATE_Pasear.ESPERANDO_ATRACCION:
-                // No es necesario que haga nada
+                currentState = "[FSM_Pasear] Esperando en atracción";
                 break;
             case STATE_Pasear.MONTARSE_ATRACCIÓN:
                 // No es necesario que haga nada
@@ -456,12 +459,15 @@ public class UserDefault : Human
             tolerancia -= 40;
             estado_hambre = STATE_Hambre.VOMITANDO;
             saciedad = 50.0f;
-           
+            ShowEmoticon("Sick");
+            estado_hambre = STATE_Hambre.BUSCANDO;
         }
         else
         {
             tolerancia += 40;
             saciedad = 100.0f;
+            ShowEmoticon("yummy");
+            estado_hambre = STATE_Hambre.BUSCANDO;
         }
     }
 

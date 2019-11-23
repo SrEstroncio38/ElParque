@@ -28,12 +28,12 @@ public class Cooker : Worker
 
     public void prepareFood()
     {
-        working = true;
         StartCoroutine(cook());
     }
 
     IEnumerator cook() {
-        yield return new WaitForSeconds(2);
+        working = true;
+        yield return new WaitForSeconds(1);
         foodShop.foodCooked(new Food());
         working = false;
     }
