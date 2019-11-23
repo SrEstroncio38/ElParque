@@ -52,7 +52,7 @@ public class Human : MonoBehaviour
         ShowEmoticon(emoticon, 3);
     }
     
-    public void Kill()
+    public virtual void Kill()
     {
 
         Corpse c = Instantiate(skeleton, transform.position, transform.rotation, skeletonDestination.transform);
