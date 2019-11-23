@@ -53,9 +53,8 @@ public class UserDefault : Human
      * Game Loop *
      *************/
     
-    protected override void Start()
+    void Start()
     {
-        base.Start();
         currentState = "[FSM_Pasear] Esperando en atracción";
         agent = GetComponent<NavMeshAgent>();
         initY = transform.position.y;
@@ -497,9 +496,9 @@ public class UserDefault : Human
         estado_enfado = STATE_Enfado.EMPEZAR;
     }
 
-    public override void kill()
+    public override void Kill()
     {
-        base.kill();
+        base.Kill();
         ExitQueues();
         UserDefault u = Instantiate(this, parkExit.transform.position, Quaternion.identity, world.GetComponent<Transform>());
         u.gameObject.SetActive(true);
