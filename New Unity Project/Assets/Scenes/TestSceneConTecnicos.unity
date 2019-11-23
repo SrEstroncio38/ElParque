@@ -4921,7 +4921,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d77749b3b4d480d4a9714b3489f66292, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  quality: 0
+  quality: 100
   qualityThreshold: 20
   maxCapacity: 1
   maxWait: 10
@@ -5172,7 +5172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d77749b3b4d480d4a9714b3489f66292, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  quality: 4
+  quality: 100
   qualityThreshold: 20
   maxCapacity: 3
   maxWait: 10
