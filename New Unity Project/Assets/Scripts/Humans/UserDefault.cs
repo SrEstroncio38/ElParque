@@ -18,9 +18,9 @@ public class UserDefault : Human
    
 
     //Umbrales
-    protected float umbralVejiga = 30.0f;
+    protected float umbralVejiga = -1.0f;
     protected float umbralSaciedad = 30.0f;
-    protected float umbralBienestar = 30.0f;
+    protected float umbralBienestar = -1.0f;
     protected NavMeshAgent agent;
 
     //Variables para pasear
@@ -29,9 +29,9 @@ public class UserDefault : Human
 
     //Variables para encontrar cosas
     protected Attraction attracionObjective;
-    protected Vector3 objective;
     protected Bath bathObjective;
     protected FoodShop foodObjective;
+    protected Vector3 objective;
     protected float visionAngle = 0.5f;
     protected float visionDistance = 400.0f;
     protected float initY;
@@ -43,9 +43,6 @@ public class UserDefault : Human
     protected enum STATE_VejigaBaja {BUSCANDO, DIRIGIENDOSE_BAÑO, ESPERANDO_BAÑO, ORINANDO_BAÑO, ORINANDO_ENCIMA};
     protected STATE_VejigaBaja estado_vejiga = STATE_VejigaBaja.BUSCANDO;
     
-    protected enum STATE_Hambre {BUSCANDO, DIRIGIENDOSE_TIENDA, ESPERANDO_COMIDA, COMIENDO, VOMITANDO};
-    protected STATE_Hambre estado_hambre = STATE_Hambre.BUSCANDO;
-    
     protected enum STATE_Enfado { EMPEZAR, DIRIGIENDOSE_SALIDA, FUERA };
     protected STATE_Enfado estado_enfado = STATE_Enfado.EMPEZAR;
 
@@ -56,7 +53,6 @@ public class UserDefault : Human
     protected override void Start()
     {
         base.Start();
-        currentState = "[FSM_Pasear] Esperando en atracción";
         agent = GetComponent<NavMeshAgent>();
         initY = transform.position.y;
         parkExit = world.GetComponentInChildren<Exit>();
@@ -116,12 +112,12 @@ public class UserDefault : Human
         }
          else if ((vejiga <= umbralVejiga) && (estado_pasear != STATE_Pasear.MONTARSE_ATRACCIÓN))
         {
-            ExitQueues();
+            ExitQueues("bath");
             FSM_VejigaBaja();
         }
         else if ((saciedad <= umbralSaciedad) && (estado_pasear != STATE_Pasear.MONTARSE_ATRACCIÓN))
         {
-            ExitQueues();
+            ExitQueues("food");
             FSM_Hambre();
         }
         else
@@ -133,36 +129,33 @@ public class UserDefault : Human
 
     protected virtual void FSM_Enfadarse() { }
 
+    // Hambre
+
+    protected enum STATE_Hambre { BUSCANDO, ESPERANDO_COMIDA, COMIENDO, VOMITANDO };
+    protected STATE_Hambre estado_hambre = STATE_Hambre.BUSCANDO;
+
     protected void FSM_Hambre() {
         switch (estado_hambre)
         {
             case STATE_Hambre.BUSCANDO:
-                if (!foodInSight())
+                currentState = "[FSM_Hambre] Buscando comida";
+                foodObjective = FoodInSight();
+                if (foodObjective == null)
                 {
-                   
                     Pasear();
                 }
                 else
                 {
-                  
-                    GoToObjective();
-                    estado_hambre = STATE_Hambre.DIRIGIENDOSE_TIENDA;
-                }
-                break;
-
-            case STATE_Hambre.DIRIGIENDOSE_TIENDA:
-                if (isInObjective())
-                {
-                  
-                    foodObjective.addCustomer(this);
+                    isWandering = false;
+                    foodObjective.AddUser(this);
+                    
                     estado_hambre = STATE_Hambre.ESPERANDO_COMIDA;
+                    currentState = "[FSM_Hambre] Esperando en puesto de comida";
+                    ShowEmoticon("Hungry");
                 }
                 break;
             case STATE_Hambre.ESPERANDO_COMIDA:
                 
-                break;
-            case STATE_Hambre.COMIENDO:
-
                 break;
             case STATE_Hambre.VOMITANDO:
                 
@@ -224,6 +217,7 @@ public class UserDefault : Human
         switch(estado_pasear)
         {
             case STATE_Pasear.PASEANDO:
+                currentState = "[FSM_Pasear] Paseando";
                 attracionObjective = AttractionInSight();
                 if (attracionObjective == null)
                 {
@@ -313,28 +307,6 @@ public class UserDefault : Human
             }
         }
         return bathInSight;
-    }
-
-    protected bool foodInSight()
-    {
-        bool foodInSight = false;
-        foreach (FoodShop f in world.GetComponentsInChildren<FoodShop>())
-        {
-            Vector3 direccion = (f.transform.position - transform.position);
-            if (direccion.magnitude <= visionDistance)
-            {
-                direccion = direccion.normalized;
-                foodInSight = Mathf.Abs(1.0f - Vector3.Dot(direccion, transform.forward)) < visionAngle;
-                if (foodInSight)
-                {
-                    
-                    foodObjective = f;
-                    objective = f.queuePos;
-                }
-                break;
-            }
-        }
-        return foodInSight;
     }
 
     protected bool isInObjective()
@@ -441,14 +413,32 @@ public class UserDefault : Human
      * Comida *
      **********/
 
-    public void giveFood(Food food)
+    protected FoodShop FoodInSight()
     {
-        estado_hambre = STATE_Hambre.COMIENDO;
+        foreach (FoodShop f in world.GetComponentsInChildren<FoodShop>())
+        {
+            Vector3 direccion = (f.transform.position - transform.position);
+            if (direccion.magnitude <= visionDistance)
+            {
+                direccion = direccion.normalized;
+                bool foodInSight = Mathf.Abs(1.0f - Vector3.Dot(direccion, transform.forward)) < visionAngle;
+                if (foodInSight)
+                {
+                    return f;
+                }
+            }
+        }
+        return null;
+    }
+
+    public void GiveFood(Food food)
+    {
+        estado_hambre = STATE_Hambre.BUSCANDO;
        
         if (!food.isGood())
         {
             tolerancia -= 40;
-            estado_hambre = STATE_Hambre.VOMITANDO;
+            //estado_hambre = STATE_Hambre.VOMITANDO;
             saciedad = 50.0f;
            
         }
@@ -469,15 +459,20 @@ public class UserDefault : Human
     }
 
     protected void ExitQueues() {
-        if (attracionObjective != null)
+        ExitQueues("");
+    }
+
+    protected void ExitQueues(string exception)
+    {
+        if (attracionObjective != null && !exception.Equals("attraction"))
         {
             attracionObjective.Leave(this);
         }
-        if (foodObjective != null)
+        if (foodObjective != null && !exception.Equals("food"))
         {
-            foodObjective.leave(this);
+            foodObjective.Leave(this);
         }
-        if (bathObjective != null)
+        if (bathObjective != null && !exception.Equals("bath"))
         {
             bathObjective.leave(this);
         }

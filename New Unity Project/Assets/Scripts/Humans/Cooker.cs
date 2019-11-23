@@ -4,19 +4,9 @@ using UnityEngine;
 
 public class Cooker : Worker
 {
+    /*
     private bool working = false;
     private FoodShop foodShop;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public void setShop(FoodShop fs)
     {
@@ -37,4 +27,5 @@ public class Cooker : Worker
         foodShop.foodCooked(new Food());
         working = false;
     }
+    */
 }
