@@ -5,7 +5,7 @@ using UnityEngine;
 public class Food 
 {
     private float quality;
-    private float BAD_QUALITY = 50.0f;
+    private float BAD_QUALITY = 30.0f;
     public Food() {
         this.quality = Random.Range(0, 100);
     }

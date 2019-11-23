@@ -154,30 +154,25 @@ public class UserDefault : Human
                 }
                 else
                 {
-
-                    currentState = "[FSM_Hambre] Yendo a tienda de comida";
                     ShowEmoticon("hambre");
-                    GoToObjective();
-                    estado_hambre = STATE_Hambre.DIRIGIENDOSE_TIENDA;
+                    foodObjective.AddUser(this);
+                    estado_hambre = STATE_Hambre.ESPERANDO_COMIDA;
                 }
                 break;
 
-            case STATE_Hambre.DIRIGIENDOSE_TIENDA:
+           /* case STATE_Hambre.DIRIGIENDOSE_TIENDA:
+                currentState = "[FSM_Hambre] Yendo a la tienda de comida";
                 if (isInObjective())
                 {
-                    currentState = "[FSM_Hambre] Esperando comida";
-
                     isWandering = false;
                     foodObjective.AddUser(this);
-                    
-
                     estado_hambre = STATE_Hambre.ESPERANDO_COMIDA;
                     currentState = "[FSM_Hambre] Esperando en puesto de comida";
-                    ShowEmoticon("Hungry");
+                    ShowEmoticon("hambre");
                 }
-                break;
+                break;*/
             case STATE_Hambre.ESPERANDO_COMIDA:
-                
+                currentState = "[FSM_Hambre] Ya voy a comer";
                 break;
 
             case STATE_Hambre.COMIENDO:
@@ -456,6 +451,7 @@ public class UserDefault : Human
                 bool foodInSight = Mathf.Abs(1.0f - Vector3.Dot(direccion, transform.forward)) < visionAngle;
                 if (foodInSight)
                 {
+                    objective = f.transform.position;
                     return f;
                 }
             }
