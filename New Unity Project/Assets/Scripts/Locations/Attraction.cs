@@ -17,6 +17,7 @@ public class Attraction : MonoBehaviour
     public Vector2 localQueueDirection = Vector2.zero;
     public float queueOffset = 15;
 
+
     //Variables
     private Vector3 queuePosition = Vector3.zero;
     private Vector3 exitPosition = Vector3.zero;
@@ -26,13 +27,15 @@ public class Attraction : MonoBehaviour
     private bool riding = false;
     private float waitTimer = 0;
     private WorldController world;
-
+    private Engineer currentEngineer;
+    private int lastEngineer;
     // Start is called before the first frame update
     void Start()
     {
         userRiding = new Queue<UserDefault>();
         userQueue = new Queue<UserDefault>();
         world = GetComponentInParent<WorldController>();
+        currentEngineer = null;
         QueueToWorld();
 
     }
@@ -47,6 +50,10 @@ public class Attraction : MonoBehaviour
         if (waitTimer > 0)
             waitTimer -= Time.deltaTime;
 
+        if ((quality < qualityThreshold) && (currentEngineer == null))
+        {
+            brokenAttraction();
+        }
         // Actualizar cola
         if (userQueue.Count > 0)
         {
@@ -60,22 +67,26 @@ public class Attraction : MonoBehaviour
                 for (int i = 0; i < maxCapacity; i++)
                 {
                     // Añadir a la atraccion
-                    if (Mathf.Abs((userQueue.Peek().transform.position - queuePosition).magnitude) < 1)
+                    if (userQueue.Count > 0)
                     {
-                        UserDefault nextUser = userQueue.Dequeue();
-                        userRiding.Enqueue(nextUser);
-                        nextUser.EnterRide();
-                        waitTimer = maxWait;
-                        // Recolocar cola
-                        ReajustQueue();
-                    } else
-                    {
-                        break;
+                        if (Mathf.Abs((userQueue.Peek().transform.position - queuePosition).magnitude) < 1)
+                        {
+                            UserDefault nextUser = userQueue.Dequeue();
+                            userRiding.Enqueue(nextUser);
+                            nextUser.EnterRide();
+                            waitTimer = maxWait;
+                            // Recolocar cola
+                            ReajustQueue();
+                        }
+                        else
+                        {
+                            break;
+                        }
                     }
                 }
 
                 // Comenzar attraccion
-                Debug.Log("ATRACCION: Calidad " + quality);
+
                 if (userRiding.Count >= maxCapacity)
                 {
                     Ride();
@@ -200,5 +211,35 @@ public class Attraction : MonoBehaviour
             userRiding.Clear();
         }
     }
+    //********************
+    //**Rotura y arreglo**
+    //********************
+    public void brokenAttraction()
+    {
+        //Elige un ingeniero random que la arregle
+        Engineer[] engineers = world.GetComponentsInChildren<Engineer>();
+        do
+        {
+            int index = Random.Range(0, engineers.Length);
+            currentEngineer = engineers[index];
+        } while (currentEngineer.GetAttraction() != null);
+
+
+        currentEngineer.brokenAttraction(this);
+    }
+
+    public void repairedWrong()
+    {
+        currentEngineer = null;
+        brokenAttraction();
+    }
+
+    public void repairedWell()
+    {
+        currentEngineer = null;
+        quality = 100;
+    }
+
+
 
 }
