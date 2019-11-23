@@ -192,7 +192,7 @@ public class Attraction : MonoBehaviour
         {
             foreach (UserDefault user in userRiding)
             {
-                user.kill();
+                user.Kill();
             }
         }
     }

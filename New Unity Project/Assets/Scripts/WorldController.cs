@@ -9,6 +9,17 @@ public class WorldController : MonoBehaviour
     [Header("Scene Settings")]
     public CameraController mainCamera;
     public Light sun;
+    public Exit parkExit;
+
+    [Header("World Population")]
+    // Normie
+    public UserDefault userPrefab;
+    public GameObject userContainer;
+    public int userAmount;
+    // Terrorista
+    public Terrorist terroristPrefab;
+    public GameObject terroristContainer;
+    public int terroristAmount;
 
     [Header("Canvas Settings")]
     public Camera userCamera;
@@ -59,6 +70,7 @@ public class WorldController : MonoBehaviour
 
         InitCanvas();
         AdjustDisplay2();
+        PopulateWorld();
 
     }
 
@@ -105,6 +117,48 @@ public class WorldController : MonoBehaviour
     {
         userCamera.pixelRect = new Rect(new Vector2(12,12), new Vector2(72,96));
         userCamera.enabled = false;
+    }
+
+    private void PopulateWorld()
+    {
+
+        Bounds exitBounds = parkExit.GetComponent<BoxCollider>().bounds;
+
+        // Generar usuarios
+        if (userPrefab != null)
+        {
+            for (int i = 0; i < userAmount; i++)
+            {
+                float spawnPosX = UnityEngine.Random.Range(exitBounds.min.x, exitBounds.max.x);
+                float spawnPosY = UnityEngine.Random.Range(exitBounds.min.z, exitBounds.max.z);
+                Vector3 spawnPos = new Vector3(spawnPosX, 0, spawnPosY);
+                UserDefault u = Instantiate(
+                        userPrefab,
+                        spawnPos,
+                        Quaternion.Euler(0, UnityEngine.Random.Range(0,359), 0),
+                        userContainer.transform
+                );
+                u.gameObject.SetActive(true);
+            }
+        }
+
+        // Generar terroristas
+        if (terroristPrefab != null)
+        {
+            for (int i = 0; i < terroristAmount; i++)
+            {
+                float spawnPosX = UnityEngine.Random.Range(exitBounds.min.x, exitBounds.max.x);
+                float spawnPosY = UnityEngine.Random.Range(exitBounds.min.z, exitBounds.max.z);
+                Vector3 spawnPos = new Vector3(spawnPosX, 0, spawnPosY);
+                Terrorist u = Instantiate(
+                        terroristPrefab,
+                        spawnPos,
+                        Quaternion.Euler(0, UnityEngine.Random.Range(0, 359), 0),
+                        terroristContainer.transform
+                );
+                u.gameObject.SetActive(true);
+            }
+        }
     }
 
     // Update is called once per frame

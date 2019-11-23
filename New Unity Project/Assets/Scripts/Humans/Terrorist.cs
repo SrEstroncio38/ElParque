@@ -12,26 +12,10 @@ public class Terrorist : UserDefault
   
 
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
-        NameCreator.PersonName p = NameCreator.Generate();
-        isMale = p.isMale;
-        name = p.name;
-        gameObject.name = name;
-        world = GetComponentInParent<WorldController>();
-        agent = GetComponent<NavMeshAgent>();
-        initY = transform.position.y;
-        parkExit = world.GetComponentInChildren<Exit>();
-    }
-
-   
-    // Update is called once per frame
-    void Update()
-    {
-
-        CalcularBienestar();
-
-        FSM_Divertirse();
+        base.Start();
+        gameObject.name = "[T] " + gameObject.name;
     }
 
     protected override void FSM_Enfadarse()
@@ -108,7 +92,7 @@ public class Terrorist : UserDefault
     public void explodeBomb()
     {
         ShowEmoticon("Explosion");
-        kill();
+        Kill();
     }
 
     public Vector3 getPos()
