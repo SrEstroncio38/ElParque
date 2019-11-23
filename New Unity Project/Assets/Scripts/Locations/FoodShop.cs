@@ -2,105 +2,57 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FoodShop : MonoBehaviour
+public class FoodShop : QueuedBuilding
 {
-    public List<Cooker> employees; //Creo que mejor lista que cola
 
-    private Queue<Food> readyFood;
-    private Queue<UserDefault> customers;
-    private Queue<UserDefault> currentCustomers;
-    private int maxCapacity;
+    [Header("Food Atrributes")]
+    public int maxStackedFood = 3;
+    public float minFoodDelay = 3.0f;
+    public float maxFoodDelay = 5.0f;
 
-    public Vector3 queuePos;
+    protected Queue<Food> readyFood;
+    protected float foodDelay;
+
 
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
-        customers = new Queue<UserDefault>();
+        base.Start();
         readyFood = new Queue<Food>();
-        currentCustomers = new Queue<UserDefault>();
-        queuePos.Set(transform.position.x + 40, transform.position.y, transform.position.z);
-
-        foreach (Cooker cooker in employees)
-        {
-            cooker.setShop(this);
-        }
-        maxCapacity = employees.Count;
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.cyan;
-        Gizmos.DrawSphere(queuePos, 5);
+        foodDelay = Random.Range(minFoodDelay, maxFoodDelay);
     }
 
     // Update is called once per frame
-    void Update()
+    protected override void Update()
     {
-        if (customers.Count > 0)
+        base.Update();
+
+        if (readyFood.Count < maxStackedFood)
+            foodDelay -= Time.deltaTime;
+
+        if (foodDelay < 0) {
+            readyFood.Enqueue(new Food());
+            foodDelay = Random.Range(minFoodDelay, maxFoodDelay);
+        }
+
+        if (userQueue.Count > 0)
         {
-            foreach (UserDefault user in customers)
+            foreach (UserDefault user in userQueue)
             {
                 user.LowerTolerance();
             }
-            if (currentCustomers.Count < maxCapacity)
+            if (userRiding.Count < maxCapacity)
             {
-                order();
-                currentCustomers.Enqueue(customers.Dequeue());
-            }
-        }
-    }
-
-    public Vector3 getPos()
-    {
-        return transform.position;
-    }
-
-    public void addCustomer(UserDefault user)
-    {
-        customers.Enqueue(user);
-    }
-
-    public void order() {
-       
-        //Selecciona al primer empleado que no este cocinando y le pasa la orden
-        foreach(Cooker employee in employees)
-        {
-            if (!employee.isWorking())
-            {
-                employee.prepareFood();
-                break;
-            }
-        }
-        
-    }
-
-    public void foodCooked(Food food)
-    {
-        UserDefault customer = currentCustomers.Dequeue();
-        customer.giveFood(food);
-    }
-
-    public void leave(UserDefault user)
-    {
-        if (customers.Contains(user))
-        {
-            Queue<UserDefault> aux = new Queue<UserDefault>();
-            while (customers.Count > 0)
-            {
-                UserDefault u = customers.Dequeue();
-                if (!u.Equals(user))
+                if (Mathf.Abs((userQueue.Peek().transform.position - queuePosition).magnitude) < 1)
                 {
-                    aux.Enqueue(u);
+                    if (readyFood.Count > 0)
+                    {
+                        UserDefault customer = userQueue.Dequeue();
+                        customer.GiveFood(readyFood.Dequeue());
+                        ReajustQueue();
+                    }
                 }
             }
-            foreach (UserDefault u in aux)
-            {
-                customers.Enqueue(u);
-
-            }
-            aux.Clear();
         }
     }
- 
 }

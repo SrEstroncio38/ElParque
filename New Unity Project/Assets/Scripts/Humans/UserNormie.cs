@@ -21,13 +21,10 @@ public class UserNormie : UserDefault
             case STATE_Enfado.DIRIGIENDOSE_SALIDA:
                 if (isInObjective())
                 {
-                    gameObject.SetActive(false);
-                    currentState = "Fuera";
-                    estado_enfado = STATE_Enfado.FUERA;
+                    world.GenerateUser(1);
+                    world.DisableCamera();
+                    Destroy(gameObject);
                 }
-                break;
-            case STATE_Enfado.FUERA:
-
                 break;
         }
     }

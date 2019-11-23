@@ -25,12 +25,6 @@ public class Human : MonoBehaviour
         world = GetComponentInParent<WorldController>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     void OnMouseDown()
     {
         world.mainCamera.followTarget = GetComponent<Human>();
