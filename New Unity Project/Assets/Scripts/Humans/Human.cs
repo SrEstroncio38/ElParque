@@ -31,7 +31,7 @@ public class Human : MonoBehaviour
         world.SetHUDTarget(GetComponent<Human>());
     }
 
-    protected void OnMouseOver()
+    protected virtual void OnMouseOver()
     {
         world.SetCursorText(userName);
     }

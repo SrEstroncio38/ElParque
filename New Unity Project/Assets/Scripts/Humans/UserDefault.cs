@@ -40,8 +40,6 @@ public class UserDefault : Human
     protected Attraction lastAttractionVisited;
 
     //State Machines
-    protected enum STATE_VejigaBaja {BUSCANDO, DIRIGIENDOSE_BAÑO, ESPERANDO_BAÑO, ORINANDO_BAÑO, ORINANDO_ENCIMA};
-    protected STATE_VejigaBaja estado_vejiga = STATE_VejigaBaja.BUSCANDO;
     
     protected enum STATE_Enfado { EMPEZAR, DIRIGIENDOSE_SALIDA, FUERA };
     protected STATE_Enfado estado_enfado = STATE_Enfado.EMPEZAR;
@@ -92,7 +90,7 @@ public class UserDefault : Human
 
     }
 
-    void OnMouseOver()
+    protected override void OnMouseOver()
     {
         int tmp = (int)bienestar;
         int tmp2 = (int)(bienestar * 10 - tmp * 10);
@@ -159,18 +157,6 @@ public class UserDefault : Human
                     estado_hambre = STATE_Hambre.ESPERANDO_COMIDA;
                 }
                 break;
-
-           /* case STATE_Hambre.DIRIGIENDOSE_TIENDA:
-                currentState = "[FSM_Hambre] Yendo a la tienda de comida";
-                if (isInObjective())
-                {
-                    isWandering = false;
-                    foodObjective.AddUser(this);
-                    estado_hambre = STATE_Hambre.ESPERANDO_COMIDA;
-                    currentState = "[FSM_Hambre] Esperando en puesto de comida";
-                    ShowEmoticon("hambre");
-                }
-                break;*/
             case STATE_Hambre.ESPERANDO_COMIDA:
                 currentState = "[FSM_Hambre] Ya voy a comer";
                 break;
@@ -186,38 +172,32 @@ public class UserDefault : Human
         }
     }
 
+    // Mearse
+
+    protected enum STATE_VejigaBaja { BUSCANDO, ESPERANDO_BAÑO, ORINANDO_BAÑO, ORINANDO_ENCIMA };
+    protected STATE_VejigaBaja estado_vejiga = STATE_VejigaBaja.BUSCANDO;
+
     protected void FSM_VejigaBaja() {
         switch (estado_vejiga) {
             case STATE_VejigaBaja.BUSCANDO:
                 ShowEmoticon("PiPi");
-                if (!bathInSight())
+                currentState = "[FSM Baño] Buscando baño";
+                bathObjective = BathInSight();
+                if (bathObjective == null)
                 {
-                    currentState = "[FSM Baño] Buscando baño";
-                    checkPee();
+                    CheckPee();
                     Pasear();
                     
                 }else {
                     currentState = "[FSM Baño] Yendo al baño";
                     ShowEmoticon("PiPi");
-                    estado_vejiga = STATE_VejigaBaja.DIRIGIENDOSE_BAÑO;
-                    GoToObjective();
-                }
-                break;
-            case STATE_VejigaBaja.DIRIGIENDOSE_BAÑO:
-                
-                checkPee();
-                if (isInObjective())
-                {
-                    
-                    bathObjective.addUser(this);
+                    bathObjective.AddUser(this);
                     estado_vejiga = STATE_VejigaBaja.ESPERANDO_BAÑO;
-
                 }
-                
                 break;
             case STATE_VejigaBaja.ESPERANDO_BAÑO:
                 currentState = "[FSM Baño] Esperando al baño";
-                checkPee();
+                CheckPee();
                 break;
             case STATE_VejigaBaja.ORINANDO_BAÑO:
                 currentState = "[FSM Baño] Usando el baño";
@@ -225,7 +205,7 @@ public class UserDefault : Human
             case STATE_VejigaBaja.ORINANDO_ENCIMA:
                 if (bathObjective != null)
                 {
-                    bathObjective.leave(this);
+                    bathObjective.Leave(this);
                 }
                 vejiga = 100;
                 estado_vejiga = STATE_VejigaBaja.BUSCANDO;
@@ -316,26 +296,6 @@ public class UserDefault : Human
        // ShowEmoticon("angry");
     }
 
-    protected bool bathInSight() {
-        bool bathInSight = false;
-        foreach (Bath b in world.GetComponentsInChildren<Bath>())
-        {
-            Vector3 direccion = (b.transform.position - transform.position);
-            if (direccion.magnitude <= visionDistance)
-            {
-                direccion = direccion.normalized;
-                bathInSight = Mathf.Abs(1.0f - Vector3.Dot(direccion, transform.forward)) < visionAngle;
-                if (bathInSight)
-                {
-                    bathObjective = b;
-                    objective = b.getPos();
-                }
-                break;
-            }
-        }
-        return bathInSight;
-    }
-
     protected bool isInObjective()
     {
         bool isInAttraction = false;
@@ -405,23 +365,43 @@ public class UserDefault : Human
      * Lavabo *
      **********/
 
-    public void enterToilet() {
+    protected Bath BathInSight()
+    {
+        foreach (Bath b in world.GetComponentsInChildren<Bath>())
+        {
+            Vector3 direccion = (b.transform.position - transform.position);
+            if (direccion.magnitude <= visionDistance)
+            {
+                direccion = direccion.normalized;
+                bool bathInSight = Mathf.Abs(1.0f - Vector3.Dot(direccion, transform.forward)) < visionAngle;
+                if (bathInSight)
+                {
+                    return b;
+                }
+            }
+        }
+        return null;
+    }
+
+    public void EnterToilet() {
       
         estado_vejiga = STATE_VejigaBaja.ORINANDO_BAÑO;
         estado_pasear = STATE_Pasear.PASEANDO;
         gameObject.SetActive(false);
     }
 
-    public void finishPee()
+    public void FinishPee(Vector3 exitPosition)
     {
         tolerancia = tolerancia + 50;
         vejiga = 100.0f;
+
+        transform.position = exitPosition;
        
         estado_vejiga = STATE_VejigaBaja.BUSCANDO;
         gameObject.SetActive(true);
     }
 
-    protected void checkPee()
+    protected void CheckPee()
     {
         if (vejiga <= 0)
         {
@@ -505,7 +485,7 @@ public class UserDefault : Human
         }
         if (bathObjective != null && !exception.Equals("bath"))
         {
-            bathObjective.leave(this);
+            bathObjective.Leave(this);
         }
     }
 
