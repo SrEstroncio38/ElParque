@@ -59,6 +59,5 @@ public class Human : MonoBehaviour
         isAlive = false;
         c.gameObject.SetActive(true);
         gameObject.SetActive(false);
-        Destroy(gameObject);
     }
 }

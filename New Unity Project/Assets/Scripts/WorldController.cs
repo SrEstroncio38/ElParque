@@ -39,8 +39,6 @@ public class WorldController : MonoBehaviour
     public float dayVolume = 0.2f;
     public float nightVolume = 0.2f;
 
-    [Header("Park Settings")]
-    public int parkCapacity;
 
     // Canvas
     private Canvas canvas;
@@ -60,7 +58,6 @@ public class WorldController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
         InitCanvas();
         AdjustDisplay2();
 
@@ -122,6 +119,7 @@ public class WorldController : MonoBehaviour
         UpdateMusic();
 
     }
+
 
     private void UpdateDayTime()
     {
