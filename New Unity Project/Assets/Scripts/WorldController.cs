@@ -321,6 +321,7 @@ public class WorldController : MonoBehaviour
         UpdateHUD();
         UpdateMouseHUD();
         UpdateMusic();
+        UpdateStreetLight();
 
     }
 
@@ -641,6 +642,23 @@ public class WorldController : MonoBehaviour
 
         audioSource.volume = currentVolume;
 
+    }
+
+    private void UpdateStreetLight()
+    {
+        foreach (Light l in GetComponentsInChildren<Light>())
+        {
+            if (l.type == LightType.Point)
+            {
+                if (worldCurrentTime < dawnTime || worldCurrentTime > duskTime)
+                {
+                    l.enabled = true;
+                } else
+                {
+                    l.enabled = false;
+                }
+            }
+        }
     }
    
 }

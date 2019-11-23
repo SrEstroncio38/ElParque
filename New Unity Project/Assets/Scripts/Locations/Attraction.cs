@@ -141,7 +141,7 @@ public class Attraction : QueuedBuilding
 
         base.QueueToWorld();
 
-        engineerPos = transform.TransformPoint(new Vector3(localEngineerPos.x, 1, localEngineerPos.y));
+        engineerPos = transform.TransformPoint(new Vector3(localEngineerPos.x, 0, localEngineerPos.y));
        
 
     }
