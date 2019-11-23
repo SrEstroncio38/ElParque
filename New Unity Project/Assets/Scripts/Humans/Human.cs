@@ -52,12 +52,13 @@ public class Human : MonoBehaviour
         ShowEmoticon(emoticon, 3);
     }
 
-    public void kill()
+    public virtual void kill()
     {
 
         Corpse c = Instantiate(skeleton, transform.position, Quaternion.identity, world.GetComponent<Transform>());
         isAlive = false;
         c.gameObject.SetActive(true);
         gameObject.SetActive(false);
+        Destroy(gameObject);
     }
 }

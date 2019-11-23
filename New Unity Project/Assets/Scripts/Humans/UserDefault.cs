@@ -393,6 +393,7 @@ public class UserDefault : Human
 
     public void FinishRide(Vector3 exitPosition)
     {
+        
         tolerancia += 60;
         Debug.Log(name + "Terminó");
         transform.position = exitPosition;
@@ -482,6 +483,12 @@ public class UserDefault : Human
         {
             bathObjective.leave(this);
         }
+    }
+
+    public override void kill()
+    {
+        base.kill();
+        ExitQueues();
     }
 }
 

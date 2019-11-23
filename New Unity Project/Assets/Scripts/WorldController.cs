@@ -9,6 +9,7 @@ public class WorldController : MonoBehaviour
     [Header("Scene Settings")]
     public CameraController mainCamera;
     public Light sun;
+    
 
     [Header("Canvas Settings")]
     public Camera userCamera;
@@ -37,6 +38,9 @@ public class WorldController : MonoBehaviour
     public AudioClip nightTheme;
     public float dayVolume = 0.2f;
     public float nightVolume = 0.2f;
+
+    [Header("Park Settings")]
+    public int parkCapacity;
 
     // Canvas
     private Canvas canvas;

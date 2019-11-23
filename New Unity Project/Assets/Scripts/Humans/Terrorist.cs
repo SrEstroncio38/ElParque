@@ -22,6 +22,7 @@ public class Terrorist : UserDefault
         agent = GetComponent<NavMeshAgent>();
         initY = transform.position.y;
         parkExit = world.GetComponentInChildren<Exit>();
+        skeleton = world.GetComponentInChildren<Corpse>();
     }
 
    
