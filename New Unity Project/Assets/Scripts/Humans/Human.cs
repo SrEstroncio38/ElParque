@@ -59,6 +59,5 @@ public class Human : MonoBehaviour
         isAlive = false;
         c.gameObject.name = "Corpse (" + gameObject.name + ")";
         c.gameObject.SetActive(true);
-        Destroy(gameObject);
     }
 }

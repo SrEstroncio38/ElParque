@@ -153,7 +153,7 @@ public class Attraction : MonoBehaviour
 
     IEnumerator TimeRiding()
     {
-        yield return new WaitForSeconds(5); //Se supone que la atracción dura dos minutos de tiempo de juego, 2 segundos para nosotros
+        yield return new WaitForSeconds(6); //Se supone que la atracción dura dos minutos de tiempo de juego, 2 segundos para nosotros
         foreach (UserDefault user in userRiding)
         {
           
