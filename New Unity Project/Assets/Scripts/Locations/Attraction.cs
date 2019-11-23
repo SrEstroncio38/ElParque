@@ -54,9 +54,9 @@ public class Attraction : MonoBehaviour
             {
                 user.LowerTolerance();
             }
-            if (!riding && quality > qualityThreshold)
+            if (!riding && (quality > qualityThreshold))
             {
-               
+                
                 for (int i = 0; i < maxCapacity; i++)
                 {
                     // Añadir a la atraccion
@@ -75,6 +75,7 @@ public class Attraction : MonoBehaviour
                 }
 
                 // Comenzar attraccion
+                Debug.Log("ATRACCION: Calidad " + quality);
                 if (userRiding.Count >= maxCapacity)
                 {
                     Ride();

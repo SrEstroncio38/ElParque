@@ -10,7 +10,7 @@ public class Trash : MonoBehaviour
     public int maxSeconds = 5;
     public int smellStrength = 500;
     private int range = 500;
-    Cleaner cleaner;
+    protected Cleaner cleaner;
     private WorldController world;
     // Start is called before the first frame update
     void Start()
@@ -53,10 +53,10 @@ public class Trash : MonoBehaviour
         return transform.position;
     }
 
-    public void clean() {
+    public virtual void clean() {
         StartCoroutine(cleanTime());
     }
-    protected IEnumerator cleanTime() {
+    protected virtual IEnumerator cleanTime() {
         yield return new WaitForSeconds(Random.Range(minSeconds, maxSeconds));
         makeInvisible();
         cleaner.finishedCleaning();
