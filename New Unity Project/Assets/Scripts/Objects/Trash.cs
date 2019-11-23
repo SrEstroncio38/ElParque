@@ -28,26 +28,10 @@ public class Trash : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!thereIsObject && !generating) {
-            StartCoroutine(generateTrash());
-        }
+        
     }
 
-    IEnumerator generateTrash() {
-        generating = true;
-        yield return new WaitForSeconds(Random.Range(minSeconds, maxSeconds));
-        Vector3 newPos = new Vector3(Random.Range(-range, range), 0.0f, Random.Range(-range, range));
-
-        //Para evitar que aparezca dentro de una atracción, que el de limmpieza no llega
-        Collider[] cols = Physics.OverlapSphere(newPos, 0.1f);
-        foreach (Collider col in cols)
-        {
-            newPos = col.ClosestPointOnBounds(newPos);
-        }
-        transform.position = newPos;
-        generating = false;
-        thereIsObject = true;
-    }
+   
 
     public Vector3 getPos() {
         return transform.position;
@@ -58,11 +42,10 @@ public class Trash : MonoBehaviour
     }
     protected virtual IEnumerator cleanTime() {
         yield return new WaitForSeconds(Random.Range(minSeconds, maxSeconds));
-        makeInvisible();
+        world.GenerateGarbage(1);
         cleaner.finishedCleaning();
-        cleaner = null;
-        thereIsObject = false;
-        generating = false;
+        Destroy(gameObject);
+
     }
 
     protected void makeInvisible() {

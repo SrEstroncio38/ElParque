@@ -70,20 +70,19 @@ public class Cleaner : Worker
 
     private bool isInTrash() {
         bool isInTrash = false;
-        if (transform.position.x - objective.getPos().x == 0)
+        if (transform.position.x - objective.getPos().x <= 1)
         {
-            if (transform.position.y - objective.getPos().y <= 0.3f)
-            {
-                if (transform.position.z - objective.getPos().z == 0)
+                if (transform.position.z - objective.getPos().z <= 1)
                 {
                     isInTrash = true;
                 }
-            }
+            
         }
         return isInTrash;
     }
 
     public void finishedCleaning() {
+        ShowEmoticon("Limpio");
         state_working = STATE_working.SEARCHING;
     }
 }
