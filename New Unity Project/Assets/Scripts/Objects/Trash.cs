@@ -56,7 +56,7 @@ public class Trash : MonoBehaviour
     public void clean() {
         StartCoroutine(cleanTime());
     }
-    IEnumerator cleanTime() {
+    protected IEnumerator cleanTime() {
         yield return new WaitForSeconds(Random.Range(minSeconds, maxSeconds));
         makeInvisible();
         cleaner.finishedCleaning();
@@ -65,7 +65,7 @@ public class Trash : MonoBehaviour
         generating = false;
     }
 
-    private void makeInvisible() {
+    protected void makeInvisible() {
         transform.position.Set(transform.position.x, -10.0f, transform.position.z);
     }
 

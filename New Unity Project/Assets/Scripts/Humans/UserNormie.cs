@@ -16,6 +16,7 @@ public class UserNormie : UserDefault
         agent = GetComponent<NavMeshAgent>();
         initY = transform.position.y;
         parkExit = world.GetComponentInChildren<Exit>();
+        skeleton = world.GetComponentInChildren<Corpse>();
     }
 
     // Update is called once per frame

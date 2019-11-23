@@ -394,6 +394,7 @@ public class UserDefault : Human
 
     public void FinishRide(Vector3 exitPosition)
     {
+        
         tolerancia += 60;
         Debug.Log(name + "Terminó");
         transform.position = exitPosition;
@@ -483,6 +484,27 @@ public class UserDefault : Human
         {
             bathObjective.leave(this);
         }
+    }
+
+    protected void restart()
+    {
+        vejiga = 100;
+        saciedad = 100;
+        tolerancia = 100;
+        estado_pasear = STATE_Pasear.PASEANDO;
+        estado_vejiga = STATE_VejigaBaja.BUSCANDO;
+        estado_hambre = STATE_Hambre.BUSCANDO;
+        estado_enfado = STATE_Enfado.EMPEZAR;
+    }
+
+    public override void kill()
+    {
+        base.kill();
+        ExitQueues();
+        UserDefault u = Instantiate(this, parkExit.transform.position, Quaternion.identity, world.GetComponent<Transform>());
+        u.gameObject.SetActive(true);
+        u.restart();
+        Destroy(gameObject);
     }
 }
 

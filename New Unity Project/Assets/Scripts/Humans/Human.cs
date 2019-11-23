@@ -51,7 +51,7 @@ public class Human : MonoBehaviour
     {
         ShowEmoticon(emoticon, 3);
     }
-
+    
     public void Kill()
     {
 

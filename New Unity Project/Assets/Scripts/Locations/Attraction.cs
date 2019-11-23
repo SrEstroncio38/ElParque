@@ -155,7 +155,9 @@ public class Attraction : MonoBehaviour
         yield return new WaitForSeconds(5); //Se supone que la atracción dura dos minutos de tiempo de juego, 2 segundos para nosotros
         foreach (UserDefault user in userRiding)
         {
-            user.FinishRide(exitPosition);
+          
+                user.FinishRide(exitPosition);
+            
         }
         userRiding.Clear();
         quality -= Random.Range(1.0f, 10.0f);
@@ -194,6 +196,7 @@ public class Attraction : MonoBehaviour
             {
                 user.Kill();
             }
+            userRiding.Clear();
         }
     }
 
