@@ -65,15 +65,12 @@ public class Engineer : Worker
     private bool isInAttraction()
     {
         bool isInAttraction = false;
-        if (Mathf.Abs(transform.position.x - objective.x) <= 0.2f)
+        if (Mathf.Abs(transform.position.x - objective.x) <= 2)
         {
-            if (Mathf.Abs(transform.position.y - objective.y) <= 0.3f)
+            if (Mathf.Abs(transform.position.z - objective.z) <= 2)
             {
-                if (Mathf.Abs(transform.position.z - objective.z) <= 0.2f)
-                {
-                    isInAttraction = true;
+                isInAttraction = true;
 
-                }
             }
         }
         return isInAttraction;

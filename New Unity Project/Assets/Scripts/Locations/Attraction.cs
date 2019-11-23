@@ -44,6 +44,11 @@ public class Attraction : MonoBehaviour
     void Update()
     {
 
+        if (quality < 0)
+        {
+            quality = 0;
+        }
+
         QueueToWorld();
 
         // Decrementar tiempo

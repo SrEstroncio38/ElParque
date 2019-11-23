@@ -487,6 +487,7 @@ public class UserDefault : Human
     {
         base.Kill();
         ExitQueues();
+        world.DisableCamera();
         Destroy(gameObject);
     }
 }

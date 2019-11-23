@@ -33,6 +33,17 @@ public class WorldController : MonoBehaviour
     public GameObject engineerContainer;
     public int engineerAmount;
 
+    [Header("World Population (Objects)")]
+    // Basura
+    public Trash garbagePrefab;
+    public GameObject garbageContainer;
+    public int garbageAmount;
+    [Space(10)]
+    // Bomba
+    public Bomb bombPrefab;
+    public GameObject bombContainer;
+    public int bombAmount;
+
     [Header("Canvas Settings")]
     public Camera userCamera;
     public GameObject noTargetHUD;
@@ -145,6 +156,9 @@ public class WorldController : MonoBehaviour
         GenerateTerrorist(terroristAmount);
         GenerateCleaner(cleanerAmount);
         GenerateEngineer(engineerAmount);
+
+        GenerateGarbage(garbageAmount);
+        GenerateBomb(bombAmount);
         
     }
 
@@ -241,6 +255,54 @@ public class WorldController : MonoBehaviour
                         engineerContainer.transform
                 );
                 e.gameObject.SetActive(true);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public bool GenerateGarbage(int amount)
+    {
+
+        if (garbagePrefab != null)
+        {
+            for (int i = 0; i < amount; i++)
+            {
+                float spawnPosX = UnityEngine.Random.Range(floorBounds.bounds.min.x, floorBounds.bounds.max.x);
+                float spawnPosY = UnityEngine.Random.Range(floorBounds.bounds.min.z, floorBounds.bounds.max.z);
+                Vector3 spawnPos = new Vector3(spawnPosX, 0, spawnPosY);
+                Trash g = Instantiate(
+                        garbagePrefab,
+                        spawnPos,
+                        Quaternion.Euler(0, UnityEngine.Random.Range(0, 359), 0),
+                        garbageContainer.transform
+                );
+                g.gameObject.SetActive(true);
+                g.gameObject.name = "Garbage";
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public bool GenerateBomb(int amount)
+    {
+
+        if (bombPrefab != null)
+        {
+            for (int i = 0; i < amount; i++)
+            {
+                float spawnPosX = UnityEngine.Random.Range(floorBounds.bounds.min.x, floorBounds.bounds.max.x);
+                float spawnPosY = UnityEngine.Random.Range(floorBounds.bounds.min.z, floorBounds.bounds.max.z);
+                Vector3 spawnPos = new Vector3(spawnPosX, 0, spawnPosY);
+                Bomb b = Instantiate(
+                        bombPrefab,
+                        spawnPos,
+                        Quaternion.Euler(0, UnityEngine.Random.Range(0, 359), 0),
+                        garbageContainer.transform
+                );
+                b.gameObject.SetActive(true);
+                b.gameObject.name = "Bomb";
             }
             return true;
         }
@@ -363,16 +425,22 @@ public class WorldController : MonoBehaviour
 
     }
 
+    public void DisableCamera()
+    {
+        if (currentTarget != null)
+            SetLayerRecursively(currentTarget.gameObject, 9);
+        currentTarget = null;
+        userHUD.gameObject.SetActive(false);
+        userCamera.enabled = false;
+        userCamera.transform.SetParent(transform);
+    }
+
     private void UpdateHUD()
     {
 
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
         {
-            if (currentTarget != null)
-                SetLayerRecursively(currentTarget.gameObject, 9);
-            currentTarget = null;
-            userHUD.gameObject.SetActive(false);
-            userCamera.enabled = false;
+            DisableCamera();
         }
         if (currentTarget == null)
             return;
