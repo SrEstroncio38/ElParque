@@ -31,4 +31,10 @@ public class UserNormie : UserDefault
                 break;
         }
     }
+
+    public override void Kill()
+    {
+        base.Kill();
+        world.GenerateUser(1);
+    }
 }

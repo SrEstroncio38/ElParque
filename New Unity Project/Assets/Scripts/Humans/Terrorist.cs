@@ -105,18 +105,21 @@ public class Terrorist : UserDefault
         bool isInObj = false;
 
         
-        if (Mathf.Abs(transform.position.x - tObjective.x) <= 0.2f)
+        if (Mathf.Abs(transform.position.x - tObjective.x) <= 1)
         {
-            if (Mathf.Abs(transform.position.y - tObjective.y) <= 0.3f)
+            if (Mathf.Abs(transform.position.z - tObjective.z) <= 1)
             {
-                if (Mathf.Abs(transform.position.z - tObjective.z) <= 0.2f)
-                {
-                    isInObj = true;
+                isInObj = true;
 
-                }
             }
         }
         return isInObj;
+    }
+
+    public override void Kill()
+    {
+        base.Kill();
+        world.GenerateTerrorist(1);
     }
 }
 

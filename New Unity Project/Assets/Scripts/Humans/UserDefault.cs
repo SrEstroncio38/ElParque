@@ -340,15 +340,12 @@ public class UserDefault : Human
     protected bool isInObjective()
     {
         bool isInAttraction = false;
-        if (Mathf.Abs(transform.position.x - objective.x) <= 0.2f)
+        if (Mathf.Abs(transform.position.x - objective.x) <= 1)
         {
-            if (Mathf.Abs(transform.position.y - objective.y) <= 0.3f)
+            if (Mathf.Abs(transform.position.z - objective.z) <= 1)
             {
-                if (Mathf.Abs(transform.position.z - objective.z) <= 0.2f)
-                {
-                    isInAttraction = true;
+                isInAttraction = true;
 
-                }
             }
         }
         return isInAttraction;
@@ -486,24 +483,10 @@ public class UserDefault : Human
         }
     }
 
-    protected void restart()
-    {
-        vejiga = 100;
-        saciedad = 100;
-        tolerancia = 100;
-        estado_pasear = STATE_Pasear.PASEANDO;
-        estado_vejiga = STATE_VejigaBaja.BUSCANDO;
-        estado_hambre = STATE_Hambre.BUSCANDO;
-        estado_enfado = STATE_Enfado.EMPEZAR;
-    }
-
     public override void Kill()
     {
         base.Kill();
         ExitQueues();
-        UserDefault u = Instantiate(this, parkExit.transform.position, Quaternion.identity, world.GetComponent<Transform>());
-        u.gameObject.SetActive(true);
-        u.restart();
         Destroy(gameObject);
     }
 }
