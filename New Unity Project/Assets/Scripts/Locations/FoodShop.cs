@@ -5,6 +5,10 @@ using UnityEngine;
 public class FoodShop : QueuedBuilding
 {
 
+    [Header("Cooker Prefab")]
+    public Cooker cookerPrefab;
+    public GameObject cookerContainer;
+
     [Header("Food Atrributes")]
     public int maxStackedFood = 3;
     public float minFoodDelay = 3.0f;
@@ -18,8 +22,17 @@ public class FoodShop : QueuedBuilding
     protected override void Start()
     {
         base.Start();
+
         readyFood = new Queue<Food>();
         foodDelay = Random.Range(minFoodDelay, maxFoodDelay);
+
+        GenerateCooker();
+    }
+
+    protected void GenerateCooker()
+    {
+        Cooker c = Instantiate(cookerPrefab, exitPosition, Quaternion.LookRotation(queueDirection), cookerContainer.transform);
+        c.gameObject.SetActive(true);
     }
 
     // Update is called once per frame

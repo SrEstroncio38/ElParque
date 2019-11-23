@@ -24,7 +24,7 @@ public class Cleaner : Worker
                 if (!smellsLikeGarbage())
                 {
                     currentState = "Buscando basura";
-                    wander();
+                    Wander();
                 }
                 else {
                     currentState = "Voy a la basura";
