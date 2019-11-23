@@ -53,8 +53,9 @@ public class UserDefault : Human
      * Game Loop *
      *************/
     
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         currentState = "[FSM_Pasear] Esperando en atracción";
         agent = GetComponent<NavMeshAgent>();
         initY = transform.position.y;

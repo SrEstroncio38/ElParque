@@ -11,18 +11,18 @@ public class Human : MonoBehaviour
     public string currentState = "";
     public bool isAlive = true;
     public Corpse skeleton;
+    public GameObject skeletonDestination;
 
     protected WorldController world;
 
     // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
         NameCreator.PersonName p = NameCreator.Generate();
         isMale = p.isMale;
         name = p.name;
         gameObject.name = name;
         world = GetComponentInParent<WorldController>();
-        skeleton = world.GetComponentInChildren<Corpse>();
     }
 
     // Update is called once per frame
@@ -51,13 +51,14 @@ public class Human : MonoBehaviour
     {
         ShowEmoticon(emoticon, 3);
     }
-
-    public virtual void kill()
+    
+    public void Kill()
     {
 
-        Corpse c = Instantiate(skeleton, transform.position, Quaternion.identity, world.GetComponent<Transform>());
+        Corpse c = Instantiate(skeleton, transform.position, transform.rotation, skeletonDestination.transform);
         isAlive = false;
+        c.gameObject.name = "Corpse (" + gameObject.name + ")";
         c.gameObject.SetActive(true);
-        gameObject.SetActive(false);
+        Destroy(gameObject);
     }
 }
