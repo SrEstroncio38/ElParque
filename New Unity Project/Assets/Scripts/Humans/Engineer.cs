@@ -53,21 +53,16 @@ public class Engineer : Worker
 
     private void goToAttraction()
     {
-        objective = attractionObjective.transform.position;
-        Collider[] cols = Physics.OverlapSphere(objective, 0.1f);
-        foreach (Collider col in cols)
-        {
-            objective = col.ClosestPointOnBounds(objective);
-        }
+        objective = attractionObjective.getEngineerPos();
         agent.SetDestination(objective);
     }
 
     private bool isInAttraction()
     {
         bool isInAttraction = false;
-        if (Mathf.Abs(transform.position.x - objective.x) <= 2)
+        if (Mathf.Abs(transform.position.x - objective.x) <= 1)
         {
-            if (Mathf.Abs(transform.position.z - objective.z) <= 2)
+            if (Mathf.Abs(transform.position.z - objective.z) <= 1)
             {
                 isInAttraction = true;
 
@@ -76,8 +71,15 @@ public class Engineer : Worker
         return isInAttraction;
     }
 
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawSphere(objective, 5);
+    }
+
     private void repair()
     {
+        ShowEmoticon("llaveInglesa");
         StartCoroutine(timeRepairing());
     }
 

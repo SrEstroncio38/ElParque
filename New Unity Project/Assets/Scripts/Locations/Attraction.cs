@@ -11,6 +11,8 @@ public class Attraction : QueuedBuilding
 
     [Header("Queue")]
     public float maxWait = 10;
+    public Vector2 localEngineerPos;
+    private Vector3 engineerPos;
 
     //Variables
     private bool riding = false;
@@ -125,6 +127,24 @@ public class Attraction : QueuedBuilding
             userRiding.Clear();
         }
     }
+
+
+    protected override void OnDrawGizmos()
+    {
+        base.OnDrawGizmos();
+        Gizmos.color = Color.gray;
+        Gizmos.DrawSphere(engineerPos, 5);
+    }
+
+    protected override void QueueToWorld()
+    {
+
+        base.QueueToWorld();
+
+        engineerPos = transform.TransformPoint(new Vector3(localEngineerPos.x, 1, localEngineerPos.y));
+       
+
+    }
     //********************
     //**Rotura y arreglo**
     //********************
@@ -154,6 +174,8 @@ public class Attraction : QueuedBuilding
         quality = 100;
     }
 
-
-
+    public Vector3 getEngineerPos()
+    {
+        return engineerPos;
+    }
 }

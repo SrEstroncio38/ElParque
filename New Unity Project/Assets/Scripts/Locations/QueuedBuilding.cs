@@ -34,7 +34,7 @@ public class QueuedBuilding : MonoBehaviour
         QueueToWorld();
     }
 
-    protected void QueueToWorld()
+    protected virtual void QueueToWorld()
     {
 
         queuePosition = transform.TransformPoint(new Vector3(localQueuePosition.x, 0, localQueuePosition.y));
@@ -103,5 +103,7 @@ public class QueuedBuilding : MonoBehaviour
         Gizmos.color = Color.blue;
         Gizmos.DrawSphere(exitPosition, 5);
     }
+
+ 
 
 }
