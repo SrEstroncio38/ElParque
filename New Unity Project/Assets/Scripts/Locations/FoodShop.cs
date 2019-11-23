@@ -22,11 +22,6 @@ public class FoodShop : QueuedBuilding
         foodDelay = Random.Range(minFoodDelay, maxFoodDelay);
     }
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.magenta;
-        Gizmos.DrawSphere(queuePosition, 5);
-    }
     // Update is called once per frame
     protected override void Update()
     {
