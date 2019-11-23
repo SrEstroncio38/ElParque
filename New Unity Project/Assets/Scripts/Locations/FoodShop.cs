@@ -55,4 +55,9 @@ public class FoodShop : QueuedBuilding
             }
         }
     }
+
+    void OnMouseOver()
+    {
+        world.SetCursorText(readyFood.Count + "/" + maxStackedFood);
+    }
 }

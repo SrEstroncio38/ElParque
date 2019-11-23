@@ -18,9 +18,9 @@ public class UserDefault : Human
    
 
     //Umbrales
-    protected float umbralVejiga = -1.0f;
+    protected float umbralVejiga = 30.0f;
     protected float umbralSaciedad = 30.0f;
-    protected float umbralBienestar = -1.0f;
+    protected float umbralBienestar = 30.0f;
     protected NavMeshAgent agent;
 
     //Variables para pasear
