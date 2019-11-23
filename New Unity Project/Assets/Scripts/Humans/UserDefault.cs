@@ -120,7 +120,6 @@ public class UserDefault : Human
         {
 
             estado_pasear = STATE_Pasear.PASEANDO;
-
             ExitQueues("food");
 
             FSM_Hambre();
@@ -165,7 +164,7 @@ public class UserDefault : Human
             case STATE_Hambre.DIRIGIENDOSE_TIENDA:
                 if (isInObjective())
                 {
-                    currentState = "[FSM_Hambre] Esperando comida";
+                    currentState = "[FSM_Hambre] Yendo a tienda de comida";
 
                     isWandering = false;
                     foodObjective.AddUser(this);
@@ -173,7 +172,7 @@ public class UserDefault : Human
 
                     estado_hambre = STATE_Hambre.ESPERANDO_COMIDA;
                     currentState = "[FSM_Hambre] Esperando en puesto de comida";
-                    ShowEmoticon("Hungry");
+                    ShowEmoticon("hambre");
                 }
                 break;
             case STATE_Hambre.ESPERANDO_COMIDA:
