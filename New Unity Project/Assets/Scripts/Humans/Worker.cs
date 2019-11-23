@@ -21,7 +21,7 @@ public class Worker : Human
         
     }
 
-    protected void wander()
+    protected void Wander()
     {
         wanderCooldown -= Time.deltaTime;
 

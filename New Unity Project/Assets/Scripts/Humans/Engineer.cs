@@ -23,7 +23,7 @@ public class Engineer : Worker
         switch (estado_trabajo)
         {
             case STATE_Working.ESPERANDO:
-                wander();
+                Wander();
                 currentState = "Esperando";
                 break;
             case STATE_Working.DIRIGIENDOSE_ATRACCION:

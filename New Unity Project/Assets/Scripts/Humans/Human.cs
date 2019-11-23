@@ -25,13 +25,13 @@ public class Human : MonoBehaviour
         world = GetComponentInParent<WorldController>();
     }
 
-    void OnMouseDown()
+    protected void OnMouseDown()
     {
         world.mainCamera.followTarget = GetComponent<Human>();
         world.SetHUDTarget(GetComponent<Human>());
     }
 
-    void OnMouseOver()
+    protected void OnMouseOver()
     {
         world.SetCursorText(userName);
     }
