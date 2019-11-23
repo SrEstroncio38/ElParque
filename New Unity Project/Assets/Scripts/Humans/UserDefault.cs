@@ -77,7 +77,7 @@ public class UserDefault : Human
         {
             tolerancia = 100;
         }
-        vejiga = vejiga - 0.05f;
+        vejiga -= Random.Range(0, 0.05f);
         saciedad = saciedad - 0.01f;
         if (vejiga < 0)
         {
@@ -137,6 +137,7 @@ public class UserDefault : Human
         switch (estado_hambre)
         {
             case STATE_Hambre.BUSCANDO:
+                currentState = "[FSM_Hambre] Buscando tienda de comida";
                 if (!foodInSight())
                 {
                    
@@ -144,7 +145,7 @@ public class UserDefault : Human
                 }
                 else
                 {
-                  
+                    currentState = "[FSM_Hambre] Yendo a tienda de comida";
                     GoToObjective();
                     estado_hambre = STATE_Hambre.DIRIGIENDOSE_TIENDA;
                 }
@@ -153,7 +154,7 @@ public class UserDefault : Human
             case STATE_Hambre.DIRIGIENDOSE_TIENDA:
                 if (isInObjective())
                 {
-                  
+                    currentState = "[FSM_Hambre] Esperando comida";
                     foodObjective.addCustomer(this);
                     estado_hambre = STATE_Hambre.ESPERANDO_COMIDA;
                 }
@@ -162,10 +163,11 @@ public class UserDefault : Human
                 
                 break;
             case STATE_Hambre.COMIENDO:
-
+                currentState = "[FSM_Hambre] Comiendo";
                 break;
             case STATE_Hambre.VOMITANDO:
-                
+                currentState = "[FSM_Hambre] Vomitando";
+                ShowEmoticon("Sick");
                 break;
         }
     }
@@ -173,17 +175,22 @@ public class UserDefault : Human
     protected void FSM_VejigaBaja() {
         switch (estado_vejiga) {
             case STATE_VejigaBaja.BUSCANDO:
+                ShowEmoticon("PiPi");
                 if (!bathInSight())
                 {
+                    currentState = "[FSM Baño] Buscando baño";
                     checkPee();
                     Pasear();
+                    
                 }else {
-                  
+                    currentState = "[FSM Baño] Yendo al baño";
+                    ShowEmoticon("PiPi");
                     estado_vejiga = STATE_VejigaBaja.DIRIGIENDOSE_BAÑO;
                     GoToObjective();
                 }
                 break;
             case STATE_VejigaBaja.DIRIGIENDOSE_BAÑO:
+                
                 checkPee();
                 if (isInObjective())
                 {
@@ -195,11 +202,11 @@ public class UserDefault : Human
                 
                 break;
             case STATE_VejigaBaja.ESPERANDO_BAÑO:
-                
+                currentState = "[FSM Baño] Esperando al baño";
                 checkPee();
                 break;
             case STATE_VejigaBaja.ORINANDO_BAÑO:
-
+                currentState = "[FSM Baño] Usando el baño";
                 break;
             case STATE_VejigaBaja.ORINANDO_ENCIMA:
                 if (bathObjective != null)
@@ -227,6 +234,7 @@ public class UserDefault : Human
                 attracionObjective = AttractionInSight();
                 if (attracionObjective == null)
                 {
+                    currentState = "[FSM_Pasear] Paseando";
                     Pasear();
                 }
                 else
@@ -235,8 +243,6 @@ public class UserDefault : Human
                     attracionObjective.AddUser(this);
 
                     lastAttractionVisited = attracionObjective;
-                    Debug.Log(name + ": Me he colocado en la cola");
-
                     estado_pasear = STATE_Pasear.ESPERANDO_ATRACCION;
                     currentState = "[FSM_Pasear] Esperando en atracción";
                     ShowEmoticon("Fun");
@@ -353,7 +359,7 @@ public class UserDefault : Human
 
     public void LowerTolerance()
     {
-        tolerancia -= 0.05f;
+        tolerancia -= Random.Range(0, 0.03f);
         if (tolerancia < 0)
             tolerancia = 0;
     }
@@ -399,7 +405,7 @@ public class UserDefault : Human
         gameObject.SetActive(true);
         estado_pasear = STATE_Pasear.PASEANDO;
         currentState = "[FSM_Pasear] Paseando";
-        ShowEmoticon("Fun");
+        ShowEmoticon("happy");
     }
 
     /**********
@@ -430,7 +436,7 @@ public class UserDefault : Human
             if (tolerancia < 0)
                 tolerancia = 0;
            
-            ShowEmoticon("BebePoop", 3);
+            ShowEmoticon("caca", 3);
             estado_pasear = STATE_Pasear.PASEANDO;
             estado_vejiga = STATE_VejigaBaja.ORINANDO_ENCIMA;
             vejiga = 100;

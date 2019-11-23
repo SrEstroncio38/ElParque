@@ -7,10 +7,16 @@ public class Bath : MonoBehaviour
     [Header("Queue")]
     public int maxCapacity = 1;
     public int maxQueue = 1;
-    public Vector3 queuePosition;
+    public Vector2 localQueuePosition;
+    public Vector2 localExitPosition;
+    public Vector2 localQueueDirection;
+    public float queueOffset = 15;
 
     private List<UserDefault> userUsing;
     private Queue<UserDefault> userQueue;
+    private Vector3 queuePosition = Vector3.zero;
+    private Vector3 exitPosition = Vector3.zero;
+    private Vector3 queueDirection = Vector3.zero;
 
     private int minTime = 5;
     private int maxTime = 10;
@@ -20,12 +26,13 @@ public class Bath : MonoBehaviour
     {
         userUsing = new List<UserDefault>();
         userQueue = new Queue<UserDefault>();
-        queuePosition.Set(transform.position.x + 40, transform.position.y, transform.position.z);
+        QueueToWorld();
     }
 
     // Update is called once per frame
     void Update()
     {
+        QueueToWorld();
         if (userQueue.Count > 0)
         {
             foreach (UserDefault user in userQueue)
@@ -42,11 +49,34 @@ public class Bath : MonoBehaviour
             }
         }
     }
+    private void QueueToWorld()
+    {
+
+        queuePosition = transform.TransformPoint(new Vector3(localQueuePosition.x, 0, localQueuePosition.y));
+        exitPosition = transform.TransformPoint(new Vector3(localExitPosition.x, 0, localExitPosition.y));
+
+        queuePosition = new Vector3(queuePosition.x, 0, queuePosition.z);
+        exitPosition = new Vector3(exitPosition.x, 0, exitPosition.z);
+
+        localQueueDirection.Normalize();
+        queueDirection = transform.TransformVector(new Vector3(localQueueDirection.x, 0, localQueueDirection.y));
+        queueDirection *= queueOffset;
+
+    }
 
     private void OnDrawGizmos()
     {
+
+        QueueToWorld();
+
         Gizmos.color = Color.green;
         Gizmos.DrawSphere(queuePosition, 5);
+        Gizmos.color = new Color(1, 0, 0, 0.25f);
+        Gizmos.DrawSphere(queuePosition + queueDirection, 5);
+        Gizmos.color = new Color(2, 0, 0, 0.1f);
+        Gizmos.DrawSphere(queuePosition + 2 * queueDirection, 5);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawSphere(exitPosition, 5);
     }
 
     public Vector3 getPos() {
@@ -89,4 +119,6 @@ public class Bath : MonoBehaviour
         }
         alternative.Clear();
     }
+
+
 }
