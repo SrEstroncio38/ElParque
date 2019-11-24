@@ -9,6 +9,7 @@ public class CameraController : MonoBehaviour
     public Vector3 followingPoint = new Vector3(0, 1 , 0);
     public float cameraDistance = 1000;
     public float currentAngle = 45;
+    public GameObject compass;
 
     [Header("Speed Settings")]
     public float movementSpeed = 5;
@@ -43,6 +44,7 @@ public class CameraController : MonoBehaviour
         checkScroll();
 
         repositionCamera();
+        UpdateCompass();
 
     }
 
@@ -137,6 +139,25 @@ public class CameraController : MonoBehaviour
             }
         }
 
+    }
+
+    private void UpdateCompass()
+    {
+        if (compass != null)
+        {
+
+            compass.transform.rotation = Quaternion.Euler(0,0,0);
+
+            float cScale = GetComponent<Camera>().orthographicSize / maxZoom;
+
+            compass.transform.localScale = new Vector3(cScale, cScale, cScale);
+
+            float yCoord = GetComponent<Camera>().orthographicSize * 1 - cScale * 55;
+            float xCoord = - GetComponent<Camera>().orthographicSize * 1 * GetComponent<Camera>().aspect + cScale * 60;
+
+            compass.transform.localPosition = new Vector3(xCoord, yCoord, 100);
+
+        }
     }
 
     private void OnDrawGizmosSelected()
