@@ -4009,9 +4009,9 @@ MonoBehaviour:
   isAlive: 1
   skeleton: {fileID: 4517475}
   skeletonDestination: {fileID: 333108090}
-  saciedad: 100
-  tolerancia: 100
-  vejiga: 100
+  saciedad: 20
+  tolerancia: 20
+  vejiga: 20
   bienestar: 100
 --- !u!136 &409939223
 CapsuleCollider:

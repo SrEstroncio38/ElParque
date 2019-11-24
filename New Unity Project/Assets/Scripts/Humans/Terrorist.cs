@@ -41,14 +41,14 @@ public class Terrorist : UserDefault
             case STATE_terrorismo.DIRIGIRSE_A_ARMA:
                 if (agent.pathStatus == NavMeshPathStatus.PathComplete)
                 {
-                    estado_terrorismo = STATE_terrorismo.USAR_ARMA;
-                    if (weaponObjective.use(this))
+                    estado_terrorismo = STATE_terrorismo.BUSCAR_ARMA;
+                    if ((transform.position - weaponObjective.transform.position).magnitude < 3)
                     {
-                        currentState = "[FSM_Terrorismo] Tengo el arma";
-                        estado_terrorismo = STATE_terrorismo.USAR_ARMA;
-                    }
-                    else {
-                        estado_terrorismo = STATE_terrorismo.BUSCAR_ARMA;
+                        if (weaponObjective.use(this))
+                        {
+                            currentState = "[FSM_Terrorismo] Tengo el arma";
+                            estado_terrorismo = STATE_terrorismo.USAR_ARMA;
+                        }
                     }
                 }
                 break;

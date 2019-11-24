@@ -268,9 +268,7 @@ public class WorldController : MonoBehaviour
         {
             for (int i = 0; i < amount; i++)
             {
-                float spawnPosX = UnityEngine.Random.Range(floorBounds.bounds.min.x, floorBounds.bounds.max.x);
-                float spawnPosY = UnityEngine.Random.Range(floorBounds.bounds.min.z, floorBounds.bounds.max.z);
-                Vector3 spawnPos = new Vector3(spawnPosX, 0, spawnPosY);
+                Vector3 spawnPos = GetPointWithinNavMesh();
                 Trash g = Instantiate(
                         garbagePrefab,
                         spawnPos,
@@ -292,9 +290,7 @@ public class WorldController : MonoBehaviour
         {
             for (int i = 0; i < amount; i++)
             {
-                float spawnPosX = UnityEngine.Random.Range(floorBounds.bounds.min.x, floorBounds.bounds.max.x);
-                float spawnPosY = UnityEngine.Random.Range(floorBounds.bounds.min.z, floorBounds.bounds.max.z);
-                Vector3 spawnPos = new Vector3(spawnPosX, 0, spawnPosY);
+                Vector3 spawnPos = GetPointWithinNavMesh();
                 Bomb b = Instantiate(
                         bombPrefab,
                         spawnPos,
@@ -307,6 +303,16 @@ public class WorldController : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    private Vector3 GetPointWithinNavMesh()
+    {
+        float spawnPosX = UnityEngine.Random.Range(floorBounds.bounds.min.x, floorBounds.bounds.max.x);
+        float spawnPosY = UnityEngine.Random.Range(floorBounds.bounds.min.z, floorBounds.bounds.max.z);
+        Vector3 spawnPos = new Vector3(spawnPosX, 0, spawnPosY);
+        UnityEngine.AI.NavMeshHit hit;
+        UnityEngine.AI.NavMesh.SamplePosition(spawnPos, out hit, 5000, UnityEngine.AI.NavMesh.AllAreas);
+        return new Vector3(hit.position.x, 0, hit.position.z);
     }
 
     /**********
