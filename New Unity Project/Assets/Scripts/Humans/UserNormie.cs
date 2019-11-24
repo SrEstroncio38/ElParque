@@ -19,7 +19,7 @@ public class UserNormie : UserDefault
                 estado_enfado = STATE_Enfado.DIRIGIENDOSE_SALIDA;
                 break;
             case STATE_Enfado.DIRIGIENDOSE_SALIDA:
-                if ((transform.position - parkExit.transform.position).magnitude < 2)
+                if ((transform.position - parkExit.transform.position).magnitude < 5)
                 {
                     world.GenerateUser(1);
                     world.DisableCamera();

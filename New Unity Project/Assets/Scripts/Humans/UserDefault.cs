@@ -66,7 +66,7 @@ public class UserDefault : Human
         {
             tolerancia = 100;
         }
-        vejiga -= Random.Range(0, 0.05f);
+        vejiga -= Random.Range(0, 0.04f);
         saciedad -= Random.Range(0, 0.01f);
         if (vejiga < 0)
         {
@@ -284,7 +284,7 @@ public class UserDefault : Human
 
     public void LowerTolerance()
     {
-        tolerancia -= Random.Range(0, 0.02f);
+        tolerancia -= Random.Range(0, 0.03f);
         if (tolerancia < 0)
             tolerancia = 0;
     }
