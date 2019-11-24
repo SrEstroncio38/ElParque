@@ -39,16 +39,16 @@ public class Terrorist : UserDefault
                 }
                 break;
             case STATE_terrorismo.DIRIGIRSE_A_ARMA:
-                if ((transform.position - weaponObjective.transform.position).magnitude < 2)
+                if (agent.pathStatus == NavMeshPathStatus.PathComplete)
                 {
-                    estado_terrorismo = STATE_terrorismo.USAR_ARMA;
-                    if (weaponObjective.use(this))
+                    estado_terrorismo = STATE_terrorismo.BUSCAR_ARMA;
+                    if ((transform.position - weaponObjective.transform.position).magnitude < 3)
                     {
-                        currentState = "[FSM_Terrorismo] Tengo el arma";
-                        estado_terrorismo = STATE_terrorismo.USAR_ARMA;
-                    }
-                    else {
-                        estado_terrorismo = STATE_terrorismo.BUSCAR_ARMA;
+                        if (weaponObjective.use(this))
+                        {
+                            currentState = "[FSM_Terrorismo] Tengo el arma";
+                            estado_terrorismo = STATE_terrorismo.USAR_ARMA;
+                        }
                     }
                 }
                 break;
@@ -105,9 +105,9 @@ public class Terrorist : UserDefault
         bool isInObj = false;
 
         
-        if (Mathf.Abs(transform.position.x - tObjective.x) <= 1)
+        if (Mathf.Abs(transform.position.x - tObjective.x) <= 3)
         {
-            if (Mathf.Abs(transform.position.z - tObjective.z) <= 1)
+            if (Mathf.Abs(transform.position.z - tObjective.z) <= 3)
             {
                 isInObj = true;
 
