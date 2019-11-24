@@ -105,9 +105,9 @@ public class Terrorist : UserDefault
         bool isInObj = false;
 
         
-        if (Mathf.Abs(transform.position.x - tObjective.x) <= 3)
+        if (Mathf.Abs(transform.position.x - tObjective.x) <= 1)
         {
-            if (Mathf.Abs(transform.position.z - tObjective.z) <= 3)
+            if (Mathf.Abs(transform.position.z - tObjective.z) <= 1)
             {
                 isInObj = true;
 

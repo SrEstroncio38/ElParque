@@ -83,10 +83,9 @@ public class QueuedBuilding : MonoBehaviour
             foreach (UserDefault u in aux)
             {
                 userQueue.Enqueue(u);
-                
+                ReajustQueue();
             }
             aux.Clear();
-            ReajustQueue();
         }
     }
 

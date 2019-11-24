@@ -385,12 +385,6 @@ public class UserDefault : Human
             estado_pasear = STATE_Pasear.PASEANDO;
             estado_vejiga = STATE_VejigaBaja.ORINANDO_ENCIMA;
             vejiga = 100;
-
-            if(bathObjective != null)
-            {
-                bathObjective.Leave(this);
-            }
-            
         }
     }
 
