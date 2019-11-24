@@ -240,12 +240,12 @@ public class UserDefault : Human
 
                     lastAttractionVisited = attracionObjective;
                     estado_pasear = STATE_Pasear.ESPERANDO_ATRACCION;
-                    currentState = "[FSM_Pasear] Esperando en atracción";
+                    currentState = "[FSM_Pasear] Yendo a atracción";
                     ShowEmoticon("Fun");
                 }
                 break;
             case STATE_Pasear.ESPERANDO_ATRACCION:
-                currentState = "[FSM_Pasear] Esperando en atracción";
+                
                 break;
             case STATE_Pasear.MONTARSE_ATRACCIÓN:
                 // No es necesario que haga nada
