@@ -8,18 +8,18 @@ public class UserNormie : UserDefault
 
     protected override void FSM_Enfadarse()
     {
-        currentState = "Samfadao";
+        currentState = "[FSM_Enfadarse] Abandonando parque";
         switch (estado_enfado)
         {
             case STATE_Enfado.EMPEZAR:
                 ShowEmoticon("angry");
                 ExitQueues();
-                objective = parkExit.transform.position;
-                GoToObjective();
+                agent.SetDestination(parkExit.transform.position);
+                isWandering = false;
                 estado_enfado = STATE_Enfado.DIRIGIENDOSE_SALIDA;
                 break;
             case STATE_Enfado.DIRIGIENDOSE_SALIDA:
-                if (isInObjective())
+                if ((transform.position - parkExit.transform.position).magnitude < 2)
                 {
                     world.GenerateUser(1);
                     world.DisableCamera();

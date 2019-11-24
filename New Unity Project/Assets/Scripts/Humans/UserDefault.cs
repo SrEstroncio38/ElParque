@@ -31,18 +31,12 @@ public class UserDefault : Human
     protected Attraction attracionObjective;
     protected Bath bathObjective;
     protected FoodShop foodObjective;
-    protected Vector3 objective;
     protected float visionAngle = 0.5f;
     protected float visionDistance = 400.0f;
     protected float initY;
     protected Exit parkExit;
 
     protected Attraction lastAttractionVisited;
-
-    //State Machines
-    
-    protected enum STATE_Enfado { EMPEZAR, DIRIGIENDOSE_SALIDA, FUERA };
-    protected STATE_Enfado estado_enfado = STATE_Enfado.EMPEZAR;
 
     /*************
      * Game Loop *
@@ -102,6 +96,8 @@ public class UserDefault : Human
      * Maquinas de Estado *
      **********************/
     
+    // Divertirse
+
     protected void FSM_Divertirse() {
         if ((bienestar <= umbralBienestar) && (estado_pasear != STATE_Pasear.MONTARSE_ATRACCIÓN))
         {
@@ -129,6 +125,11 @@ public class UserDefault : Human
             FSM_Pasear();
         }
     }
+
+    // Enfadarse
+
+    protected enum STATE_Enfado { EMPEZAR, DIRIGIENDOSE_SALIDA, FUERA };
+    protected STATE_Enfado estado_enfado = STATE_Enfado.EMPEZAR;
 
     protected virtual void FSM_Enfadarse() { }
 
@@ -281,38 +282,9 @@ public class UserDefault : Human
         }
     }
 
-    //TODO
-    protected void GoToObjective()
-    {
-        //Habrá que mejorarlo para el tema de las colisiones, pero es algo provisional para probar
-       
-        Collider[] cols = Physics.OverlapSphere(objective, 0.1f);
-        foreach (Collider col in cols)
-        {
-           objective = col.ClosestPointOnBounds(objective);
-        }
-        agent.SetDestination(objective);
-        isWandering = true;
-       // ShowEmoticon("angry");
-    }
-
-    protected bool isInObjective()
-    {
-        bool isInAttraction = false;
-        if (Mathf.Abs(transform.position.x - objective.x) <= 1)
-        {
-            if (Mathf.Abs(transform.position.z - objective.z) <= 1)
-            {
-                isInAttraction = true;
-
-            }
-        }
-        return isInAttraction;
-    }
-
     public void LowerTolerance()
     {
-        tolerancia -= Random.Range(0, 0.03f);
+        tolerancia -= Random.Range(0, 0.02f);
         if (tolerancia < 0)
             tolerancia = 0;
     }
@@ -431,7 +403,6 @@ public class UserDefault : Human
                 bool foodInSight = Mathf.Abs(1.0f - Vector3.Dot(direccion, transform.forward)) < visionAngle;
                 if (foodInSight)
                 {
-                    objective = f.transform.position;
                     return f;
                 }
             }

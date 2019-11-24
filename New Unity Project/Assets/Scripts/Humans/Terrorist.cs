@@ -21,27 +21,30 @@ public class Terrorist : UserDefault
     protected override void FSM_Enfadarse()
     {
         
-        
         switch (estado_terrorismo)
         {
             case STATE_terrorismo.BUSCAR_ARMA:
                 currentState = " Buscando";
-                Pasear();
-                if (weaponInSight())
+                weaponObjective = WeaponInSight();
+                if (weaponObjective == null)
+                {
+                    Pasear();
+                }
+                else
                 {
                     ShowEmoticon("Terrorist");
                     currentState = "[FSM_Terrorismo] Veo arma";
-                    GoToObjective();
+                    agent.SetDestination(weaponObjective.transform.position);
                     estado_terrorismo = STATE_terrorismo.DIRIGIRSE_A_ARMA;
                 }
                 break;
             case STATE_terrorismo.DIRIGIRSE_A_ARMA:
-                if (isInObjective())
+                if ((transform.position - weaponObjective.transform.position).magnitude < 2)
                 {
                     estado_terrorismo = STATE_terrorismo.USAR_ARMA;
                     if (weaponObjective.use(this))
                     {
-                        currentState = "Tengo el arma";
+                        currentState = "[FSM_Terrorismo] Tengo el arma";
                         estado_terrorismo = STATE_terrorismo.USAR_ARMA;
                     }
                     else {
@@ -55,25 +58,22 @@ public class Terrorist : UserDefault
         }
     }
 
-    private bool weaponInSight()
+    private Weapon WeaponInSight()
     {
-        bool weapon = false;
         foreach (Weapon w in world.GetComponentsInChildren<Weapon>())
         {
             Vector3 direccion = (w.transform.position - transform.position);
             if (direccion.magnitude <= visionDistance)
             {
                 direccion = direccion.normalized;
-                weapon = Mathf.Abs(1.0f - Vector3.Dot(direccion, transform.forward)) < visionAngle;
+                bool weapon = Mathf.Abs(1.0f - Vector3.Dot(direccion, transform.forward)) < visionAngle;
                 if (weapon)
                 {
-                    weaponObjective = w;
-                    objective = w.transform.position;
+                    return w;
                 }
-                break;
             }
         }
-        return weapon;
+        return null;
     }
 
     //Metodos para el arma//
