@@ -5699,8 +5699,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.9676106, y: 2.4023325, z: 1.9676106}
-  m_Center: {x: 0.0000030100346, y: 1.2016741, z: -0.00000035762787}
+  m_Size: {x: 1.069108, y: 1.0689852, z: 1.1509058}
+  m_Center: {x: -0.07342435, y: 0.5350004, z: -0.040665265}
 --- !u!114 &511626925
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5714,14 +5714,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxCapacity: 3
-  localQueuePosition: {x: 1.25, y: 0.4}
-  localExitPosition: {x: 1.25, y: -0.4}
+  localQueuePosition: {x: 0.69, y: 0.4}
+  localExitPosition: {x: 0.63, y: -0.4}
   localQueueDirection: {x: 1, y: 0}
   queueOffset: 20
   quality: 100
   qualityThreshold: 20
   maxWait: 10
-  localEngineerPos: {x: 1.25, y: 0.87}
+  localEngineerPos: {x: 0.41, y: 0.73}
 --- !u!1001 &522773912
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18976,14 +18976,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxCapacity: 3
-  localQueuePosition: {x: 1.25, y: 0.4}
-  localExitPosition: {x: 1.25, y: -0.4}
+  localQueuePosition: {x: 0.74, y: 0.4}
+  localExitPosition: {x: 0.68, y: -0.4}
   localQueueDirection: {x: 1, y: 0}
   queueOffset: 20
   quality: 100
   qualityThreshold: 20
   maxWait: 10
-  localEngineerPos: {x: 0, y: 1.25}
+  localEngineerPos: {x: 0.07, y: 0.63}
 --- !u!114 &2060147539
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19011,8 +19011,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.9676106, y: 2.4023325, z: 1.9676106}
-  m_Center: {x: 0.0000030100346, y: 1.2016741, z: -0.00000035762787}
+  m_Size: {x: 0.91662496, y: 1.0513029, z: 0.8708141}
+  m_Center: {x: 0.04375615, y: 0.5261593, z: -0.019107142}
 --- !u!1001 &2060434591
 PrefabInstance:
   m_ObjectHideFlags: 0
