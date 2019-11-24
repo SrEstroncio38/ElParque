@@ -18,7 +18,7 @@ public class Bomb : Weapon
         world = GetComponentInParent<WorldController>();
         Attraction[] attractions = world.GetComponentsInChildren<Attraction>();
         objective = attractions[Random.Range(0, attractions.Length - 1)];
-        terroristObjective = objective.transform.position;
+        terroristObjective = objective.getEngineerPos();
     }
 
     // Update is called once per frame
