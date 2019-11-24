@@ -39,7 +39,7 @@ public class Terrorist : UserDefault
                 }
                 break;
             case STATE_terrorismo.DIRIGIRSE_A_ARMA:
-                if ((transform.position - weaponObjective.transform.position).magnitude < 2)
+                if (agent.pathStatus == NavMeshPathStatus.PathComplete)
                 {
                     estado_terrorismo = STATE_terrorismo.USAR_ARMA;
                     if (weaponObjective.use(this))
